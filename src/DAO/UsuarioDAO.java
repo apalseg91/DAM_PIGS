@@ -38,7 +38,7 @@ public interface UsuarioDAO {
      * @param nombreRol nombre del rol (ADMINISTRADOR, USUARIO)
      * @return lista de usuarios
      */
-    List<Usuario> findAllByRol(String nombreRol);
+    List<Usuario> findAllByRol(String Rol);
 
     /**
      * Inserta un nuevo usuario en base de datos.

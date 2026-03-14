@@ -36,6 +36,8 @@ import java.util.List;
  */
 public class ActividadService {
 
+    private static final int MAX_NOMBRE_LENGTH = 50;
+
     /** DAO principal de actividades */
     private final ActividadDAO actividadDAO;
 
@@ -191,6 +193,12 @@ public class ActividadService {
 
         if (actividad.getNombre() == null || actividad.getNombre().trim().isEmpty()) {
             throw new IllegalArgumentException("El nombre es obligatorio");
+        }
+
+        if (actividad.getNombre().trim().length() > MAX_NOMBRE_LENGTH) {
+            throw new IllegalArgumentException(
+                    "El nombre no puede superar " + MAX_NOMBRE_LENGTH + " caracteres"
+            );
         }
 
         if (actividad.getHoraInicio() == null || actividad.getHoraFin() == null) {

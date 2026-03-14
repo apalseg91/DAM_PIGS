@@ -10,6 +10,27 @@
 <project name="FitManage" default="default" basedir=".">
     <description>Builds, tests, and runs the project FitManage.</description>
     <import file="nbproject/build-impl.xml"/>
+    <target name="-check-no-compiled-sources">
+        <condition property="compiled.sources.present">
+            <or>
+                <resourcecount count="0" when="greater">
+                    <fileset dir="${src.dir}">
+                        <include name="**/*.class"/>
+                    </fileset>
+                </resourcecount>
+                <resourcecount count="0" when="greater">
+                    <fileset dir="${test.src.dir}" erroronmissingdir="false">
+                        <include name="**/*.class"/>
+                    </fileset>
+                </resourcecount>
+            </or>
+        </condition>
+        <fail if="compiled.sources.present"
+              message="Hay archivos .class dentro de src/ o test/. Elimínalos y recompila con Java 8."/>
+    </target>
+
+    <target name="-pre-compile" depends="-check-no-compiled-sources"/>
+    <target name="-pre-compile-test" depends="-check-no-compiled-sources"/>
     <!--
 
     There exist several targets which are by default empty and which can be 

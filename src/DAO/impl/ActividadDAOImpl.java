@@ -27,6 +27,19 @@ import java.sql.Types;
  */
 public class ActividadDAOImpl implements ActividadDAO {
 
+    private static final String ERROR_CREATE =
+            "Error al crear la actividad en base de datos";
+    private static final String ERROR_UPDATE =
+            "Error al actualizar la actividad con id ";
+    private static final String ERROR_DELETE =
+            "Error al eliminar la actividad con id ";
+    private static final String ERROR_FIND_BY_ID =
+            "Error al buscar la actividad con id ";
+    private static final String ERROR_FIND_ALL =
+            "Error al listar las actividades";
+    private static final String ERROR_FIND_BY_DIA =
+            "Error al buscar actividades para el día con id ";
+
     /**
      * Formato estándar para horas (HH:mm).
      */
@@ -108,7 +121,7 @@ public class ActividadDAOImpl implements ActividadDAO {
             actividad.setIdActividad(cs.getInt(6));
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw buildPersistenceException(ERROR_CREATE, e);
         }
     }
 
@@ -133,7 +146,10 @@ public class ActividadDAOImpl implements ActividadDAO {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw buildPersistenceException(
+                    ERROR_UPDATE + actividad.getIdActividad(),
+                    e
+            );
         }
     }
 
@@ -152,7 +168,7 @@ public class ActividadDAOImpl implements ActividadDAO {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw buildPersistenceException(ERROR_DELETE + idActividad, e);
         }
     }
 
@@ -178,7 +194,7 @@ public class ActividadDAOImpl implements ActividadDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw buildPersistenceException(ERROR_FIND_BY_ID + idActividad, e);
         }
 
         return actividad;
@@ -203,7 +219,7 @@ public class ActividadDAOImpl implements ActividadDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw buildPersistenceException(ERROR_FIND_ALL, e);
         }
 
         return actividades;
@@ -231,7 +247,7 @@ public class ActividadDAOImpl implements ActividadDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw buildPersistenceException(ERROR_FIND_BY_DIA + idDia, e);
         }
 
         return actividades;
@@ -259,5 +275,12 @@ public class ActividadDAOImpl implements ActividadDAO {
         actividad.setAforoMaximo(rs.getInt("aforo_maximo"));
 
         return actividad;
+    }
+
+    private RuntimeException buildPersistenceException(
+            String message,
+            SQLException cause
+    ) {
+        return new IllegalStateException(message, cause);
     }
 }
