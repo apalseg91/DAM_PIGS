@@ -35,6 +35,7 @@ import view.ListadoClientesJDialog;
 import view.ModificarDatosAdminSistemaJDialog;
 import view.ModificarDatosUsuariosJDialog;
 import controller.InformeController;
+import util.Session;
 
 /**
  * Controlador principal del dashboard del administrador.
@@ -51,8 +52,8 @@ import controller.InformeController;
  * {@link AdminJFrame} y la capa de servicios.
  *
  * @author Alejandro
-  * @version 1.0
-
+ * @version 1.0
+ *
  */
 public class AdminController {
 
@@ -104,6 +105,7 @@ public class AdminController {
         initController();
         cargarClientes();
         initActividades();
+        cargarClienteSesion();
     }
 
     /**
@@ -227,12 +229,12 @@ public class AdminController {
         dialog.getButtonGuardar().addActionListener(e -> {
 
             // Campos obligatorios
-            if ((dialog.getNombre()==null||dialog.getNombre().trim().isEmpty())
-                    || (dialog.getApellidos()==null||dialog.getApellidos().trim().isEmpty())
-                    || (dialog.getEmail()==null || dialog.getEmail().trim().isEmpty())
-                    || (dialog.getDni()==null ||dialog.getDni().trim().isEmpty())
-                    || (dialog.getTelefono()==null||dialog.getTelefono().trim().isEmpty())
-                    || (dialog.getDireccion()==null||dialog.getDireccion().trim().isEmpty()))  {
+            if ((dialog.getNombre() == null || dialog.getNombre().trim().isEmpty())
+                    || (dialog.getApellidos() == null || dialog.getApellidos().trim().isEmpty())
+                    || (dialog.getEmail() == null || dialog.getEmail().trim().isEmpty())
+                    || (dialog.getDni() == null || dialog.getDni().trim().isEmpty())
+                    || (dialog.getTelefono() == null || dialog.getTelefono().trim().isEmpty())
+                    || (dialog.getDireccion() == null || dialog.getDireccion().trim().isEmpty())) {
 
                 JOptionPane.showMessageDialog(
                         dialog,
@@ -450,12 +452,12 @@ public class AdminController {
         dialog.getButtonGuardar().addActionListener(e -> {
 
             // Validar campos obligatorios
-            if ((dialog.getNombre()==null||dialog.getNombre().trim().isEmpty())
-                    || (dialog.getApellidos()==null||dialog.getApellidos().trim().isEmpty())
-                    || (dialog.getEmail()==null || dialog.getEmail().trim().isEmpty())
-                    || (dialog.getDni()==null ||dialog.getDni().trim().isEmpty())
-                    || (dialog.getTelefono()==null||dialog.getTelefono().trim().isEmpty())
-                    || (dialog.getDireccion()==null||dialog.getDireccion().trim().isEmpty())) {
+            if ((dialog.getNombre() == null || dialog.getNombre().trim().isEmpty())
+                    || (dialog.getApellidos() == null || dialog.getApellidos().trim().isEmpty())
+                    || (dialog.getEmail() == null || dialog.getEmail().trim().isEmpty())
+                    || (dialog.getDni() == null || dialog.getDni().trim().isEmpty())
+                    || (dialog.getTelefono() == null || dialog.getTelefono().trim().isEmpty())
+                    || (dialog.getDireccion() == null || dialog.getDireccion().trim().isEmpty())) {
 
                 JOptionPane.showMessageDialog(
                         dialog,
@@ -569,7 +571,7 @@ public class AdminController {
 
             String concepto = dialog.getConcepto();
 
-            if (concepto==null || concepto.trim().isEmpty()) {
+            if (concepto == null || concepto.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(
                         dialog,
                         "Debe introducir un concepto",
@@ -951,7 +953,7 @@ public class AdminController {
     private void abrirGenerarInforme() {
         GenerarInformeJDialog dialog
                 = new GenerarInformeJDialog(view, true);
-    new InformeController(dialog);
+        new InformeController(dialog);
         initGenerarInformeDialog(dialog);
 
         dialog.setLocationRelativeTo(view);
@@ -1069,5 +1071,14 @@ public class AdminController {
 
         dialog.getJTable().setModel(model);
     }
-
+    /**
+     * Carga el mail del admistrador autenticado en la cabecera del panel.
+     */
+    private void cargarClienteSesion() {
+        Usuario usuario = Session.getUsuarioActual();
+        if (usuario == null) {
+            return;
+        }
+        view.getJLabelSaludo().setText("Administrador conectado: " + usuario.getEmail());
+    }
 }

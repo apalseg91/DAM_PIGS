@@ -215,10 +215,7 @@ public class ClienteController {
             );
             return;
         }
-
-        MisDatosClienteJDialog dialog
-                = new MisDatosClienteJDialog(view, true);
-
+        MisDatosClienteJDialog dialog = new MisDatosClienteJDialog(view, true);
         dialog.setCliente(cliente);
         dialog.setLocationRelativeTo(view);
         dialog.setVisible(true);
