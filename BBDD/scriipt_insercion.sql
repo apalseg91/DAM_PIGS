@@ -1,0 +1,80 @@
+--------------------------------------------------------
+-- SCRIPT DE INSERCIÓN DE DATOS DE PRUEBA - FITMANAGE
+--------------------------------------------------------
+
+-- 1. ROLES
+INSERT INTO "FITMANAGE"."ROL" ("ID_ROL", "NOMBRE_ROL", "DESCRIPCION") 
+VALUES (1, 'Administrador', 'Control total del sistema');
+INSERT INTO "FITMANAGE"."ROL" ("ID_ROL", "NOMBRE_ROL", "DESCRIPCION") 
+VALUES (2, 'Entrenador', 'Gestión de clases y aforos');
+INSERT INTO "FITMANAGE"."ROL" ("ID_ROL", "NOMBRE_ROL", "DESCRIPCION") 
+VALUES (3, 'Cliente', 'Usuario regular del gimnasio');
+
+-- 2. MÉTODOS DE PAGO
+INSERT INTO "FITMANAGE"."METODO_PAGO" ("ID_METODO_PAGO", "NOMBRE_METODO", "DESCRIPCION") 
+VALUES (1, 'Efectivo', 'Pago en metálico en recepción');
+INSERT INTO "FITMANAGE"."METODO_PAGO" ("ID_METODO_PAGO", "NOMBRE_METODO", "DESCRIPCION") 
+VALUES (2, 'Tarjeta', 'Tarjeta de crédito o débito');
+INSERT INTO "FITMANAGE"."METODO_PAGO" ("ID_METODO_PAGO", "NOMBRE_METODO", "DESCRIPCION") 
+VALUES (3, 'Transferencia', 'Transferencia bancaria SEPA');
+
+-- 3. USUARIOS (Vinculados a sus roles)
+INSERT INTO "FITMANAGE"."USUARIO" ("ID_USUARIO", "EMAIL", "CONTRASENA_HASH", "ID_ROL") 
+VALUES (1, 'admin@fitmanage.com', 'hash_inventado_123', 1);
+INSERT INTO "FITMANAGE"."USUARIO" ("ID_USUARIO", "EMAIL", "CONTRASENA_HASH", "ID_ROL") 
+VALUES (2, 'carlos.entrenador@fitmanage.com', 'hash_inventado_456', 2);
+INSERT INTO "FITMANAGE"."USUARIO" ("ID_USUARIO", "EMAIL", "CONTRASENA_HASH", "ID_ROL") 
+VALUES (3, 'laura.cliente@email.com', 'hash_inventado_789', 3);
+
+-- 4. CLIENTES 
+-- (Al ejecutar esto, el trigger TRG_CLIENTE_AFTER_INSERT creará registros en CLIENTE_ESTADO)
+INSERT INTO "FITMANAGE"."CLIENTE" ("ID_CLIENTE", "NOMBRE", "APELLIDOS", "EMAIL", "DNI", "TELEFONO", "DIRECCION", "CUOTA_MENSUAL", "ID_USUARIO", "ID_ROL", "ACTIVO") 
+VALUES (1, 'Laura', 'García López', 'laura.cliente@email.com', '12345678A', '600111222', 'Calle Mayor 1, Madrid', 45.00, 3, 3, '1');
+
+INSERT INTO "FITMANAGE"."CLIENTE" ("ID_CLIENTE", "NOMBRE", "APELLIDOS", "EMAIL", "DNI", "TELEFONO", "DIRECCION", "CUOTA_MENSUAL", "ID_USUARIO", "ID_ROL", "ACTIVO") 
+VALUES (2, 'David', 'Martínez', 'david.martinez@email.com', '87654321B', '600333444', 'Avenida Sol 45, Madrid', 45.00, NULL, 3, '1');
+
+-- 5. ACTIVIDADES
+INSERT INTO "FITMANAGE"."ACTIVIDAD" ("ID_ACTIVIDAD", "NOMBRE", "DESCRIPCION", "HORA_INICIO", "HORA_FIN", "AFORO_MAXIMO") 
+VALUES (1, 'Spinning', 'Ciclo indoor de alta intensidad', '18:00', '19:00', 20);
+INSERT INTO "FITMANAGE"."ACTIVIDAD" ("ID_ACTIVIDAD", "NOMBRE", "DESCRIPCION", "HORA_INICIO", "HORA_FIN", "AFORO_MAXIMO") 
+VALUES (2, 'Yoga', 'Hatha yoga para todos los niveles', '19:00', '20:00', 15);
+INSERT INTO "FITMANAGE"."ACTIVIDAD" ("ID_ACTIVIDAD", "NOMBRE", "DESCRIPCION", "HORA_INICIO", "HORA_FIN", "AFORO_MAXIMO") 
+VALUES (3, 'Crossfit', 'Entrenamiento funcional WOD', '20:00', '21:00', 12);
+
+-- 6. DÍAS DE LA SEMANA
+INSERT INTO "FITMANAGE"."DIA" ("ID_DIA", "CODIGO", "NOMBRE") VALUES (1, 'L', 'Lunes');
+INSERT INTO "FITMANAGE"."DIA" ("ID_DIA", "CODIGO", "NOMBRE") VALUES (2, 'M', 'Martes');
+INSERT INTO "FITMANAGE"."DIA" ("ID_DIA", "CODIGO", "NOMBRE") VALUES (3, 'X', 'Miércoles');
+INSERT INTO "FITMANAGE"."DIA" ("ID_DIA", "CODIGO", "NOMBRE") VALUES (4, 'J', 'Jueves');
+INSERT INTO "FITMANAGE"."DIA" ("ID_DIA", "CODIGO", "NOMBRE") VALUES (5, 'V', 'Viernes');
+
+-- 7. ACTIVIDADES POR DÍA (Horario)
+-- Spinning los Lunes y Miércoles
+INSERT INTO "FITMANAGE"."ACTIVIDAD_DIA" ("ID_ACT_DIA", "ID_ACTIVIDAD", "ID_DIA") VALUES (1, 1, 1); 
+INSERT INTO "FITMANAGE"."ACTIVIDAD_DIA" ("ID_ACT_DIA", "ID_ACTIVIDAD", "ID_DIA") VALUES (2, 1, 3);
+-- Yoga los Martes y Jueves
+INSERT INTO "FITMANAGE"."ACTIVIDAD_DIA" ("ID_ACT_DIA", "ID_ACTIVIDAD", "ID_DIA") VALUES (3, 2, 2);
+INSERT INTO "FITMANAGE"."ACTIVIDAD_DIA" ("ID_ACT_DIA", "ID_ACTIVIDAD", "ID_DIA") VALUES (4, 2, 4);
+-- Crossfit los Lunes
+INSERT INTO "FITMANAGE"."ACTIVIDAD_DIA" ("ID_ACT_DIA", "ID_ACTIVIDAD", "ID_DIA") VALUES (5, 3, 1);
+
+-- 8. PAGOS 
+-- (El trigger TRG_PAGO_BI creará la FACTURA, y TRG_PAGO_ACTUALIZA_PROXIMO actualizará la fecha en CLIENTE)
+INSERT INTO "FITMANAGE"."PAGO" ("ID_PAGO", "IMPORTE", "ID_CLIENTE", "ID_METODO_PAGO", "CONCEPTO") 
+VALUES (1, 45.00, 1, 2, 'Cuota Mensual Abril - Laura');
+
+INSERT INTO "FITMANAGE"."PAGO" ("ID_PAGO", "IMPORTE", "ID_CLIENTE", "ID_METODO_PAGO", "CONCEPTO") 
+VALUES (2, 45.00, 2, 1, 'Cuota Mensual Abril - David');
+
+-- 9. RESERVAS
+-- Laura reserva Spinning el Lunes
+INSERT INTO "FITMANAGE"."RESERVA" ("ID_RESERVA", "ID_CLIENTE", "ID_ACT_DIA", "FECHA_CLASE", "ESTADO_ACTIVA") 
+VALUES (1, 1, 1, SYSDATE + 2, '1');
+
+-- David reserva Yoga el Martes
+INSERT INTO "FITMANAGE"."RESERVA" ("ID_RESERVA", "ID_CLIENTE", "ID_ACT_DIA", "FECHA_CLASE", "ESTADO_ACTIVA") 
+VALUES (2, 2, 3, SYSDATE + 3, '1');
+
+-- Guardamos los cambios
+COMMIT;
