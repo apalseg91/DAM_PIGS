@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e00fb7c-a23f-4246-8860-e09f906303a1">
+	<property name="ireport.zoom" value="2.357947691000003"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="P_DNI" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_LOGO" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[select c.dni as dni, c.nombre ||' ' || c.apellidos as nom,c.email as email,c.telefono as tlfn, a.nombre as nombract, r.fecha_clase as impart,r.fecha_reserva as reser,case when r.estado_activa = 1 then 'Activa' ELSE 'Cancelada' END as estado
+from actividad a join actividad_dia d on a.id_actividad=d.id_actividad
+join reserva r on d.id_act_dia = r.id_act_dia
+join cliente c on r.id_cliente = c.id_cliente
+where c.dni like $P{P_DNI}]]>
+	</queryString>
+	<field name="DNI" class="java.lang.String"/>
+	<field name="NOM" class="java.lang.String"/>
+	<field name="EMAIL" class="java.lang.String"/>
+	<field name="TLFN" class="java.lang.String"/>
+	<field name="NOMBRACT" class="java.lang.String"/>
+	<field name="IMPART" class="java.sql.Timestamp"/>
+	<field name="RESER" class="java.sql.Timestamp"/>
+	<field name="ESTADO" class="java.lang.String"/>
+	<group name="Cliente">
+		<groupExpression><![CDATA[$F{DNI}]]></groupExpression>
+		<groupHeader>
+			<band height="21">
+				<staticText>
+					<reportElement x="10" y="0" width="44" height="20" uuid="bb8dd762-940a-4967-af3c-c0b9f0e94f7b"/>
+					<text><![CDATA[Actividad]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="132" y="0" width="81" height="20" uuid="14980ece-6f7e-4ff1-8ebf-9e3cb1562aa2"/>
+					<text><![CDATA[Fecha de reserva]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="250" y="0" width="100" height="20" uuid="8f47b57e-bcbb-4772-aaaa-2e343686e117"/>
+					<text><![CDATA[Fecha de impartición]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="405" y="0" width="100" height="20" uuid="8a26d102-cb9f-4e56-9dc9-09706183b341"/>
+					<text><![CDATA[Estado]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="50"/>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image isUsingCache="true">
+				<reportElement x="238" y="0" width="67" height="66" uuid="ba90da01-26fa-48bb-ad84-65acb27146f5"/>
+				<imageExpression><![CDATA[$P{P_LOGO}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="158" y="0" width="212" height="20" uuid="6dd2e30f-044a-4f1c-bc89-7bf61e923af5"/>
+				<text><![CDATA[Informe de reservas de actividades por cliente]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="144" height="20" uuid="9ee89155-a383-4a29-ae76-30138975262c"/>
+				<textFieldExpression><![CDATA["DNI/NIE: " + $F{DNI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="228" height="20" uuid="2d8a791e-bdb2-4a8c-9be6-f4f751a388f5"/>
+				<textFieldExpression><![CDATA["Nombre completo: " +  $F{NOM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="0" width="100" height="20" uuid="76d2ff84-8340-4f1c-b1df-bf65a44429c4"/>
+				<textFieldExpression><![CDATA["Teléfono: "+ $F{TLFN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="20" width="200" height="20" uuid="26c41ad4-76a2-4715-88f6-eb0bc0bc6e5b"/>
+				<textFieldExpression><![CDATA["Email: " + $F{EMAIL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="0" width="100" height="20" uuid="4da793c6-910c-4064-a701-41ce3f25d8bb"/>
+				<textFieldExpression><![CDATA[$F{NOMBRACT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="250" y="0" width="120" height="20" uuid="c9e6a870-ee80-4e27-b38c-9f5a9fdecef7"/>
+				<textFieldExpression><![CDATA[$F{IMPART}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="132" y="0" width="96" height="20" uuid="1f42703e-2e82-4686-b323-e97ec7540a04"/>
+				<textFieldExpression><![CDATA[$F{RESER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="0" width="100" height="20" uuid="003d1b07-0658-4bac-8c54-08f654a8ffc7"/>
+				<textFieldExpression><![CDATA[$F{ESTADO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e00fb7c-a23f-4246-8860-e09f906303a1">
+	<property name="ireport.zoom" value="2.357947691000003"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="24"/>
+	<parameter name="P_DNI" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_DESDE" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_HASTA" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="P_LOGO" class="java.lang.String" isForPrompting="false"/>
+	<queryString>
+		<![CDATA[SELECT
+    c.nombre || ' ' || c.apellidos AS NOMBRE,c.dni as DNI,c.telefono as TELEFONO,c.email as EMAIL,
+    f.fecha_emision AS fecha,f.total AS importe,f.concepto as CONCEPTO,
+    m.nombre_metodo AS metodo
+FROM FACTURA f
+JOIN PAGO p
+    ON p.id_factura = f.id_factura
+JOIN CLIENTE c
+    ON p.id_cliente = c.id_cliente
+JOIN METODO_PAGO m
+    ON f.id_metodo_pago = m.id_metodo_pago
+WHERE c.dni = $P{P_DNI}
+AND f.fecha_emision = (
+    SELECT MAX(f2.fecha_emision)
+    FROM FACTURA f2
+    JOIN PAGO p2
+        ON p2.id_factura = f2.id_factura
+    JOIN CLIENTE c2
+        ON p2.id_cliente = c2.id_cliente
+    WHERE c2.dni = $P{P_DNI}
+)]]>
+	</queryString>
+	<field name="NOMBRE" class="java.lang.String"/>
+	<field name="DNI" class="java.lang.String"/>
+	<field name="TELEFONO" class="java.lang.String"/>
+	<field name="EMAIL" class="java.lang.String"/>
+	<field name="FECHA" class="java.sql.Timestamp"/>
+	<field name="IMPORTE" class="java.math.BigDecimal"/>
+	<field name="CONCEPTO" class="java.lang.String"/>
+	<field name="METODO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="238" y="0" width="67" height="66" uuid="ba90da01-26fa-48bb-ad84-65acb27146f5"/>
+				<imageExpression><![CDATA[$P{P_LOGO}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="175" y="0" width="201" height="20" uuid="6dd2e30f-044a-4f1c-bc89-7bf61e923af5"/>
+				<text><![CDATA[FACTURA ÚLTIMO PAGO POR CLIENTE]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="144" height="20" uuid="9ee89155-a383-4a29-ae76-30138975262c"/>
+				<textFieldExpression><![CDATA["DNI/NIE: " + $F{DNI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="158" height="20" uuid="2d8a791e-bdb2-4a8c-9be6-f4f751a388f5"/>
+				<textFieldExpression><![CDATA["Nombre completo: " +  $F{NOMBRE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="0" width="144" height="20" uuid="76d2ff84-8340-4f1c-b1df-bf65a44429c4"/>
+				<textFieldExpression><![CDATA["Teléfono: "+ $F{TELEFONO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="20" width="200" height="20" uuid="26c41ad4-76a2-4715-88f6-eb0bc0bc6e5b"/>
+				<textFieldExpression><![CDATA["Email: " + $F{EMAIL}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="204" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="5" width="505" height="128" uuid="e05cdec4-0390-4e40-a222-38e2f710d651"/>
+				<textFieldExpression><![CDATA[$F{NOMBRE} + " con DNI/NIE " + $F{DNI} +" efectuó un pago de ***" + $F{IMPORTE} +"euros*** , (" + $F{METODO} +") con fecha de " +
+new java.text.SimpleDateFormat("EEEEE dd MMMMM yyyy", new java.util.Locale("es","ES")).format($F{FECHA})+ "en concepto de: "+ $F{CONCEPTO} +"."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
