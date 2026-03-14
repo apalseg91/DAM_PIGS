@@ -3,12 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Githubsource/test/support/AssertEx.java</file>
-            <file>file:/C:/Githubsource/test/integration/ActividadServiceITTest.java</file>
-            <file>file:/C:/Githubsource/test/integration/DBConnectionITTest.java</file>
-            <file>file:/C:/Githubsource/test/service/ActividadServiceTest.java</file>
-            <file>file:/C:/Githubsource/test/util/PasswordUtilsTest.java</file>
-            <file>file:/C:/Githubsource/test/support/FakeActividadDAO.java</file>
+            <file>file:/C:/Githubsource/src/view/LoginJFrame.java</file>
         </group>
     </open-files>
 </project-private>

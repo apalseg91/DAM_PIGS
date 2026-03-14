@@ -6,9 +6,7 @@
 INSERT INTO "FITMANAGE"."ROL" ("ID_ROL", "NOMBRE_ROL", "DESCRIPCION") 
 VALUES (1, 'Administrador', 'Control total del sistema');
 INSERT INTO "FITMANAGE"."ROL" ("ID_ROL", "NOMBRE_ROL", "DESCRIPCION") 
-VALUES (2, 'Entrenador', 'Gestión de clases y aforos');
-INSERT INTO "FITMANAGE"."ROL" ("ID_ROL", "NOMBRE_ROL", "DESCRIPCION") 
-VALUES (3, 'Cliente', 'Usuario regular del gimnasio');
+VALUES (2, 'Cliente', 'Usuario regular del gimnasio');
 
 -- 2. MÉTODOS DE PAGO
 INSERT INTO "FITMANAGE"."METODO_PAGO" ("ID_METODO_PAGO", "NOMBRE_METODO", "DESCRIPCION") 
@@ -16,23 +14,21 @@ VALUES (1, 'Efectivo', 'Pago en metálico en recepción');
 INSERT INTO "FITMANAGE"."METODO_PAGO" ("ID_METODO_PAGO", "NOMBRE_METODO", "DESCRIPCION") 
 VALUES (2, 'Tarjeta', 'Tarjeta de crédito o débito');
 INSERT INTO "FITMANAGE"."METODO_PAGO" ("ID_METODO_PAGO", "NOMBRE_METODO", "DESCRIPCION") 
-VALUES (3, 'Transferencia', 'Transferencia bancaria SEPA');
+VALUES (3, 'BIZUM', 'Transferencia bancaria instantanea');
 
 -- 3. USUARIOS (Vinculados a sus roles)
 INSERT INTO "FITMANAGE"."USUARIO" ("ID_USUARIO", "EMAIL", "CONTRASENA_HASH", "ID_ROL") 
-VALUES (1, 'admin@fitmanage.com', 'hash_inventado_123', 1);
+VALUES (1, 'admin@fitmanage.com', 'admin123', 1);
 INSERT INTO "FITMANAGE"."USUARIO" ("ID_USUARIO", "EMAIL", "CONTRASENA_HASH", "ID_ROL") 
-VALUES (2, 'carlos.entrenador@fitmanage.com', 'hash_inventado_456', 2);
-INSERT INTO "FITMANAGE"."USUARIO" ("ID_USUARIO", "EMAIL", "CONTRASENA_HASH", "ID_ROL") 
-VALUES (3, 'laura.cliente@email.com', 'hash_inventado_789', 3);
+VALUES (3, 'laura.cliente@email.com', '12345678a', 2);
 
 -- 4. CLIENTES 
 -- (Al ejecutar esto, el trigger TRG_CLIENTE_AFTER_INSERT creará registros en CLIENTE_ESTADO)
 INSERT INTO "FITMANAGE"."CLIENTE" ("ID_CLIENTE", "NOMBRE", "APELLIDOS", "EMAIL", "DNI", "TELEFONO", "DIRECCION", "CUOTA_MENSUAL", "ID_USUARIO", "ID_ROL", "ACTIVO") 
-VALUES (1, 'Laura', 'García López', 'laura.cliente@email.com', '12345678A', '600111222', 'Calle Mayor 1, Madrid', 45.00, 3, 3, '1');
+VALUES (1, 'Laura', 'García López', 'laura.cliente@email.com', '12345678A', '600111222', 'Calle Mayor 1, Madrid', 45.00, NULL, 2, '1');
 
 INSERT INTO "FITMANAGE"."CLIENTE" ("ID_CLIENTE", "NOMBRE", "APELLIDOS", "EMAIL", "DNI", "TELEFONO", "DIRECCION", "CUOTA_MENSUAL", "ID_USUARIO", "ID_ROL", "ACTIVO") 
-VALUES (2, 'David', 'Martínez', 'david.martinez@email.com', '87654321B', '600333444', 'Avenida Sol 45, Madrid', 45.00, NULL, 3, '1');
+VALUES (2, 'David', 'Martínez', 'david.martinez@email.com', '87654321B', '600333444', 'Avenida Sol 45, Madrid', 45.00, NULL, 2, '1');
 
 -- 5. ACTIVIDADES
 INSERT INTO "FITMANAGE"."ACTIVIDAD" ("ID_ACTIVIDAD", "NOMBRE", "DESCRIPCION", "HORA_INICIO", "HORA_FIN", "AFORO_MAXIMO") 
