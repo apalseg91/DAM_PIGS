@@ -6,7 +6,7 @@
 INSERT INTO "FITMANAGE"."ROL" ("ID_ROL", "NOMBRE_ROL", "DESCRIPCION") 
 VALUES (1, 'Administrador', 'Control total del sistema');
 INSERT INTO "FITMANAGE"."ROL" ("ID_ROL", "NOMBRE_ROL", "DESCRIPCION") 
-VALUES (2, 'Cliente', 'Usuario regular del gimnasio');
+VALUES (2, 'USUARIO', 'Usuario regular del gimnasio');
 
 -- 2. MÉTODOS DE PAGO
 INSERT INTO "FITMANAGE"."METODO_PAGO" ("ID_METODO_PAGO", "NOMBRE_METODO", "DESCRIPCION") 
