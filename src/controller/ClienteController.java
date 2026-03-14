@@ -38,8 +38,8 @@ import view.MisDatosClienteJDialog;
  * {@link Session}.
  *
  * @author Alejandro
-  * @version 1.0
-
+ * @version 1.0
+ *
  */
 public class ClienteController {
 
@@ -92,7 +92,9 @@ public class ClienteController {
 
         initController();
         cargarReservas();
-        new FacturaController(view,new FacturaService(),clienteService);
+        cargarClienteSesion();
+        new FacturaController(view, new FacturaService(), clienteService);
+
     }
 
     /**
@@ -220,5 +222,21 @@ public class ClienteController {
         dialog.setCliente(cliente);
         dialog.setLocationRelativeTo(view);
         dialog.setVisible(true);
+    }
+
+    /**
+     * Carga el nombre del cliente autenticado en la cabecera del panel.
+     */
+    private void cargarClienteSesion() {
+        Usuario usuario = Session.getUsuarioActual();
+        if (usuario == null) {
+            return;
+        }
+        Cliente cliente = clienteService.obtenerDetalleClientePorEmail(usuario.getEmail());
+        if (cliente != null) {
+            String nombreCompleto = cliente.getNombre() + " " + cliente.getApellidos();
+            view.getJLabelSaludo()
+                    .setText("¡Bienvenid@! | " + nombreCompleto);
+        }
     }
 }
