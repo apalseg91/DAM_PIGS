@@ -16,12 +16,12 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
-    private static final String URL =
-        "jdbc:oracle:thin:@//localhost:1521/xe"; //"FITMANAGE@//localhost:1521/xe";
+    private static final String URL = "jdbc:oracle:thin:@//localhost:1521/xe";
+        // "jdbc:oracle:thin:@//localhost:1521/xe"; //"FITMANAGE@//localhost:1521/xe";
     //TODO:
      	//CAMBIAR CONEXION a comentado
-    private static final String USER = "system"; // "FitManage";
-    private static final String PASSWORD = "system"; // "admin123";
+    private static final String USER = "FITMANAGE"; // "system"; FITMANAGE
+    private static final String PASSWORD = "admin123"; // "system";
 
     private DBConnection() {
     }
