@@ -178,7 +178,19 @@ public class AdminController {
 
         DefaultTableModel model = new DefaultTableModel(columnas, 0);
 
+        java.time.format.DateTimeFormatter formatter
+                = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
         for (Cliente c : clientes) {
+
+            String fechaAltaFormateada = c.getFechaAlta() != null
+                    ? c.getFechaAlta().format(formatter)
+                    : "";
+
+            String fechaProxPagoFormateada = c.getFechaProximoPago() != null
+                    ? c.getFechaProximoPago().format(formatter)
+                    : "";
+
             model.addRow(new Object[]{
                 c.getIdCliente(),
                 c.getNombre(),
@@ -187,8 +199,8 @@ public class AdminController {
                 c.getDni(),
                 c.getTelefono(),
                 c.getDireccion(),
-                c.getFechaAlta(),
-                c.getFechaProximoPago(),
+                fechaAltaFormateada,
+                fechaProxPagoFormateada,
                 c.isActivo() ? "Sí" : "No"
             });
         }
@@ -659,16 +671,24 @@ public class AdminController {
         };
 
         DefaultTableModel model = new DefaultTableModel(columnas, 0);
+        java.time.format.DateTimeFormatter formatter
+                = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
         for (Usuario u : usuarios) {
+            String fechaCreacion = u.getFechaCreacion() != null
+                    ? u.getFechaCreacion().format(formatter)
+                    : "";
             model.addRow(new Object[]{
                 u.getIdUsuario(),
                 u.getEmail(),
-                u.getFechaCreacion()
+                fechaCreacion
             });
         }
 
         dialog.getJTableGestionUsuarios().setModel(model);
+        dialog.getJTableGestionUsuarios().removeColumn(
+                dialog.getJTableGestionUsuarios().getColumnModel().getColumn(0)
+        );
     }
 
     /**
@@ -834,16 +854,21 @@ public class AdminController {
         };
 
         DefaultTableModel model = new DefaultTableModel(columnas, 0);
-
+        java.time.format.DateTimeFormatter formatter
+                = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy");
         for (Usuario u : admins) {
+            String fechaCreacion = u.getFechaCreacion()!= null
+                    ? u.getFechaCreacion().format(formatter)
+                    : "";
             model.addRow(new Object[]{
                 u.getIdUsuario(),
                 u.getEmail(),
-                u.getFechaCreacion()
-            });
+                fechaCreacion});
         }
 
-        dialog.getJTableAdminSistema().setModel(model);
+        dialog.getJTableAdminSistema().setModel(model);    
+        dialog.getJTableAdminSistema().removeColumn(
+            dialog.getJTableAdminSistema().getColumnModel().getColumn(0));
     }
 
     private void eliminarAdmin(GestionAdminSistemaJDialog dialog) {
@@ -966,7 +991,7 @@ public class AdminController {
         dialog.getJTextFieldEmail().setEditable(false);
 
         DateFormatter df
-                = new DateFormatter(new SimpleDateFormat("dd/MM/yyyy"));
+                = new DateFormatter(new SimpleDateFormat("dd-MM-yyyy"));
 
         DefaultFormatterFactory factory
                 = new DefaultFormatterFactory(df);
@@ -1070,7 +1095,9 @@ public class AdminController {
         }
 
         dialog.getJTable().setModel(model);
+        
     }
+
     /**
      * Carga el mail del admistrador autenticado en la cabecera del panel.
      */

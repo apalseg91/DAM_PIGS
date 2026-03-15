@@ -244,7 +244,7 @@ public class ClienteJFrame extends javax.swing.JFrame {
         return jTableReservas;
     }
 
-    public void setReservas(List<Reserva> reservas) {
+    /*public void setReservas(List<Reserva> reservas) {
 
         DefaultTableModel model = new DefaultTableModel(
                 new String[]{"ID", "Actividad", "Día", "Hora", "Fecha", "Estado"},
@@ -297,5 +297,64 @@ public class ClienteJFrame extends javax.swing.JFrame {
         jTableReservas.removeColumn(
                 jTableReservas.getColumnModel().getColumn(0)
         );
+    }*/
+    public void setReservas(List<Reserva> reservas) {
+
+    DefaultTableModel model = new DefaultTableModel(
+            new String[]{"ID", "Actividad", "Día", "Hora", "Fecha", "Estado"},
+            0
+    ) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
+    java.time.format.DateTimeFormatter formatter =
+            java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    for (Reserva r : reservas) {
+        String fechaFormateada = r.getFechaClase() != null
+                ? r.getFechaClase().format(formatter)
+                : "";
+        model.addRow(new Object[]{
+            r.getIdReserva(),
+            r.getActividadDia().getActividad().getNombre(),
+            r.getActividadDia().getDia().getNombre(),
+            r.getActividadDia().getActividad().getHoraInicio()
+            + " - " + r.getActividadDia().getActividad().getHoraFin(),
+            fechaFormateada,
+            r.isActiva() ? "ACTIVA" : "CANCELADA"
+        });
     }
+
+    jTableReservas.setModel(model);
+    jTableReservas.getColumnModel().getColumn(5)
+            .setCellRenderer(new javax.swing.table.DefaultTableCellRenderer() {
+                @Override
+                public java.awt.Component getTableCellRendererComponent(
+                        javax.swing.JTable table,
+                        Object value,
+                        boolean isSelected,
+                        boolean hasFocus,
+                        int row,
+                        int column
+                ) {
+                    java.awt.Component c = super.getTableCellRendererComponent(
+                            table, value, isSelected, hasFocus, row, column
+                    );
+
+                    if ("CANCELADA".equals(value)) {
+                        c.setForeground(java.awt.Color.RED);
+                    } else {
+                        c.setForeground(new java.awt.Color(0, 128, 0));
+                    }
+
+                    return c;
+                }
+            });
+
+    // Ocultar ID
+    jTableReservas.removeColumn(
+            jTableReservas.getColumnModel().getColumn(0)
+    );
+}
 }

@@ -124,6 +124,9 @@ public class ClienteController {
 
         List<Reserva> reservas
                 = reservaService.obtenerReservasCliente(cliente.getIdCliente());
+                view.getJTableReservas().removeColumn(
+                view.getJTableReservas().getColumnModel().getColumn(0)
+        );
 
         view.setReservas(reservas);
     }
