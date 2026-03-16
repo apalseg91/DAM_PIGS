@@ -613,6 +613,7 @@ public class AdminController {
             pago.setConcepto(concepto);
 
             pagoService.registrarPago(pago);
+            cargarClientes();
             dialog.dispose();
 
             JOptionPane.showMessageDialog(
