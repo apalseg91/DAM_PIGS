@@ -206,6 +206,7 @@ public class AdminController {
         }
 
         view.getTableClientes().setModel(model);
+        ocultarColumna(view.getTableClientes(), 0);
     }
 
     /**
@@ -686,9 +687,7 @@ public class AdminController {
         }
 
         dialog.getJTableGestionUsuarios().setModel(model);
-        dialog.getJTableGestionUsuarios().removeColumn(
-                dialog.getJTableGestionUsuarios().getColumnModel().getColumn(0)
-        );
+        ocultarColumna(dialog.getJTableGestionUsuarios(), 0);
     }
 
     /**
@@ -857,7 +856,7 @@ public class AdminController {
         java.time.format.DateTimeFormatter formatter
                 = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy");
         for (Usuario u : admins) {
-            String fechaCreacion = u.getFechaCreacion()!= null
+            String fechaCreacion = u.getFechaCreacion() != null
                     ? u.getFechaCreacion().format(formatter)
                     : "";
             model.addRow(new Object[]{
@@ -866,9 +865,8 @@ public class AdminController {
                 fechaCreacion});
         }
 
-        dialog.getJTableAdminSistema().setModel(model);    
-        dialog.getJTableAdminSistema().removeColumn(
-            dialog.getJTableAdminSistema().getColumnModel().getColumn(0));
+        dialog.getJTableAdminSistema().setModel(model);
+        ocultarColumna(dialog.getJTableAdminSistema(), 0);
     }
 
     private void eliminarAdmin(GestionAdminSistemaJDialog dialog) {
@@ -911,7 +909,8 @@ public class AdminController {
                     String email = form.getEmail();
                     String password = form.getPassword();
 
-                    if ((email == null || email.trim().isEmpty()) || (password == null || password.trim().isEmpty())) {
+                    if ((email == null || email.trim().isEmpty()) || 
+                            (password == null || password.trim().isEmpty())) {
                         JOptionPane.showMessageDialog(form,
                                 "Email y contraseña obligatorios");
                         return;
@@ -1002,12 +1001,10 @@ public class AdminController {
         dialog.getJFormattedTextFieldFin()
                 .setFormatterFactory(factory);
 
-        // 🔹 CheckBox excluyentes
         ButtonGroup group = new ButtonGroup();
         group.add(dialog.getJCheckBoxPago());
         group.add(dialog.getJCheckBoxAsistenciaClases());
 
-        // 🔹 Cancelar
         dialog.getJButtonCancelar()
                 .addActionListener(e -> dialog.dispose());
 
@@ -1021,9 +1018,7 @@ public class AdminController {
                     group.clearSelection();
                 });
 
-        dialog.getJButtonElegirListado()
-                .addActionListener(e
-                        -> abrirListadoClientes(dialog));
+        dialog.getJButtonElegirListado().addActionListener(e-> abrirListadoClientes(dialog));
     }
 
     private void abrirListadoClientes(GenerarInformeJDialog parentDialog) {
@@ -1095,7 +1090,8 @@ public class AdminController {
         }
 
         dialog.getJTable().setModel(model);
-        
+        ocultarColumna(dialog.getJTable(), 0);
+
     }
 
     /**
@@ -1107,5 +1103,22 @@ public class AdminController {
             return;
         }
         view.getJLabelSaludo().setText("Administrador conectado: " + usuario.getEmail());
+    }
+
+    /**
+     * Oculta visualmente una columna de una JTable manteniéndola en el modelo.
+     * <p>
+     * Esta técnica evita problemas al recuperar valores desde el modelo (por
+     * ejemplo IDs de base de datos) ya que la columna sigue existiendo
+     * internamente aunque no sea visible para el usuario.
+     *
+     * @param table JTable donde se ocultará la columna
+     * @param columnIndex índice de la columna a ocultar
+     */
+    private void ocultarColumna(javax.swing.JTable table, int columnIndex) {
+
+        table.getColumnModel().getColumn(columnIndex).setMinWidth(0);
+        table.getColumnModel().getColumn(columnIndex).setMaxWidth(0);
+        table.getColumnModel().getColumn(columnIndex).setWidth(0);
     }
 }

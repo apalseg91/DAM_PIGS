@@ -127,6 +127,7 @@ public class ActividadesController {
         }
 
         view.getJTableActividades().setModel(model);
+        ocultarColumna(view.getJTableActividades(), 0);
     }
 
     /**
@@ -296,4 +297,20 @@ public class ActividadesController {
             cargarActividades();
         }
     }
+    /**
+ * Oculta visualmente una columna de una JTable manteniéndola en el modelo.
+ * <p>
+ * Esta técnica evita problemas al recuperar valores desde el modelo
+ * (por ejemplo IDs de base de datos) ya que la columna sigue existiendo
+ * internamente aunque no sea visible para el usuario.
+ *
+ * @param table JTable donde se ocultará la columna
+ * @param columnIndex índice de la columna a ocultar
+ */
+private void ocultarColumna(javax.swing.JTable table, int columnIndex) {
+
+    table.getColumnModel().getColumn(columnIndex).setMinWidth(0);
+    table.getColumnModel().getColumn(columnIndex).setMaxWidth(0);
+    table.getColumnModel().getColumn(columnIndex).setWidth(0);
+}
 }
