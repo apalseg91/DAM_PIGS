@@ -18,7 +18,7 @@ public class ModificarDatosUsuariosJDialog extends javax.swing.JDialog {
     public ModificarDatosUsuariosJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-                setSize(700, 500);
+        setSize(700, 500);
         setResizable(false);
         setLocationRelativeTo(null);
 
@@ -80,7 +80,7 @@ public class ModificarDatosUsuariosJDialog extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addComponent(jLabel3)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

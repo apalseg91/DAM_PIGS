@@ -2,6 +2,21 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Githubsource/src/view/ActividadesView.java</file>
+            <file>file:/C:/Githubsource/src/view/FormReservarActividadJFrame.java</file>
+            <file>file:/C:/Githubsource/src/view/GenerarInformeJDialog.java</file>
+            <file>file:/C:/Githubsource/src/view/ModificarDatosUsuariosJDialog.java</file>
+            <file>file:/C:/Githubsource/src/view/GestionAdminSistemaJDialog.java</file>
+            <file>file:/C:/Githubsource/src/view/FormActividadJDialog.java</file>
+            <file>file:/C:/Githubsource/src/view/FormActividadesJDialog.java</file>
+            <file>file:/C:/Githubsource/src/view/ListadoClientesJDialog.java</file>
+            <file>file:/C:/Githubsource/src/view/GestionCuentaUsuarioJDialog.java</file>
+            <file>file:/C:/Githubsource/src/view/FormPagoJDialog.java</file>
+            <file>file:/C:/Githubsource/src/view/FormAltaJDialog.java</file>
+            <file>file:/C:/Githubsource/src/view/ClienteJFrame.java</file>
+            <file>file:/C:/Githubsource/src/view/AdminJFrame.java</file>
+            <file>file:/C:/Githubsource/src/view/FormListadoPagosJDialog.java</file>
+        </group>
     </open-files>
 </project-private>
