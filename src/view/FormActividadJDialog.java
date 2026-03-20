@@ -8,10 +8,16 @@ import Model.Actividad;
 import Model.Dia;
 import java.awt.Dialog;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -29,9 +35,12 @@ public class FormActividadJDialog extends javax.swing.JDialog {
     public FormActividadJDialog(java.awt.Window parent) {
         super(parent, Dialog.ModalityType.APPLICATION_MODAL);
         initComponents();
+        configurarSpinnersHora();
+        configurarSaltosMinutos();
         setSize(700, 500);
         setResizable(false);
         setLocationRelativeTo(null);
+
     }
 
     /**
@@ -46,8 +55,6 @@ public class FormActividadJDialog extends javax.swing.JDialog {
         jButtonActAceptar = new javax.swing.JButton();
         jButtonActCancelar = new javax.swing.JButton();
         jTextFieldActNombre = new javax.swing.JTextField();
-        jTextFieldActHoraIni = new javax.swing.JTextField();
-        jTextFieldActHoraFin = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaActDesc = new javax.swing.JTextArea();
         jSpinnerActAforo = new javax.swing.JSpinner();
@@ -65,6 +72,8 @@ public class FormActividadJDialog extends javax.swing.JDialog {
         jLabel7 = new javax.swing.JLabel();
         jCheckBoxS = new javax.swing.JCheckBox();
         jCheckBoxD = new javax.swing.JCheckBox();
+        jSpinnerHoraFin = new javax.swing.JSpinner();
+        jSpinnerHoraIni = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Admin,. Datos de actividad dirigida");
@@ -80,15 +89,11 @@ public class FormActividadJDialog extends javax.swing.JDialog {
             }
         });
 
-        jTextFieldActHoraIni.setToolTipText("Introduzca una hora con formato hh:mm");
-        jTextFieldActHoraIni.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldActNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldActHoraIniActionPerformed(evt);
+                jTextFieldActNombreActionPerformed(evt);
             }
         });
-
-        jTextFieldActHoraFin.setToolTipText("Introduzca una hora con formato hh:mm");
-        jTextFieldActHoraFin.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         jTextAreaActDesc.setColumns(20);
         jTextAreaActDesc.setRows(5);
@@ -157,20 +162,6 @@ public class FormActividadJDialog extends javax.swing.JDialog {
                                 .addGap(81, 81, 81)
                                 .addComponent(jButtonActAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldActNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jSpinnerActAforo, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                    .addComponent(jTextFieldActHoraIni, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                                    .addComponent(jTextFieldActHoraFin)))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jCheckBoxL)
@@ -179,46 +170,61 @@ public class FormActividadJDialog extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jCheckBoxX)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBoxJ, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jCheckBoxJ)
+                                .addGap(3, 3, 3)
                                 .addComponent(jCheckBoxV)
                                 .addGap(0, 0, 0)
                                 .addComponent(jCheckBoxS, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCheckBoxD))))
+                                .addComponent(jCheckBoxD))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldActNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jSpinnerHoraIni, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jSpinnerHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jSpinnerActAforo, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(62, 62, 62)
                         .addComponent(jLabel6)))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSpinnerHoraIni, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jTextFieldActNombre))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextFieldActNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldActHoraIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(12, 12, 12)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldActHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSpinnerHoraFin, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSpinnerActAforo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(jSpinnerActAforo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 28, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(jCheckBoxL)
@@ -228,7 +234,7 @@ public class FormActividadJDialog extends javax.swing.JDialog {
                     .addComponent(jCheckBoxV)
                     .addComponent(jCheckBoxS)
                     .addComponent(jCheckBoxD))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonActAceptar, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jButtonActCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
@@ -245,9 +251,9 @@ public class FormActividadJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBoxDActionPerformed
 
-    private void jTextFieldActHoraIniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldActHoraIniActionPerformed
+    private void jTextFieldActNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldActNombreActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldActHoraIniActionPerformed
+    }//GEN-LAST:event_jTextFieldActNombreActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -269,9 +275,9 @@ public class FormActividadJDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinnerActAforo;
+    private javax.swing.JSpinner jSpinnerHoraFin;
+    private javax.swing.JSpinner jSpinnerHoraIni;
     private javax.swing.JTextArea jTextAreaActDesc;
-    private javax.swing.JTextField jTextFieldActHoraFin;
-    private javax.swing.JTextField jTextFieldActHoraIni;
     private javax.swing.JTextField jTextFieldActNombre;
     // End of variables declaration//GEN-END:variables
 public String getJTextFieldActNombre() {
@@ -280,30 +286,6 @@ public String getJTextFieldActNombre() {
 
     public String getJTextAreaActDesc() {
         return jTextAreaActDesc.getText();
-    }
-
-    public LocalTime getJTextFieldActHoraIni() {
-        String texto = jTextFieldActHoraIni.getText().trim();
-
-        if (!texto.matches("^\\d{2}:\\d{2}$")) {
-            throw new IllegalArgumentException(
-                    "La hora de inicio debe tener el formato HH:mm (ej: 09:30)"
-            );
-        }
-
-        return LocalTime.parse(texto, TIME_FORMAT);
-    }
-
-    public LocalTime getJTextFieldActHoraFin() {
-        String texto = jTextFieldActHoraFin.getText().trim();
-
-        if (!texto.matches("^\\d{2}:\\d{2}$")) {
-            throw new IllegalArgumentException(
-                    "La hora de finalización debe tener el formato HH:mm (ej: 09:30)"
-            );
-        }
-
-        return LocalTime.parse(texto, TIME_FORMAT);
     }
 
     public int getJSpinnerActAforo() {
@@ -319,17 +301,19 @@ public String getJTextFieldActNombre() {
     }
 
     public void setActividad(Actividad actividad) {
-
         this.idActividad = actividad.getIdActividad();
         jTextFieldActNombre.setText(actividad.getNombre());
         jTextAreaActDesc.setText(actividad.getDescripcion());
-        jTextFieldActHoraIni.setText(
-                actividad.getHoraInicio().toString()
+
+        jSpinnerHoraIni.setValue(
+                java.sql.Time.valueOf(actividad.getHoraInicio())
         );
-        jTextFieldActHoraFin.setText(
-                actividad.getHoraFin().toString()
+
+        jSpinnerHoraFin.setValue(
+                java.sql.Time.valueOf(actividad.getHoraFin())
         );
-        jSpinnerActAforo.setValue(actividad.getAforoMaximo());
+
+        jSpinnerActAforo.setValue(actividad.getAforoMaximo());;
     }
 
     public Integer getIdActividad() {
@@ -382,7 +366,7 @@ public String getJTextFieldActNombre() {
                 continue;
             }
 
-            switch (codigo.trim()) { 
+            switch (codigo.trim()) {
 
                 case "L":
                     if (jCheckBoxL.isSelected()) {
@@ -426,7 +410,7 @@ public String getJTextFieldActNombre() {
                     }
                     break;
             }
-                System.out.println("Codigo BD: '" + dia.getCodigo() + "'");
+            System.out.println("Codigo BD: '" + dia.getCodigo() + "'");
         }
 
         System.out.println("Seleccionados: " + seleccionados.size());
@@ -485,5 +469,52 @@ public String getJTextFieldActNombre() {
                     break;
             }
         }
+    }
+
+    private void configurarSpinnersHora() {
+
+        SpinnerDateModel modelIni = new SpinnerDateModel();
+        jSpinnerHoraIni.setModel(modelIni);
+        jSpinnerHoraIni.setEditor(new JSpinner.DateEditor(jSpinnerHoraIni, "HH:mm"));
+
+        SpinnerDateModel modelFin = new SpinnerDateModel();
+        jSpinnerHoraFin.setModel(modelFin);
+        jSpinnerHoraFin.setEditor(new JSpinner.DateEditor(jSpinnerHoraFin, "HH:mm"));
+    }
+
+    public LocalTime getHoraInicio() {
+        Date date = (Date) jSpinnerHoraIni.getValue();
+        return date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalTime()
+                .withSecond(0)
+                .withNano(0);
+    }
+
+    public LocalTime getHoraFin() {
+        Date date = (Date) jSpinnerHoraFin.getValue();
+        return date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalTime()
+                .withSecond(0)
+                .withNano(0);
+    }
+
+    private void configurarSaltosMinutos() {
+        ChangeListener listener = e -> {
+            JSpinner spinner = (JSpinner) e.getSource();
+            Date date = (Date) spinner.getValue();
+
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+
+            int minutos = cal.get(Calendar.MINUTE);
+            cal.set(Calendar.MINUTE, (minutos / 5) * 5); // saltos de 5 min
+
+            spinner.setValue(cal.getTime());
+        };
+
+        jSpinnerHoraIni.addChangeListener(listener);
+        jSpinnerHoraFin.addChangeListener(listener);
     }
 }

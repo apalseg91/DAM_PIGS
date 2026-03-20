@@ -113,10 +113,10 @@ public class AdminController {
      */
     private void initController() {
 
-        view.getBtnRefrescar().addActionListener(e -> cargarClientes());
+        //view.getBtnRefrescar().addActionListener(e -> cargarClientes());
         view.getBtnNuevoCliente().addActionListener(e -> abrirAltaCliente());
         view.getJButtonInactivo().addActionListener(e -> setInactivo());
-        view.getJButtonDelete().addActionListener(e -> eliminarCliente());
+        //view.getJButtonDelete().addActionListener(e -> eliminarCliente());
         view.getJButtonUpdate().addActionListener(e -> modificarCliente());
         view.getJButtonSetActivo().addActionListener(e -> setActivo());
         view.getJComboBoxFiltros().addActionListener(e -> setFiltro());
@@ -696,7 +696,7 @@ public class AdminController {
      *
      * @param dialog diálogo actual
      */
-    private void eliminarUsuario(GestionCuentaUsuarioJDialog dialog) {
+    /*private void eliminarUsuario(GestionCuentaUsuarioJDialog dialog) {
 
         int fila = dialog.getJTableGestionUsuarios().getSelectedRow();
 
@@ -727,7 +727,7 @@ public class AdminController {
             usuarioService.eliminarUsuario(idUsuario);
             cargarTablaUsuarios(dialog);
         }
-    }
+    }*/
 
     /**
      * Abre el diálogo para modificar los datos del usuario seleccionado.
@@ -796,8 +796,8 @@ public class AdminController {
         dialog.getJButtonCancelar()
                 .addActionListener(e -> dialog.dispose());
 
-        dialog.getJButtonEliminar()
-                .addActionListener(e -> eliminarUsuario(dialog));
+        //dialog.getJButtonEliminar()
+                //.addActionListener(e -> eliminarUsuario(dialog));
 
         dialog.getJButtonModificar()
                 .addActionListener(e -> modificarUsuario(dialog));

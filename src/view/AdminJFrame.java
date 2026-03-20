@@ -48,10 +48,8 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
         jButtonLogOut = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableClientes = new javax.swing.JTable();
-        jButtonRefrescar = new javax.swing.JButton();
         jButtonNuevoCliente = new javax.swing.JButton();
         jButtonInactivo = new javax.swing.JButton();
-        jButtonDelete = new javax.swing.JButton();
         jButtonUpdate = new javax.swing.JButton();
         jButtonSetActivo = new javax.swing.JButton();
         jComboBoxFiltros = new javax.swing.JComboBox<>();
@@ -102,17 +100,11 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
         ));
         jScrollPane1.setViewportView(jTableClientes);
 
-        jButtonRefrescar.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jButtonRefrescar.setText("Eliminar filtro");
-
         jButtonNuevoCliente.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButtonNuevoCliente.setText("Alta Cliente");
 
         jButtonInactivo.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButtonInactivo.setText("Marcar como Inactivo");
-
-        jButtonDelete.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jButtonDelete.setText("Eliminar Cliente");
 
         jButtonUpdate.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButtonUpdate.setText("Modificar Cliente");
@@ -198,7 +190,6 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
                                 .addComponent(jButtonUpdate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonInactivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonNuevoCliente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButtonDelete, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonSetActivo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -215,18 +206,6 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabelSaludo, javax.swing.GroupLayout.PREFERRED_SIZE, 928, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(88, 88, 88)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jComboBoxFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(27, 27, 27)
-                                        .addComponent(jButtonRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(45, 45, 45)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(45, 45, 45)
@@ -234,7 +213,15 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
                             .addComponent(jButtonModificarActividad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonEliminarActividad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jButtonNuevaActividad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBoxFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 810, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(76, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -248,14 +235,12 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonLogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
                         .addComponent(jLabelSaludo)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel5)
-                        .addGap(9, 9, 9)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jComboBoxFiltros, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButtonRefrescar, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel5))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -263,9 +248,7 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
                         .addComponent(jButtonNuevoCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButtonDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(65, 65, 65)
                         .addComponent(jButtonSetActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonInactivo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -315,7 +298,6 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAdminSistema;
     private javax.swing.JButton jButtonCuentasUsuario;
-    private javax.swing.JButton jButtonDelete;
     private javax.swing.JButton jButtonEliminarActividad;
     private javax.swing.JButton jButtonInactivo;
     private javax.swing.JButton jButtonInformes;
@@ -324,7 +306,6 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
     private javax.swing.JButton jButtonModificarActividad;
     private javax.swing.JButton jButtonNuevaActividad;
     private javax.swing.JButton jButtonNuevoCliente;
-    private javax.swing.JButton jButtonRefrescar;
     private javax.swing.JButton jButtonRegistrarPago;
     private javax.swing.JButton jButtonSetActivo;
     private javax.swing.JButton jButtonUpdate;
@@ -353,20 +334,12 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
         return jTableClientes;
     }
 
-    public JButton getBtnRefrescar() {
-        return jButtonRefrescar;
-    }
-
     public JButton getBtnNuevoCliente() {
         return jButtonNuevoCliente;
     }
 
     public JButton getJButtonInactivo() {
         return jButtonInactivo;
-    }
-
-    public JButton getJButtonDelete() {
-        return jButtonDelete;
     }
 
     public JButton getJButtonUpdate() {

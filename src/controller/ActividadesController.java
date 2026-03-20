@@ -109,7 +109,7 @@ public class ActividadesController {
         List<Actividad> actividades = actividadService.obtenerActividades();
 
         String[] columnas = {
-            "ID", "Nombre", "Hora inicio", "Hora fin", "Aforo", "Días"
+            "ID", "Nombre", "Hora inicio", "Hora fin", "Aforo máx.", "Días"
         };
 
         DefaultTableModel model = new DefaultTableModel(columnas, 0);
@@ -148,8 +148,8 @@ public class ActividadesController {
                 Actividad actividad = new Actividad();
                 actividad.setNombre(dialog.getJTextFieldActNombre());
                 actividad.setDescripcion(dialog.getJTextAreaActDesc());
-                actividad.setHoraInicio(dialog.getJTextFieldActHoraIni());
-                actividad.setHoraFin(dialog.getJTextFieldActHoraFin());
+                actividad.setHoraInicio(dialog.getHoraInicio());
+                actividad.setHoraFin(dialog.getHoraFin());
                 actividad.setAforoMaximo(dialog.getJSpinnerActAforo());
 
                 List<Dia> diasSeleccionados
@@ -232,8 +232,8 @@ public class ActividadesController {
 
                 actividad.setNombre(dialog.getJTextFieldActNombre());
                 actividad.setDescripcion(dialog.getJTextAreaActDesc());
-                actividad.setHoraInicio(dialog.getJTextFieldActHoraIni());
-                actividad.setHoraFin(dialog.getJTextFieldActHoraFin());
+                actividad.setHoraInicio(dialog.getHoraInicio());
+                actividad.setHoraFin(dialog.getHoraFin());
                 actividad.setAforoMaximo(dialog.getJSpinnerActAforo());
 
                 List<Dia> diasSeleccionados

@@ -279,7 +279,7 @@ public class ReservarActividadController {
 
             JOptionPane.showMessageDialog(
                     view,
-                    "Reserva realizada correctamente ✔️",
+                    "Reserva realizada correctamente️",
                     "Reserva creada",
                     JOptionPane.INFORMATION_MESSAGE
             );
