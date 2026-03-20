@@ -11,37 +11,41 @@ import Model.Dia;
 import java.util.List;
 
 /**
- * Servicio encargado de gestionar la lógica de negocio relacionada con
- * las actividades del gimnasio.
+ * Servicio encargado de gestionar la lógica de negocio relacionada con las
+ * actividades del gimnasio.
  *
  * <p>
- * Actúa como intermediario entre la capa de presentación (controladores)
- * y la capa de acceso a datos (DAO), asegurando que:
+ * Actúa como intermediario entre la capa de presentación (controladores) y la
+ * capa de acceso a datos (DAO), asegurando que:
  * </p>
  * <ul>
- *     <li>Los datos obligatorios estén correctamente informados</li>
- *     <li>Los horarios sean coherentes</li>
- *     <li>No existan solapamientos entre actividades</li>
- *     <li>El aforo máximo sea válido</li>
+ * <li>Los datos obligatorios estén correctamente informados</li>
+ * <li>Los horarios sean coherentes</li>
+ * <li>No existan solapamientos entre actividades</li>
+ * <li>El aforo máximo sea válido</li>
  * </ul>
  *
  * <p>
- * Delega la persistencia en {@link ActividadDAO} y la gestión
- * de relaciones actividad-día en {@link ActividadDiaDAO}.
+ * Delega la persistencia en {@link ActividadDAO} y la gestión de relaciones
+ * actividad-día en {@link ActividadDiaDAO}.
  * </p>
  *
- * @author Alejandro  
+ * @author Alejandro
  * @version 1.0
-
+ *
  */
 public class ActividadService {
 
     private static final int MAX_NOMBRE_LENGTH = 50;
 
-    /** DAO principal de actividades */
+    /**
+     * DAO principal de actividades
+     */
     private final ActividadDAO actividadDAO;
 
-    /** DAO para la relación entre actividad y día */
+    /**
+     * DAO para la relación entre actividad y día
+     */
     private final ActividadDiaDAO actividadDiaDAO;
 
     /**
@@ -78,12 +82,13 @@ public class ActividadService {
      * Actualiza una actividad existente.
      *
      * <p>
-     * Comprueba que el identificador sea válido y que los datos
-     * cumplan las reglas de negocio antes de delegar en el DAO.
+     * Comprueba que el identificador sea válido y que los datos cumplan las
+     * reglas de negocio antes de delegar en el DAO.
      * </p>
      *
      * @param actividad actividad con los nuevos datos
-     * @throws IllegalArgumentException si el id es inválido o los datos no son correctos
+     * @throws IllegalArgumentException si el id es inválido o los datos no son
+     * correctos
      */
     public void actualizarActividad(Actividad actividad) {
 
@@ -99,18 +104,25 @@ public class ActividadService {
      * Elimina una actividad del sistema.
      *
      * <p>
-     * Primero elimina las relaciones actividad-día asociadas,
-     * y posteriormente elimina la actividad.
+     * El proceso se realiza en tres pasos:
+     * </p>
+     * <ol>
+     * <li>Cancelación lógica de las reservas asociadas (estado_activa =
+     * '0')</li>
+     * <li>Eliminación de las relaciones actividad-día</li>
+     * <li>Eliminación de la actividad</li>
+     * </ol>
+     *
+     * <p>
+     * Este enfoque evita errores de integridad referencial (ORA-02292) y
+     * mantiene el histórico de reservas para auditoría o análisis.
      * </p>
      *
      * @param idActividad identificador de la actividad a eliminar
      */
     public void eliminarActividad(int idActividad) {
-
-        // 1. borrar relaciones actividad-día
+        actividadDiaDAO.cancelarReservasPorActividad(idActividad);
         actividadDiaDAO.deleteByActividad(idActividad);
-
-        // 2. borrar actividad
         actividadDAO.delete(idActividad);
     }
 
@@ -136,12 +148,12 @@ public class ActividadService {
     }
 
     /**
-     * Valida que una nueva actividad no solape su horario con otras
-     * actividades ya existentes en los mismos días.
+     * Valida que una nueva actividad no solape su horario con otras actividades
+     * ya existentes en los mismos días.
      *
      * <p>
-     * Se utiliza tanto en creación como en edición.
-     * En modo edición se ignora la propia actividad.
+     * Se utiliza tanto en creación como en edición. En modo edición se ignora
+     * la propia actividad.
      * </p>
      *
      * @param nueva actividad que se desea crear o modificar
@@ -163,8 +175,8 @@ public class ActividadService {
                     continue;
                 }
 
-                boolean solapa =
-                        nueva.getHoraInicio().isBefore(existente.getHoraFin())
+                boolean solapa
+                        = nueva.getHoraInicio().isBefore(existente.getHoraFin())
                         && nueva.getHoraFin().isAfter(existente.getHoraInicio());
 
                 if (solapa) {

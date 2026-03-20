@@ -1,16 +1,24 @@
-GRANT DBA TO "FITMANAGE";
-
-GRANT UNLIMITED TABLESPACE TO "FITMANAGE";
-
--- 1. Creamos el tablespace (el contenedor de los datos)
-CREATE SMALLFILE TABLESPACE "FITMANAGE" 
+-- 1. Tablespace
+CREATE SMALLFILE TABLESPACE FITMANAGE 
 DATAFILE 'fitmanage.dbf' 
 SIZE 100M 
 AUTOEXTEND ON NEXT 10M MAXSIZE UNLIMITED;
 
--- 2. Le damos permisos ilimitados a tu usuario para escribir en él
--- Nota: Si el usuario con el que te conectas NO se llama FITMANAGE, 
--- cambia la primera palabra FITMANAGE por el nombre real de tu usuario.
+-- 2. Perfil
+CREATE PROFILE FITMANAGE LIMIT
+    PASSWORD_LIFE_TIME UNLIMITED;
+
+-- 3. Usuario
+CREATE USER FITMANAGE IDENTIFIED BY admin123
+DEFAULT TABLESPACE FITMANAGE
+PROFILE FITMANAGE;
+
+-- 4. Permisos
+GRANT DBA TO FITMANAGE;
+GRANT UNLIMITED TABLESPACE TO FITMANAGE;
+
+-- Le damos permisos ilimitados a tu usuario para escribir en él
+
 ALTER USER "FITMANAGE" QUOTA UNLIMITED ON "FITMANAGE";
 
 --------------------------------------------------------
@@ -306,3 +314,9 @@ BEGIN
     END IF;
 END;
 /
+------------------------------------------------
+-- ADDICIONES POSTERIORES EN FASE DE DESARROLLO
+------------------------------------------------
+ALTER TABLE ACTIVIDAD_DIA
+ADD CONSTRAINT UK_ACTIVIDAD_DIA UNIQUE (ID_ACTIVIDAD, ID_DIA);
+

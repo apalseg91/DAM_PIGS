@@ -364,49 +364,72 @@ public String getJTextFieldActNombre() {
         return jCheckBoxD.isSelected();
     }
 
-    public List<Dia> getDiasSeleccionados(List<Dia> todosLosDias) {
+    /**
+     * Devuelve la lista de días seleccionados en el formulario.
+     *
+     * @param diasDisponibles lista de días desde BD
+     * @return lista de días seleccionados
+     */
+    public List<Dia> getDiasSeleccionados(List<Dia> diasDisponibles) {
 
         List<Dia> seleccionados = new ArrayList<>();
 
-        for (Dia d : todosLosDias) {
-            switch (d.getCodigo()) {
+        for (Dia dia : diasDisponibles) {
+
+            String codigo = dia.getCodigo();
+
+            if (codigo == null) {
+                continue;
+            }
+
+            switch (codigo.trim()) { 
+
                 case "L":
                     if (jCheckBoxL.isSelected()) {
-                        seleccionados.add(d);
+                        seleccionados.add(dia);
                     }
                     break;
+
                 case "M":
                     if (jCheckBoxM.isSelected()) {
-                        seleccionados.add(d);
+                        seleccionados.add(dia);
                     }
                     break;
+
                 case "X":
                     if (jCheckBoxX.isSelected()) {
-                        seleccionados.add(d);
+                        seleccionados.add(dia);
                     }
                     break;
+
                 case "J":
                     if (jCheckBoxJ.isSelected()) {
-                        seleccionados.add(d);
+                        seleccionados.add(dia);
                     }
                     break;
+
                 case "V":
                     if (jCheckBoxV.isSelected()) {
-                        seleccionados.add(d);
+                        seleccionados.add(dia);
                     }
                     break;
+
                 case "S":
                     if (jCheckBoxS.isSelected()) {
-                        seleccionados.add(d);
+                        seleccionados.add(dia);
                     }
                     break;
+
                 case "D":
                     if (jCheckBoxD.isSelected()) {
-                        seleccionados.add(d);
+                        seleccionados.add(dia);
                     }
                     break;
             }
+                System.out.println("Codigo BD: '" + dia.getCodigo() + "'");
         }
+
+        System.out.println("Seleccionados: " + seleccionados.size());
 
         return seleccionados;
     }

@@ -4,9 +4,11 @@ import java.util.Objects;
 
 /**
  * Entidad que representa un día de la semana.
+ *
  * @author Alejandro
  */
 public class Dia {
+
     private int idDia;
     private String codigo;
     private String nombre;
@@ -31,7 +33,7 @@ public class Dia {
     }
 
     public String getCodigo() {
-        return codigo;
+        return codigo != null ? codigo.trim() : null;
     }
 
     public void setCodigo(String codigo) {
@@ -51,8 +53,12 @@ public class Dia {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Dia)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Dia)) {
+            return false;
+        }
         Dia dia = (Dia) o;
         return idDia == dia.idDia;
     }

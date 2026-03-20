@@ -9,15 +9,17 @@ import Model.Actividad;
 import Model.ActividadDia;
 import Model.Dia;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
- * Servicio encargado de gestionar la relación entre
- * {@link Actividad} y {@link Dia}.
+ * Servicio encargado de gestionar la relación entre {@link Actividad} y
+ * {@link Dia}.
  *
  * <p>
- * Permite asignar los días en los que se imparte una actividad,
- * consultar las asociaciones existentes y generar representaciones
- * en texto para mostrar en la interfaz gráfica.
+ * Permite asignar los días en los que se imparte una actividad, consultar las
+ * asociaciones existentes y generar representaciones en texto para mostrar en
+ * la interfaz gráfica.
  * </p>
  *
  * <p>
@@ -27,11 +29,13 @@ import java.util.List;
  *
  * @author Alejandro
  * @version 1.0
-
+ *
  */
 public class ActividadDiaService {
 
-    /** DAO encargado de la persistencia de la relación actividad-día */
+    /**
+     * DAO encargado de la persistencia de la relación actividad-día
+     */
     private final ActividadDiaDAO actividadDiaDAO;
 
     /**
@@ -44,32 +48,77 @@ public class ActividadDiaService {
     }
 
     /**
-     * Asigna una lista de días a una actividad.
+     * Actualiza los días asociados a una actividad de forma inteligente.
      *
      * <p>
-     * Primero elimina las asociaciones previas para evitar duplicidades,
-     * y posteriormente crea las nuevas relaciones.
+     * En lugar de eliminar todas las relaciones (lo que provocaría errores de
+     * integridad referencial), se realiza una sincronización:
      * </p>
      *
+     * <ul>
+     * <li>Se insertan únicamente los días nuevos</li>
+     * <li>Se eliminan únicamente los días que ya no están seleccionados</li>
+     * </ul>
+     *
+     * <p>
+     * Este enfoque evita:
+     * </p>
+     * <ul>
+     * <li>Errores ORA-02292 (FK con reservas)</li>
+     * <li>Errores ORA-00001 (duplicados por UNIQUE)</li>
+     * </ul>
+     *
      * @param idActividad identificador de la actividad
-     * @param dias lista de días seleccionados
+     * @param diasNuevos lista de días seleccionados en la UI
      */
-    public void asignarDiasActividad(int idActividad, List<Dia> dias) {
+    public void asignarDiasActividad(int idActividad, List<Dia> diasNuevos) {
 
-        // Limpia asociaciones previas
-        actividadDiaDAO.deleteByActividad(idActividad);
+        // 🔹 Obtener días actuales de BD
+        List<ActividadDia> actuales = actividadDiaDAO.findByActividad(idActividad);
 
-        for (Dia dia : dias) {
+        // 🔹 Convertir a sets de IDs para comparar
+        Set<Integer> actualesIds = actuales.stream()
+                .map(ad -> ad.getDia().getIdDia())
+                .collect(Collectors.toSet());
 
-            ActividadDia ad = new ActividadDia();
+        Set<Integer> nuevosIds = diasNuevos.stream()
+                .map(Dia::getIdDia)
+                .collect(Collectors.toSet());
 
-            Actividad act = new Actividad();
-            act.setIdActividad(idActividad);
+        for (ActividadDia ad : actuales) {
 
-            ad.setActividad(act);
-            ad.setDia(dia);
+            if (!nuevosIds.contains(ad.getDia().getIdDia())) {
 
-            actividadDiaDAO.create(ad);
+                try {
+                    actividadDiaDAO.delete(ad.getIdActividadDia());
+                } catch (Exception e) {
+
+                    /**
+                     * Lanza excepción de negocio para que la capa superior
+                     * (controller) pueda gestionarla y mostrar un mensaje al
+                     * usuario.
+                     */
+                    throw new IllegalStateException(
+                            "No se puede eliminar el día " + ad.getDia().getNombre()
+                            + " porque tiene reservas activas"
+                    );
+                }
+            }
+        }
+        for (Dia dia : diasNuevos) {
+
+            if (!actualesIds.contains(dia.getIdDia())) {
+
+                ActividadDia ad = new ActividadDia();
+
+                Actividad act = new Actividad();
+                act.setIdActividad(idActividad);
+
+                ad.setActividad(act);
+                ad.setDia(dia);
+
+                actividadDiaDAO.create(ad);
+            }
         }
     }
 
@@ -84,19 +133,16 @@ public class ActividadDiaService {
     }
 
     /**
-     * Devuelve los días asociados a una actividad en formato texto.
+     * Devuelve una representación en texto de los días asociados a una
+     * actividad.
      *
      * <p>
-     * Genera una cadena con los códigos de los días ordenados
-     * y separados por guiones.
-     * </p>
-     *
-     * <p>
-     * Ejemplo: {@code L-M-X}
+     * Los días se muestran ordenados y sin duplicados, separados por guiones.
+     * Ejemplo: "L-M-X".
      * </p>
      *
      * @param idActividad identificador de la actividad
-     * @return cadena con los días formateados o cadena vacía si no tiene días
+     * @return cadena con los códigos de los días
      */
     public String obtenerDiasComoTexto(int idActividad) {
 
@@ -104,6 +150,7 @@ public class ActividadDiaService {
 
         return lista.stream()
                 .map(ad -> ad.getDia().getCodigo())
+                .distinct() 
                 .sorted()
                 .reduce((a, b) -> a + "-" + b)
                 .orElse("");

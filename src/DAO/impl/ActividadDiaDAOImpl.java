@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package DAO.impl;
 
 import DAO.ActividadDiaDAO;
@@ -23,8 +22,8 @@ import java.util.List;
 /**
  * Implementación del DAO para la entidad {@link ActividadDia}.
  *
- * Gestiona la relación entre ACTIVIDAD y DIA,
- * permitiendo insertar, eliminar y consultar asociaciones.
+ * Gestiona la relación entre ACTIVIDAD y DIA, permitiendo insertar, eliminar y
+ * consultar asociaciones.
  *
  * Compatible con Java 8 para mantener coherencia con iReport 5.6.0.
  *
@@ -35,41 +34,64 @@ public class ActividadDiaDAOImpl implements ActividadDiaDAO {
     /**
      * Inserta una nueva relación actividad-día.
      */
-    private static final String SQL_INSERT =
-            "INSERT INTO ACTIVIDAD_DIA (id_act_dia, id_actividad, id_dia) " +
-            "VALUES (SEQ_ACTIVIDAD_DIA.NEXTVAL, ?, ?)";
+    private static final String SQL_INSERT
+            = "INSERT INTO ACTIVIDAD_DIA (id_act_dia, id_actividad, id_dia) "
+            + "VALUES (SEQ_ACTIVIDAD_DIA.NEXTVAL, ?, ?)";
+
+    /**
+     * SQL para eliminar una relación actividad-día por su ID.
+     */
+    private static final String SQL_DELETE
+            = "DELETE FROM ACTIVIDAD_DIA WHERE id_act_dia = ?";
 
     /**
      * Elimina todas las relaciones asociadas a una actividad.
      */
-    private static final String SQL_DELETE_BY_ACTIVIDAD =
-            "DELETE FROM ACTIVIDAD_DIA " +
-            "WHERE id_actividad = ?";
+    private static final String SQL_DELETE_BY_ACTIVIDAD
+            = "DELETE FROM ACTIVIDAD_DIA "
+            + "WHERE id_actividad = ?";
 
     /**
      * Obtiene todas las relaciones de una actividad concreta.
      */
-    private static final String SQL_FIND_BY_ACTIVIDAD =
-            "SELECT ad.id_act_dia, " +
-            "a.id_actividad, a.nombre AS nombre_actividad, " +
-            "d.id_dia, d.codigo, d.nombre AS nombre_dia " +
-            "FROM ACTIVIDAD_DIA ad " +
-            "JOIN ACTIVIDAD a ON a.id_actividad = ad.id_actividad " +
-            "JOIN DIA d ON d.id_dia = ad.id_dia " +
-            "WHERE ad.id_actividad = ?";
+    private static final String SQL_FIND_BY_ACTIVIDAD
+            = "SELECT ad.id_act_dia, "
+            + "a.id_actividad, a.nombre AS nombre_actividad, "
+            + "d.id_dia, d.codigo, d.nombre AS nombre_dia "
+            + "FROM ACTIVIDAD_DIA ad "
+            + "JOIN ACTIVIDAD a ON a.id_actividad = ad.id_actividad "
+            + "JOIN DIA d ON d.id_dia = ad.id_dia "
+            + "WHERE ad.id_actividad = ?";
 
     /**
      * Obtiene una relación actividad-día por su ID.
      */
-    private static final String SQL_FIND_BY_ID =
-            "SELECT ad.id_act_dia, " +
-            "a.id_actividad, a.nombre, a.descripcion, " +
-            "a.hora_inicio, a.hora_fin, a.aforo_maximo, " +
-            "d.id_dia, d.codigo, d.nombre " +
-            "FROM ACTIVIDAD_DIA ad " +
-            "JOIN ACTIVIDAD a ON a.id_actividad = ad.id_actividad " +
-            "JOIN DIA d ON d.id_dia = ad.id_dia " +
-            "WHERE ad.id_act_dia = ?";
+    private static final String SQL_FIND_BY_ID
+            = "SELECT ad.id_act_dia, "
+            + "a.id_actividad, a.nombre, a.descripcion, "
+            + "a.hora_inicio, a.hora_fin, a.aforo_maximo, "
+            + "d.id_dia, d.codigo, d.nombre "
+            + "FROM ACTIVIDAD_DIA ad "
+            + "JOIN ACTIVIDAD a ON a.id_actividad = ad.id_actividad "
+            + "JOIN DIA d ON d.id_dia = ad.id_dia "
+            + "WHERE ad.id_act_dia = ?";
+
+    /**
+     * Actualiza el estado de las reservas asociadas a una actividad,
+     * marcándolas como inactivas ('0').
+     *
+     * <p>
+     * Se basa en la relación entre RESERVA → ACTIVIDAD_DIA → ACTIVIDAD.
+     * </p>
+     */
+    private static final String SQL_CANCELAR_RESERVAS
+            = "UPDATE RESERVA r "
+            + "SET estado_activa = '0' "
+            + "WHERE r.id_act_dia IN ("
+            + "   SELECT ad.id_act_dia "
+            + "   FROM ACTIVIDAD_DIA ad "
+            + "   WHERE ad.id_actividad = ?"
+            + ")";
 
     /**
      * Crea una nueva asociación entre actividad y día.
@@ -79,8 +101,7 @@ public class ActividadDiaDAOImpl implements ActividadDiaDAO {
     @Override
     public void create(ActividadDia actividadDia) {
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQL_INSERT)) {
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(SQL_INSERT)) {
 
             ps.setInt(1, actividadDia.getActividad().getIdActividad());
             ps.setInt(2, actividadDia.getDia().getIdDia());
@@ -93,6 +114,32 @@ public class ActividadDiaDAOImpl implements ActividadDiaDAO {
     }
 
     /**
+     * Elimina una relación concreta entre actividad y día.
+     *
+     * <p>
+     * Este método puede fallar si existen reservas asociadas (por restricción
+     * de clave foránea).
+     * </p>
+     *
+     * @param idActividadDia identificador de la relación
+     */
+    @Override
+    public void delete(int idActividadDia) {
+
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(SQL_DELETE)) {
+
+            ps.setInt(1, idActividadDia);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new IllegalStateException(
+                    "No se puede eliminar/modificar la relación tiene reservas de clientes.",
+                    e
+            );
+        }
+    }
+
+    /**
      * Elimina todas las asociaciones de una actividad.
      *
      * @param idActividad identificador de la actividad
@@ -100,8 +147,7 @@ public class ActividadDiaDAOImpl implements ActividadDiaDAO {
     @Override
     public void deleteByActividad(int idActividad) {
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQL_DELETE_BY_ACTIVIDAD)) {
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(SQL_DELETE_BY_ACTIVIDAD)) {
 
             ps.setInt(1, idActividad);
             ps.executeUpdate();
@@ -112,8 +158,8 @@ public class ActividadDiaDAOImpl implements ActividadDiaDAO {
     }
 
     /**
-     * Devuelve todas las asociaciones actividad-día
-     * correspondientes a una actividad concreta.
+     * Devuelve todas las asociaciones actividad-día correspondientes a una
+     * actividad concreta.
      *
      * @param idActividad identificador de la actividad
      * @return lista de asociaciones
@@ -123,8 +169,7 @@ public class ActividadDiaDAOImpl implements ActividadDiaDAO {
 
         List<ActividadDia> lista = new ArrayList<>();
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQL_FIND_BY_ACTIVIDAD)) {
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(SQL_FIND_BY_ACTIVIDAD)) {
 
             ps.setInt(1, idActividad);
             ResultSet rs = ps.executeQuery();
@@ -164,16 +209,15 @@ public class ActividadDiaDAOImpl implements ActividadDiaDAO {
     @Override
     public ActividadDia findById(int idActividadDia) {
 
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement ps = con.prepareStatement(SQL_FIND_BY_ID)) {
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(SQL_FIND_BY_ID)) {
 
             ps.setInt(1, idActividadDia);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
 
-                DateTimeFormatter formatter =
-                        DateTimeFormatter.ofPattern("HH:mm");
+                DateTimeFormatter formatter
+                        = DateTimeFormatter.ofPattern("HH:mm");
 
                 Actividad actividad = new Actividad();
                 actividad.setIdActividad(rs.getInt("id_actividad"));
@@ -205,5 +249,29 @@ public class ActividadDiaDAOImpl implements ActividadDiaDAO {
         }
 
         return null;
+    }
+
+    /**
+     * Marca como canceladas todas las reservas asociadas a una actividad.
+     *
+     * <p>
+     * Este método se ejecuta antes de eliminar la actividad para evitar errores
+     * de integridad referencial (ORA-02292) y preservar el histórico de
+     * reservas en el sistema.
+     * </p>
+     *
+     * @param idActividad identificador de la actividad
+     */
+    @Override
+    public void cancelarReservasPorActividad(int idActividad) {
+
+        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(SQL_CANCELAR_RESERVAS)) {
+
+            ps.setInt(1, idActividad);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

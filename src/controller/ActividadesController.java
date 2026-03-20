@@ -187,8 +187,13 @@ public class ActividadesController {
     }
 
     /**
-     * Abre el formulario para editar la actividad seleccionada. Carga los datos
-     * actuales y aplica las modificaciones al confirmar.
+     * Abre el formulario para editar la actividad seleccionada.
+     *
+     * <p>
+     * Carga los datos actuales de la actividad y permite su modificación.
+     * Gestiona errores de validación y de integridad mostrando mensajes
+     * mediante JOptionPane.
+     * </p>
      */
     private void editarActividad() {
 
@@ -196,7 +201,7 @@ public class ActividadesController {
 
         if (fila == -1) {
             JOptionPane.showMessageDialog(
-                    null,
+                    view.getJTableActividades(),
                     "Seleccione una actividad",
                     "Aviso",
                     JOptionPane.WARNING_MESSAGE
@@ -204,8 +209,7 @@ public class ActividadesController {
             return;
         }
 
-        int id = (int) view.getJTableActividades()
-                .getValueAt(fila, 0);
+        int id = (int) view.getJTableActividades().getValueAt(fila, 0);
 
         Actividad actividad = actividadService.buscarPorId(id);
 
@@ -216,15 +220,18 @@ public class ActividadesController {
         FormActividadJDialog dialog = new FormActividadJDialog(parent);
         dialog.setActividad(actividad);
 
+        // 🔹 Cargar días actuales
         List<Dia> dias = actividadDiaService.obtenerDiasActividad(id)
                 .stream()
                 .map(ActividadDia::getDia)
                 .collect(Collectors.toList());
+
         dialog.marcarDias(dias);
 
         dialog.getJButtonActAceptar().addActionListener(e -> {
 
             try {
+
                 actividad.setNombre(dialog.getJTextFieldActNombre());
                 actividad.setDescripcion(dialog.getJTextAreaActDesc());
                 actividad.setHoraInicio(dialog.getJTextFieldActHoraIni());
@@ -253,18 +260,43 @@ public class ActividadesController {
                 cargarActividades();
 
             } catch (IllegalArgumentException ex) {
-                JOptionPane.showMessageDialog(
-                        null,
-                        ex.getMessage(),
-                        "Error",
-                        JOptionPane.ERROR_MESSAGE
-                );
+
+                /**
+                 * Muestra errores de validación al usuario.
+                 */
+                SwingUtilities.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(
+                            dialog,
+                            ex.getMessage(),
+                            "Error de validación",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                });
+
+            } catch (IllegalStateException ex) {
+
+                /**
+                 * Muestra errores de negocio relacionados con integridad.
+                 */
+                SwingUtilities.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(
+                            dialog,
+                            ex.getMessage(),
+                            "Operación no permitida",
+                            JOptionPane.WARNING_MESSAGE
+                    );
+                });
             }
+
         });
 
+        // 🔥 MUY IMPORTANTE: mostrar diálogo
         dialog.setVisible(true);
     }
 
+    /**
+     * Elimina la actividad seleccionada previa confirmación del usuario.
+     */
     /**
      * Elimina la actividad seleccionada previa confirmación del usuario.
      */
