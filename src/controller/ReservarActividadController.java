@@ -125,23 +125,19 @@ public class ReservarActividadController {
                     if (!e.getValueIsAdjusting()) {
                         cargarDiasActividadSeleccionada();
                         actualizarEstadoBotonReservar();
+                        actualizarPlazasTabla();
                     }
                 });
 
         view.getJComboBoxDia().addActionListener(e -> {
             corregirFechaSiNoCoincide();
             actualizarEstadoBotonReservar();
+            actualizarPlazasTabla();
         });
 
-        view.getjSpinnerFecha()
-                .addChangeListener(e -> actualizarEstadoBotonReservar());
-
-        view.getjButtonAceptarReserva()
-                .addActionListener(e -> validarFormulario());
-
-        view.getjButtonCancelar()
-                .addActionListener(e -> view.dispose());
-
+        view.getjSpinnerFecha().addChangeListener(e -> actualizarEstadoBotonReservar());
+        view.getjButtonAceptarReserva().addActionListener(e -> validarFormulario());
+        view.getjButtonCancelar().addActionListener(e -> view.dispose());
         inicializarComboDias();
         view.getjButtonAceptarReserva().setEnabled(false);
     }
@@ -175,6 +171,7 @@ public class ReservarActividadController {
 
         view.getJComboBoxDia().setModel(model);
         view.getJComboBoxDia().setSelectedIndex(0);
+        actualizarPlazasTabla();
     }
 
     /**
@@ -277,18 +274,31 @@ public class ReservarActividadController {
         reserva.setActiva(true);
 
         try {
+
             reservaService.crearReserva(reserva);
+
             JOptionPane.showMessageDialog(
                     view,
                     "Reserva realizada correctamente ✔️",
                     "Reserva creada",
                     JOptionPane.INFORMATION_MESSAGE
             );
+
         } catch (IllegalArgumentException ex) {
+
             JOptionPane.showMessageDialog(
                     view,
                     ex.getMessage(),
-                    "No se pudo realizar la reserva",
+                    "Error de validación",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+        } catch (IllegalStateException ex) {
+
+            JOptionPane.showMessageDialog(
+                    view,
+                    ex.getMessage(),
+                    "Operación no permitida",
                     JOptionPane.WARNING_MESSAGE
             );
         }
@@ -352,6 +362,10 @@ public class ReservarActividadController {
             view.getjButtonAceptarReserva().setEnabled(false);
             return;
         }
+
+        int aforo = reservaService.obtenerAforoMaximo(
+                ad.getIdActividadDia()
+        );
 
         view.getjButtonAceptarReserva().setEnabled(true);
     }
@@ -446,8 +460,8 @@ public class ReservarActividadController {
         List<Actividad> actividades = actividadService.obtenerActividades();
 
         DefaultTableModel model = new DefaultTableModel(
-                new String[]{"ID", "Nombre", "Hora inicio", "Hora fin", "Aforo"}, 0
-        ) {
+                new String[]{"ID", "Nombre", "Hora inicio", "Hora fin", "Plazas:Ocupdas/Libres"},
+                0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
@@ -460,7 +474,7 @@ public class ReservarActividadController {
                 a.getNombre(),
                 a.getHoraInicio(),
                 a.getHoraFin(),
-                a.getAforoMaximo()
+                "-/-"
             });
         }
 
@@ -490,4 +504,47 @@ public class ReservarActividadController {
                 JOptionPane.ERROR_MESSAGE
         );
     }
+
+    /**
+     * Actualiza la columna de plazas disponibles en la tabla según la actividad
+     * seleccionada, día y fecha.
+     */
+    private void actualizarPlazasTabla() {
+        int filaVista = view.getjTableActividades().getSelectedRow();
+        if (filaVista == -1) {
+            return;
+        }
+
+        int fila = view.getjTableActividades()
+                .convertRowIndexToModel(filaVista);
+
+        ActividadDia ad = (ActividadDia) view.getJComboBoxDia().getSelectedItem();
+        if (ad == null || ad.getIdActividadDia() == 0) {
+            return;
+        }
+
+        LocalDate fecha = obtenerFechaSpinner();
+
+        int ocupadas = reservaService.obtenerPlazasOcupadas(
+                ad.getIdActividadDia(),
+                fecha
+        );
+
+        int aforo = reservaService.obtenerAforoMaximo(
+                ad.getIdActividadDia()
+        );
+
+        String texto;
+
+        int libres = aforo - ocupadas;
+
+        if (ocupadas >= aforo) {
+            texto = "AFORO COMPLETO (" + aforo + "/" + aforo + ")";
+        } else {
+            texto = ocupadas + "/" + aforo;
+        }
+        view.getjTableActividades().getModel()
+                .setValueAt(texto, fila, 4);
+    }
+
 }

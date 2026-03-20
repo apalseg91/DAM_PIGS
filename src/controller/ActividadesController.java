@@ -219,8 +219,6 @@ public class ActividadesController {
 
         FormActividadJDialog dialog = new FormActividadJDialog(parent);
         dialog.setActividad(actividad);
-
-        // 🔹 Cargar días actuales
         List<Dia> dias = actividadDiaService.obtenerDiasActividad(id)
                 .stream()
                 .map(ActividadDia::getDia)
@@ -289,8 +287,6 @@ public class ActividadesController {
             }
 
         });
-
-        // 🔥 MUY IMPORTANTE: mostrar diálogo
         dialog.setVisible(true);
     }
 

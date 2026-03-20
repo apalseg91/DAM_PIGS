@@ -317,6 +317,51 @@ END;
 ------------------------------------------------
 -- ADDICIONES POSTERIORES EN FASE DE DESARROLLO
 ------------------------------------------------
+-- restriccion para eliminar actividades con reservas
 ALTER TABLE ACTIVIDAD_DIA
 ADD CONSTRAINT UK_ACTIVIDAD_DIA UNIQUE (ID_ACTIVIDAD, ID_DIA);
+--trigger para actualizar aforos de actividades con estado activa
+CREATE OR REPLACE TRIGGER TRG_RESERVA_AFORO_BI
+BEFORE INSERT ON RESERVA
+FOR EACH ROW
+DECLARE
+    v_aforo_max NUMBER;
+    v_reservas_actuales NUMBER;
+    v_existe_reserva NUMBER;
+BEGIN
 
+    SELECT a.aforo_maximo
+    INTO v_aforo_max
+    FROM actividad a
+    JOIN actividad_dia ad ON ad.id_actividad = a.id_actividad
+    WHERE ad.id_act_dia = :NEW.id_act_dia;
+
+    SELECT COUNT(*)
+    INTO v_existe_reserva
+    FROM reserva
+    WHERE id_cliente = :NEW.id_cliente
+      AND id_act_dia = :NEW.id_act_dia
+      AND fecha_clase = :NEW.fecha_clase
+      AND estado_activa = '1';
+	IF v_existe_reserva > 0 THEN
+        RAISE_APPLICATION_ERROR(
+            -20002,
+            'Ya tienes una reserva para esta actividad en esa fecha'
+        );
+    END IF;
+	
+	SELECT COUNT(*)
+    INTO v_reservas_actuales
+    FROM reserva
+    WHERE id_act_dia = :NEW.id_act_dia
+      AND fecha_clase = :NEW.fecha_clase
+      AND estado_activa = '1';
+	    IF v_reservas_actuales >= v_aforo_max THEN
+        RAISE_APPLICATION_ERROR(
+            -20001,
+            'No hay plazas disponibles para esta actividad en la fecha seleccionada'
+        );
+    END IF;
+    
+END;
+/

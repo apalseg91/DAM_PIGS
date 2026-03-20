@@ -182,14 +182,19 @@ public class ReservaService {
         Actividad actividad = ad.getActividad();
 
         // Control de aforo
-        int plazasOcupadas = reservaDAO
+       /* int plazasOcupadas = reservaDAO
                 .findByFecha(reserva.getFechaClase())
                 .stream()
                 .filter(r
                         -> r.getActividadDia().getIdActividadDia()
                 == ad.getIdActividadDia()
                 ).collect(java.util.stream.Collectors.toList())
-                .size();
+                .size();*/
+       int plazasOcupadas = reservaDAO
+        .countActivasPorActividadDiaYFecha(
+                ad.getIdActividadDia(),
+                reserva.getFechaClase()
+        );
 
         if (plazasOcupadas >= actividad.getAforoMaximo()) {
             throw new IllegalArgumentException(
@@ -214,4 +219,31 @@ public class ReservaService {
             );
         }
     }
+
+    /**
+     * Devuelve número de plazas ocupadas para una actividad en una fecha.
+     * @param idActividadDia
+     * @param fecha
+     * @return 
+     */
+public int obtenerPlazasOcupadas(int idActividadDia, LocalDate fecha) {
+    return reservaDAO.countActivasPorActividadDiaYFecha(
+            idActividadDia,
+            fecha
+    );
+}
+    /**
+ * Devuelve el aforo máximo de una actividad a partir de su idActividadDia.
+ */
+public int obtenerAforoMaximo(int idActividadDia) {
+
+    ActividadDia ad = actividadDiaDAO.findById(idActividadDia);
+
+    if (ad == null || ad.getActividad() == null) {
+        return 0;
+    }
+
+    return ad.getActividad().getAforoMaximo();
+}
+
 }
