@@ -83,6 +83,7 @@ public class ReservarActividadController {
      */
     private final Runnable onReservaCreada;
 
+
     /**
      * Constructor del controlador de reservas de actividades.
      *
@@ -107,6 +108,7 @@ public class ReservarActividadController {
         this.reservaService = reservaService;
         this.clienteService = clienteService;
         this.onReservaCreada = onReservaCreada;
+     
 
         initController();
         cargarActividades();

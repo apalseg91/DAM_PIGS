@@ -35,7 +35,7 @@ public interface UsuarioDAO {
     /**
      * Devuelve todos los usuarios de un determinado rol.
      *
-     * @param nombreRol nombre del rol (ADMINISTRADOR, USUARIO)
+     * @param Rol
      * @return lista de usuarios
      */
     List<Usuario> findAllByRol(String Rol);

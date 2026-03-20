@@ -149,7 +149,8 @@ public class ClienteController {
                 actividadDiaService,
                 reservaService,
                 clienteService,
-                this::cargarReservas // callback de refresco
+                this::cargarReservas // callback de refresco, 
+                
         );
 
         form.setVisible(true);
@@ -198,6 +199,7 @@ public class ClienteController {
                 "Cancelación",
                 JOptionPane.INFORMATION_MESSAGE
         );
+        cargarReservas();
     }
 
     /**

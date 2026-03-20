@@ -517,4 +517,33 @@ public String getJTextFieldActNombre() {
         jSpinnerHoraIni.addChangeListener(listener);
         jSpinnerHoraFin.addChangeListener(listener);
     }
+
+    /**
+     * Limpia el campo nombre.
+     */
+    public void limpiarNombre() {
+        jTextFieldActNombre.setText("");
+    }
+
+    /**
+     * Limpia la descripción.
+     */
+    public void limpiarDescripcion() {
+        jTextAreaActDesc.setText("");
+    }
+
+    /**
+     * Reinicia las horas a valores por defecto.
+     */
+    public void limpiarHoras() {
+        jSpinnerHoraIni.setValue(new java.util.Date());
+        jSpinnerHoraFin.setValue(new java.util.Date());
+    }
+
+    /**
+     * Reinicia el aforo.
+     */
+    public void limpiarAforo() {
+        jSpinnerActAforo.setValue(1);
+    }
 }

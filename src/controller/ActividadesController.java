@@ -4,6 +4,7 @@ import Model.Actividad;
 import Model.ActividadDia;
 import Model.Dia;
 import java.awt.Window;
+import java.time.LocalTime;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -14,6 +15,7 @@ import service.DiaService;
 import view.ActividadesView;
 import view.FormActividadJDialog;
 import java.util.stream.Collectors;
+import util.ValidadorActividad;
 
 /**
  * Controlador encargado de la gestión de actividades.
@@ -135,7 +137,6 @@ public class ActividadesController {
      * introducidos y refresca la tabla al finalizar.
      */
     private void abrirAltaActividad() {
-
         Window parent = SwingUtilities.getWindowAncestor(
                 view.getJTableActividades()
         );
@@ -145,23 +146,36 @@ public class ActividadesController {
         dialog.getJButtonActAceptar().addActionListener(e -> {
 
             try {
+                String nombre = dialog.getJTextFieldActNombre();
+                String descripcion = dialog.getJTextAreaActDesc();
+                LocalTime inicio = dialog.getHoraInicio();
+                LocalTime fin = dialog.getHoraFin();
+                int aforo = dialog.getJSpinnerActAforo();
+
+                ValidadorActividad.validarNombre(nombre);
+                ValidadorActividad.validarDescripcion(descripcion);
+                ValidadorActividad.validarHorario(inicio, fin);
+                ValidadorActividad.validarAforo(aforo);
+
                 Actividad actividad = new Actividad();
-                actividad.setNombre(dialog.getJTextFieldActNombre());
-                actividad.setDescripcion(dialog.getJTextAreaActDesc());
-                actividad.setHoraInicio(dialog.getHoraInicio());
-                actividad.setHoraFin(dialog.getHoraFin());
-                actividad.setAforoMaximo(dialog.getJSpinnerActAforo());
+                actividad.setNombre(nombre);
+                actividad.setDescripcion(descripcion);
+                actividad.setHoraInicio(inicio);
+                actividad.setHoraFin(fin);
+                actividad.setAforoMaximo(aforo);
 
                 List<Dia> diasSeleccionados
                         = dialog.getDiasSeleccionados(diaService.obtenerDias());
 
                 if (diasSeleccionados.isEmpty()) {
                     throw new IllegalArgumentException(
-                            "Debe seleccionar al menos un día");
+                            "Debe seleccionar al menos un día"
+                    );
                 }
 
                 actividadService.validarSolapamiento(
-                        actividad, diasSeleccionados);
+                        actividad, diasSeleccionados
+                );
 
                 actividadService.crearActividad(actividad);
 
@@ -174,12 +188,26 @@ public class ActividadesController {
                 cargarActividades();
 
             } catch (IllegalArgumentException ex) {
+
                 JOptionPane.showMessageDialog(
-                        null,
+                        dialog,
                         ex.getMessage(),
-                        "Error",
+                        "Error de validación",
                         JOptionPane.ERROR_MESSAGE
                 );
+
+                String msg = ex.getMessage().toLowerCase();
+
+                if (msg.contains("nombre")) {
+                    dialog.limpiarNombre();
+                } else if (msg.contains("descripción")) {
+                    dialog.limpiarDescripcion();
+                } else if (msg.contains("hora") || msg.contains("horario")) {
+                    dialog.limpiarHoras();
+                } else if (msg.contains("aforo")) {
+                    dialog.limpiarAforo();
+                }
+
             }
         });
 
@@ -196,7 +224,6 @@ public class ActividadesController {
      * </p>
      */
     private void editarActividad() {
-
         int fila = view.getJTableActividades().getSelectedRow();
 
         if (fila == -1) {
@@ -219,6 +246,7 @@ public class ActividadesController {
 
         FormActividadJDialog dialog = new FormActividadJDialog(parent);
         dialog.setActividad(actividad);
+
         List<Dia> dias = actividadDiaService.obtenerDiasActividad(id)
                 .stream()
                 .map(ActividadDia::getDia)
@@ -229,23 +257,35 @@ public class ActividadesController {
         dialog.getJButtonActAceptar().addActionListener(e -> {
 
             try {
+                String nombre = dialog.getJTextFieldActNombre();
+                String descripcion = dialog.getJTextAreaActDesc();
+                LocalTime inicio = dialog.getHoraInicio();
+                LocalTime fin = dialog.getHoraFin();
+                int aforo = dialog.getJSpinnerActAforo();
 
-                actividad.setNombre(dialog.getJTextFieldActNombre());
-                actividad.setDescripcion(dialog.getJTextAreaActDesc());
-                actividad.setHoraInicio(dialog.getHoraInicio());
-                actividad.setHoraFin(dialog.getHoraFin());
-                actividad.setAforoMaximo(dialog.getJSpinnerActAforo());
+                ValidadorActividad.validarNombre(nombre);
+                ValidadorActividad.validarDescripcion(descripcion);
+                ValidadorActividad.validarHorario(inicio, fin);
+                ValidadorActividad.validarAforo(aforo);
+
+                actividad.setNombre(nombre);
+                actividad.setDescripcion(descripcion);
+                actividad.setHoraInicio(inicio);
+                actividad.setHoraFin(fin);
+                actividad.setAforoMaximo(aforo);
 
                 List<Dia> diasSeleccionados
                         = dialog.getDiasSeleccionados(diaService.obtenerDias());
 
                 if (diasSeleccionados.isEmpty()) {
                     throw new IllegalArgumentException(
-                            "Debe seleccionar al menos un día");
+                            "Debe seleccionar al menos un día"
+                    );
                 }
 
                 actividadService.validarSolapamiento(
-                        actividad, diasSeleccionados);
+                        actividad, diasSeleccionados
+                );
 
                 actividadService.actualizarActividad(actividad);
 
@@ -259,34 +299,32 @@ public class ActividadesController {
 
             } catch (IllegalArgumentException ex) {
 
-                /**
-                 * Muestra errores de validación al usuario.
-                 */
-                SwingUtilities.invokeLater(() -> {
-                    JOptionPane.showMessageDialog(
-                            dialog,
-                            ex.getMessage(),
-                            "Error de validación",
-                            JOptionPane.ERROR_MESSAGE
-                    );
-                });
+                JOptionPane.showMessageDialog(dialog, ex.getMessage(),
+                        "Error de validación", JOptionPane.ERROR_MESSAGE);
+
+                String msg = ex.getMessage().toLowerCase();
+
+                if (msg.contains("nombre")) {
+                    dialog.limpiarNombre();
+                } else if (msg.contains("descripción")) {
+                    dialog.limpiarDescripcion();
+                } else if (msg.contains("hora") || msg.contains("horario")) {
+                    dialog.limpiarHoras();
+                } else if (msg.contains("aforo")) {
+                    dialog.limpiarAforo();
+                }
 
             } catch (IllegalStateException ex) {
 
-                /**
-                 * Muestra errores de negocio relacionados con integridad.
-                 */
-                SwingUtilities.invokeLater(() -> {
-                    JOptionPane.showMessageDialog(
-                            dialog,
-                            ex.getMessage(),
-                            "Operación no permitida",
-                            JOptionPane.WARNING_MESSAGE
-                    );
-                });
+                JOptionPane.showMessageDialog(
+                        dialog,
+                        ex.getMessage(),
+                        "Operación no permitida",
+                        JOptionPane.WARNING_MESSAGE
+                );
             }
-
         });
+
         dialog.setVisible(true);
     }
 

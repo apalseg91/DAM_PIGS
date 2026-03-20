@@ -5,8 +5,13 @@
         <group>
             <file>file:/C:/Githubsource/src/service/ActividadService.java</file>
             <file>file:/C:/Githubsource/src/controller/ActividadesController.java</file>
+            <file>file:/C:/Githubsource/src/DAO/UsuarioDAO.java</file>
+            <file>file:/C:/Githubsource/src/controller/ReservarActividadController.java</file>
+            <file>file:/C:/Githubsource/src/service/ReservaService.java</file>
             <file>file:/C:/Githubsource/src/service/ActividadDiaService.java</file>
             <file>file:/C:/Githubsource/src/view/FormActividadJDialog.java</file>
+            <file>file:/C:/Githubsource/src/util/ValidadorActividad.java</file>
+            <file>file:/C:/Githubsource/src/controller/ClienteController.java</file>
         </group>
     </open-files>
 </project-private>
