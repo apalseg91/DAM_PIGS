@@ -36,13 +36,12 @@ public class ModificarDatosUsuariosJDialog extends javax.swing.JDialog {
         jButtonCancelar = new javax.swing.JButton();
         jButtonAceptar = new javax.swing.JButton();
         jTextFieldEmail = new javax.swing.JTextField();
-        jTextFieldContrasena = new javax.swing.JTextField();
+        jTextFieldContrasena = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(700, 500));
 
         jButtonCancelar.setText("Cancelar");
 

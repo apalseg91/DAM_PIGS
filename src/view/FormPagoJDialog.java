@@ -223,10 +223,6 @@ public class FormPagoJDialog extends javax.swing.JDialog {
     }
 
     public void setImporte(BigDecimal importe) {
-        if (jTextFieldImporte == null) {
-            System.out.println("ERROR: jTextFieldImporte es null");
-            return;
-        }
 
         if (importe == null) {
             jTextFieldImporte.setText("0");

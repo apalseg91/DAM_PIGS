@@ -78,9 +78,11 @@ public class GenerarInformeJDialog extends javax.swing.JDialog {
         jCheckBoxAsistenciaClases.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jCheckBoxAsistenciaClases.setText("Asistencia a clases");
 
-        jFormattedTextFieldInicio.setText("jFormattedTextField1");
+        jFormattedTextFieldInicio.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
+        jFormattedTextFieldInicio.setToolTipText("Introduzca la fecha de inicio del informe");
 
-        jFormattedTextFieldFin.setText("jFormattedTextField2");
+        jFormattedTextFieldFin.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd-MM-yyyy"))));
+        jFormattedTextFieldFin.setToolTipText("Introduzca la fecha de fin del informe");
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jLabel1.setText("Período: ");

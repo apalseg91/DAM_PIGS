@@ -30,7 +30,7 @@ public class ModificarDatosAdminSistemaJDialog extends javax.swing.JDialog {
 
         jButtonCancelar = new javax.swing.JButton();
         jButtonAceptar = new javax.swing.JButton();
-        jTextFieldContrasena = new javax.swing.JTextField();
+        jTextFieldContrasena = new javax.swing.JPasswordField();
         jTextFieldEmail = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -38,7 +38,6 @@ public class ModificarDatosAdminSistemaJDialog extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(700, 500));
 
         jButtonCancelar.setText("Cancelar");
 
