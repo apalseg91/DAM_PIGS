@@ -553,7 +553,6 @@ public class AdminController {
      * Registra un pago para el cliente seleccionado.
      */
     private void registrarPago() {
-
         int fila = view.getTableClientes().getSelectedRow();
 
         if (fila == -1) {
@@ -567,6 +566,17 @@ public class AdminController {
 
         FormPagoJDialog dialog
                 = new FormPagoJDialog(view, true, idCliente, metodosPago);
+
+        dialog.getComboConcepto().addActionListener(ev -> {
+
+            String concepto = dialog.getConcepto();
+
+            Cliente cliente = clienteService.buscarPorId(idCliente);
+
+            BigDecimal importe = pagoService.calcularImporte(concepto, cliente);
+
+            dialog.setImporte(importe);
+        });
 
         dialog.getJButtonAceptar().addActionListener(e -> {
 
@@ -728,7 +738,6 @@ public class AdminController {
             cargarTablaUsuarios(dialog);
         }
     }*/
-
     /**
      * Abre el diálogo para modificar los datos del usuario seleccionado.
      *
@@ -797,8 +806,7 @@ public class AdminController {
                 .addActionListener(e -> dialog.dispose());
 
         //dialog.getJButtonEliminar()
-                //.addActionListener(e -> eliminarUsuario(dialog));
-
+        //.addActionListener(e -> eliminarUsuario(dialog));
         dialog.getJButtonModificar()
                 .addActionListener(e -> modificarUsuario(dialog));
 
@@ -910,8 +918,8 @@ public class AdminController {
                     String email = form.getEmail();
                     String password = form.getPassword();
 
-                    if ((email == null || email.trim().isEmpty()) || 
-                            (password == null || password.trim().isEmpty())) {
+                    if ((email == null || email.trim().isEmpty())
+                            || (password == null || password.trim().isEmpty())) {
                         JOptionPane.showMessageDialog(form,
                                 "Email y contraseña obligatorios");
                         return;
@@ -1019,7 +1027,7 @@ public class AdminController {
                     group.clearSelection();
                 });
 
-        dialog.getJButtonElegirListado().addActionListener(e-> abrirListadoClientes(dialog));
+        dialog.getJButtonElegirListado().addActionListener(e -> abrirListadoClientes(dialog));
     }
 
     private void abrirListadoClientes(GenerarInformeJDialog parentDialog) {

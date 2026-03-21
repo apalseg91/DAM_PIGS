@@ -90,7 +90,8 @@ private static final String SQL_SET_ACTIVO =
 private static final String SQL_FIND_ALL_DETALLE =
         "SELECT id_cliente, nombre, apellidos, email, " +
         "dni, telefono, direccion, " +
-        "fecha_alta, fecha_proximo_pago, activo " +
+        "fecha_alta, fecha_proximo_pago, activo, " +
+        "cuota_mensual " +
         "FROM CLIENTE " +
         "ORDER BY apellidos";
 
@@ -102,7 +103,7 @@ private static final String SQL_FIND_ALL_DETALLE =
 private static final String SQL_FIND_ACTIVOS =
         "SELECT id_cliente, nombre, apellidos, email, " +
         "dni, telefono, direccion, " +
-        "fecha_alta, fecha_proximo_pago, activo " +
+        "fecha_alta, fecha_proximo_pago, activo, " +  "cuota_mensual " +
         "FROM CLIENTE " +
         "WHERE activo = 1 " +
         "ORDER BY apellidos";
@@ -115,7 +116,7 @@ private static final String SQL_FIND_ACTIVOS =
 private static final String SQL_FIND_INACTIVOS =
         "SELECT id_cliente, nombre, apellidos, email, " +
         "dni, telefono, direccion, " +
-        "fecha_alta, fecha_proximo_pago, activo " +
+        "fecha_alta, fecha_proximo_pago, activo, " +  "cuota_mensual " +
         "FROM CLIENTE " +
         "WHERE activo = 0 " +
         "ORDER BY apellidos";
@@ -126,7 +127,7 @@ private static final String SQL_FIND_INACTIVOS =
 private static final String SQL_FIND_BY_ID =
         "SELECT id_cliente, nombre, apellidos, email, " +
         "dni, telefono, direccion, " +
-        "fecha_alta, fecha_proximo_pago, activo " +
+        "fecha_alta, fecha_proximo_pago, activo, " +  "cuota_mensual " +
         "FROM CLIENTE " +
         "WHERE id_cliente = ?";
 
@@ -138,7 +139,7 @@ private static final String SQL_FIND_BY_ID =
 private static final String SQL_FIND_BY_EMAIL =
         "SELECT id_cliente, nombre, apellidos, email, " +
         "dni, telefono, direccion, " +
-        "fecha_alta, fecha_proximo_pago, activo " +
+        "fecha_alta, fecha_proximo_pago, activo, " +  "cuota_mensual " +
         "FROM CLIENTE " +
         "WHERE LOWER(email) = LOWER(?)";
 
@@ -442,6 +443,7 @@ private static final String SQL_ESTA_INACTIVO =
         }
 
         c.setActivo(rs.getBoolean("activo"));
+        c.setCuotaMensual(rs.getBigDecimal("cuota_mensual"));
 
         return c;
     }

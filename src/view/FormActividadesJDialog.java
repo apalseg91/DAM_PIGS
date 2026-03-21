@@ -11,6 +11,8 @@ public class FormActividadesJDialog extends javax.swing.JDialog {
 
     /**
      * Creates new form FormActividadesJDialog
+     * @param parent
+     * @param modal
      */
     public FormActividadesJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
