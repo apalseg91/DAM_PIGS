@@ -389,7 +389,7 @@ public class AdminController {
     /**
      * Elimina definitivamente un cliente si cumple las condiciones.
      */
-    private void eliminarCliente() {
+   /* private void eliminarCliente() {
 
         int fila = view.getTableClientes().getSelectedRow();
 
@@ -420,7 +420,7 @@ public class AdminController {
             clienteService.eliminarCliente(idCliente);
             cargarClientes();
         }
-    }
+    }*/
 
     /**
      * Modifica los datos básicos de un cliente seleccionado en la tabla.
@@ -706,7 +706,7 @@ public class AdminController {
      *
      * @param dialog diálogo actual
      */
-    /*private void eliminarUsuario(GestionCuentaUsuarioJDialog dialog) {
+    private void eliminarUsuario(GestionCuentaUsuarioJDialog dialog) {
 
         int fila = dialog.getJTableGestionUsuarios().getSelectedRow();
 
@@ -737,7 +737,7 @@ public class AdminController {
             usuarioService.eliminarUsuario(idUsuario);
             cargarTablaUsuarios(dialog);
         }
-    }*/
+    }
     /**
      * Abre el diálogo para modificar los datos del usuario seleccionado.
      *
@@ -805,8 +805,8 @@ public class AdminController {
         dialog.getJButtonCancelar()
                 .addActionListener(e -> dialog.dispose());
 
-        //dialog.getJButtonEliminar()
-        //.addActionListener(e -> eliminarUsuario(dialog));
+        dialog.getJButtonEliminar()
+        .addActionListener(e -> eliminarUsuario(dialog));
         dialog.getJButtonModificar()
                 .addActionListener(e -> modificarUsuario(dialog));
 
