@@ -212,6 +212,12 @@ public class ActividadesController {
         });
 
         dialog.setVisible(true);
+                        JOptionPane.showMessageDialog(
+                dialog,
+                "Actividad creada correctamente",
+                "Nueva actividad",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     /**
@@ -326,6 +332,12 @@ public class ActividadesController {
         });
 
         dialog.setVisible(true);
+        JOptionPane.showMessageDialog(
+                dialog,
+                "Actividad modificada correctamente",
+                "Cambio en actividad",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     /**
@@ -362,6 +374,12 @@ public class ActividadesController {
             actividadService.eliminarActividad(id);
             cargarActividades();
         }
+                        JOptionPane.showMessageDialog(
+                null,
+                "Actividad eliminada correctamente",
+                "Eliminar actividad",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     /**

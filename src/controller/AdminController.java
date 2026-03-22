@@ -251,7 +251,7 @@ public class AdminController {
 
                 JOptionPane.showMessageDialog(
                         dialog,
-                        "Todos los campos son obligatorios",
+                        "Todos los campos son obligatorios.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE
                 );
@@ -261,7 +261,7 @@ public class AdminController {
             // Formato
             if (!ValidadorCliente.validarNombre(dialog.getNombre())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "El nombre solo puede contener letras y espacios (2-30 caracteres)",
+                        "El nombre solo puede contener letras y espacios (2-30 caracteres).",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -269,7 +269,7 @@ public class AdminController {
 
             if (!ValidadorCliente.validarApellidos(dialog.getApellidos())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "Los apellidos solo pueden contener letras y espacios (2-50 caracteres)",
+                        "Los apellidos solo pueden contener letras y espacios (2-50 caracteres).",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -277,7 +277,7 @@ public class AdminController {
 
             if (!ValidadorCliente.validarEmail(dialog.getEmail())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "El email no tiene un formato válido",
+                        "El email no tiene un formato válido.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -285,7 +285,7 @@ public class AdminController {
 
             if (!ValidadorCliente.validarDni(dialog.getDni().toUpperCase())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "El DNI debe tener 8 dígitos y una letra mayúscula (ej: 12345678A)",
+                        "El DNI debe tener 8 dígitos y una letra mayúscula (ej: 12345678A).",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -293,7 +293,7 @@ public class AdminController {
 
             if (!ValidadorCliente.validarTelefono(dialog.getTelefono())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "El teléfono debe contener exactamente 9 dígitos",
+                        "El teléfono debe contener exactamente 9 dígitos.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -301,7 +301,7 @@ public class AdminController {
 
             if (!ValidadorCliente.validarDireccion(dialog.getDireccion())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "La dirección contiene caracteres no válidos (5-100 caracteres)",
+                        "La dirección contiene caracteres no válidos (5-100 caracteres).",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -325,6 +325,12 @@ public class AdminController {
 
         dialog.getButtonCancelar().addActionListener(e -> dialog.dispose());
         dialog.setVisible(true);
+        JOptionPane.showMessageDialog(
+                view,
+                "Cliente registrado correctamente.",
+                "Alta nuevo cliente",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     /**
@@ -335,7 +341,7 @@ public class AdminController {
         int fila = view.getTableClientes().getSelectedRow();
 
         if (fila == -1) {
-            JOptionPane.showMessageDialog(view, "Debe seleccionar un cliente");
+            JOptionPane.showMessageDialog(view, "Debe seleccionar un cliente.");
             return;
         }
 
@@ -351,6 +357,12 @@ public class AdminController {
             clienteService.setInactivoCliente(idCliente);
             cargarClientes();
         }
+        JOptionPane.showMessageDialog(
+                view,
+                "Estado de cliente cambiado a inactivo.",
+                "Cambio a inactivo",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     /**
@@ -361,14 +373,14 @@ public class AdminController {
         int fila = view.getTableClientes().getSelectedRow();
 
         if (fila == -1) {
-            JOptionPane.showMessageDialog(view, "Debe seleccionar un cliente");
+            JOptionPane.showMessageDialog(view, "Debe seleccionar un cliente.");
             return;
         }
 
         String activo = (String) view.getTableClientes().getValueAt(fila, 9);
 
         if ("Sí".equalsIgnoreCase(activo)) {
-            JOptionPane.showMessageDialog(view, "El cliente ya está activo");
+            JOptionPane.showMessageDialog(view, "El cliente ya está activo.");
             return;
         }
 
@@ -384,12 +396,18 @@ public class AdminController {
             clienteService.setActivoCliente(idCliente);
             cargarClientes();
         }
+                JOptionPane.showMessageDialog(
+                view,
+                "Estado de cliente cambiado a activo.",
+                "Cambio a activo",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     /**
      * Elimina definitivamente un cliente si cumple las condiciones.
      */
-   /* private void eliminarCliente() {
+    /* private void eliminarCliente() {
 
         int fila = view.getTableClientes().getSelectedRow();
 
@@ -421,7 +439,6 @@ public class AdminController {
             cargarClientes();
         }
     }*/
-
     /**
      * Modifica los datos básicos de un cliente seleccionado en la tabla.
      *
@@ -437,7 +454,7 @@ public class AdminController {
         if (fila == -1) {
             JOptionPane.showMessageDialog(
                     view,
-                    "Debe seleccionar un cliente",
+                    "Debe seleccionar un cliente.",
                     "Aviso",
                     JOptionPane.WARNING_MESSAGE
             );
@@ -474,7 +491,7 @@ public class AdminController {
 
                 JOptionPane.showMessageDialog(
                         dialog,
-                        "Todos los campos son obligatorios",
+                        "Todos los campos son obligatorios.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE
                 );
@@ -484,7 +501,7 @@ public class AdminController {
             // Validaciones de formato
             if (!ValidadorCliente.validarNombre(dialog.getNombre())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "El nombre solo puede contener letras y espacios (2-30 caracteres)",
+                        "El nombre solo puede contener letras y espacios (2-30 caracteres).",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -492,7 +509,7 @@ public class AdminController {
 
             if (!ValidadorCliente.validarApellidos(dialog.getApellidos())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "Los apellidos solo pueden contener letras y espacios (2-50 caracteres)",
+                        "Los apellidos solo pueden contener letras y espacios (2-50 caracteres).",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -500,7 +517,7 @@ public class AdminController {
 
             if (!ValidadorCliente.validarEmail(dialog.getEmail())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "El email no tiene un formato válido",
+                        "El email no tiene un formato válido.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -508,7 +525,7 @@ public class AdminController {
 
             if (!ValidadorCliente.validarDni(dialog.getDni().toUpperCase())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "El DNI debe tener 8 dígitos y una letra mayúscula",
+                        "El DNI debe tener 8 dígitos y una letra mayúscula.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -516,7 +533,7 @@ public class AdminController {
 
             if (!ValidadorCliente.validarTelefono(dialog.getTelefono())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "El teléfono debe contener exactamente 9 dígitos",
+                        "El teléfono debe contener exactamente 9 dígitos.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -524,7 +541,7 @@ public class AdminController {
 
             if (!ValidadorCliente.validarDireccion(dialog.getDireccion())) {
                 JOptionPane.showMessageDialog(dialog,
-                        "La dirección contiene caracteres no válidos",
+                        "La dirección contiene caracteres no válidos.",
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return;
@@ -547,6 +564,12 @@ public class AdminController {
 
         dialog.setLocationRelativeTo(view);
         dialog.setVisible(true);
+                JOptionPane.showMessageDialog(
+                view,
+                "Datos de cliente modificados correctamente.",
+                "Datos modificados",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     /**
@@ -736,8 +759,15 @@ public class AdminController {
 
             usuarioService.eliminarUsuario(idUsuario);
             cargarTablaUsuarios(dialog);
+                    JOptionPane.showMessageDialog(
+                view,
+                "El usuario se ha eliminado del sistema correctamente.",
+                "Cuenta eliminada",
+                JOptionPane.INFORMATION_MESSAGE
+        );
         }
     }
+
     /**
      * Abre el diálogo para modificar los datos del usuario seleccionado.
      *
@@ -789,6 +819,12 @@ public class AdminController {
 
         dialogModificar.setLocationRelativeTo(dialog);
         dialogModificar.setVisible(true);
+                JOptionPane.showMessageDialog(
+                view,
+                "Modificación de datos de usuario exitosa.",
+                "Cambio de datos",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     /**
@@ -806,7 +842,7 @@ public class AdminController {
                 .addActionListener(e -> dialog.dispose());
 
         dialog.getJButtonEliminar()
-        .addActionListener(e -> eliminarUsuario(dialog));
+                .addActionListener(e -> eliminarUsuario(dialog));
         dialog.getJButtonModificar()
                 .addActionListener(e -> modificarUsuario(dialog));
 
@@ -902,6 +938,12 @@ public class AdminController {
 
         usuarioService.eliminarUsuario(idUsuario);
         cargarTablaAdmins(dialog);
+                JOptionPane.showMessageDialog(
+                view,
+                "Cuenta de administrador eliminada correctamente.",
+                "Cuenta eliminada",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     private void crearNuevoAdmin(GestionAdminSistemaJDialog dialog) {
@@ -933,6 +975,12 @@ public class AdminController {
 
         form.setLocationRelativeTo(dialog);
         form.setVisible(true);
+                JOptionPane.showMessageDialog(
+                view,
+                "Cuenta de administrador creada correctamente",
+                "Nuevo administrador",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     private void modificarAdmin(GestionAdminSistemaJDialog dialog) {
@@ -981,6 +1029,12 @@ public class AdminController {
 
         form.setLocationRelativeTo(dialog);
         form.setVisible(true);
+                JOptionPane.showMessageDialog(
+                view,
+                "La cuenta de administrador se ha modificado correctamente.",
+                "Datos de administrador modificados",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 
     private void abrirGenerarInforme() {

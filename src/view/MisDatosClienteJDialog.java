@@ -243,7 +243,7 @@ public class MisDatosClienteJDialog extends javax.swing.JDialog {
         );
 
         jTextFieldFechaBaja.setText(
-                "Última fecha de baja en sistema: "
+                "Próxima fecha de pago: "
                 + formatFecha(c.getFechaProximoPago())
         );
 
