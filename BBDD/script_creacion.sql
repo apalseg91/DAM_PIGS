@@ -131,6 +131,16 @@ CREATE TABLE "FITMANAGE"."PAGO" (
     CONSTRAINT "FK_PAGO_FACTURA" FOREIGN KEY ("ID_FACTURA") REFERENCES "FITMANAGE"."FACTURA" ("ID_FACTURA") ENABLE, 
     CONSTRAINT "FK_PAGO_CLIENTE" FOREIGN KEY ("ID_CLIENTE") REFERENCES "FITMANAGE"."CLIENTE" ("ID_CLIENTE") ON DELETE CASCADE ENABLE
 ) TABLESPACE "FITMANAGE";
+-----------------------------
+-- ADICIONE EN DESARROLLO
+----------------------------
+ALTER TABLE PAGO ADD CONSTRAINT chk_concepto_pago CHECK (concepto 
+IN (
+    'Cuota mensual',
+    'Bebida',
+    'Alquiler de toalla'
+));
+--------------------------------------------
 
 CREATE TABLE "FITMANAGE"."RESERVA" (
     "ID_RESERVA" NUMBER(10,0), 

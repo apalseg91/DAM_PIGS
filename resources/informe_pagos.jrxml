@@ -105,6 +105,9 @@ AND p.fecha_pago <  $P{P_HASTA} + 1]]>
 		<band height="27" splitType="Stretch">
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="4" y="4" width="114" height="20" uuid="2482ef05-0bac-4be1-9356-4ab70a379434"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{FECHA_PAGO}]]></textFieldExpression>
 			</textField>
 			<textField>
