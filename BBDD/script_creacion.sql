@@ -20,7 +20,61 @@ GRANT UNLIMITED TABLESPACE TO FITMANAGE;
 -- Le damos permisos ilimitados a tu usuario para escribir en él
 
 ALTER USER "FITMANAGE" QUOTA UNLIMITED ON "FITMANAGE";
+--------------------------------------------------------
+--  DDL for Sequence SEQ_ROL
+--------------------------------------------------------
 
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_ROL"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_METODO_PAGO
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_METODO_PAGO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_USUARIO
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_USUARIO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_CLIENTE
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_CLIENTE"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_CLIENTE_ESTADO
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_CLIENTE_ESTADO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_ACTIVIDAD
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_ACTIVIDAD"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_DIA
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_DIA"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_ACTIVIDAD_DIA
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_ACTIVIDAD_DIA"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_FACTURA
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_FACTURA"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_PAGO
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_PAGO"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
+--------------------------------------------------------
+--  DDL for Sequence SEQ_RESERVA
+--------------------------------------------------------
+
+   CREATE SEQUENCE  "FITMANAGE"."SEQ_RESERVA"  MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 NOCACHE  NOORDER  NOCYCLE;
 --------------------------------------------------------
 -- 1. TABLES (Con Tablespace incluido)
 --------------------------------------------------------
@@ -131,16 +185,6 @@ CREATE TABLE "FITMANAGE"."PAGO" (
     CONSTRAINT "FK_PAGO_FACTURA" FOREIGN KEY ("ID_FACTURA") REFERENCES "FITMANAGE"."FACTURA" ("ID_FACTURA") ENABLE, 
     CONSTRAINT "FK_PAGO_CLIENTE" FOREIGN KEY ("ID_CLIENTE") REFERENCES "FITMANAGE"."CLIENTE" ("ID_CLIENTE") ON DELETE CASCADE ENABLE
 ) TABLESPACE "FITMANAGE";
------------------------------
--- ADICIONE EN DESARROLLO
-----------------------------
-ALTER TABLE PAGO ADD CONSTRAINT chk_concepto_pago CHECK (concepto 
-IN (
-    'Cuota mensual',
-    'Bebida',
-    'Alquiler de toalla'
-));
---------------------------------------------
 
 CREATE TABLE "FITMANAGE"."RESERVA" (
     "ID_RESERVA" NUMBER(10,0), 
@@ -162,7 +206,9 @@ CREATE INDEX "FITMANAGE"."IDX_ACTDIA_ACT" ON "FITMANAGE"."ACTIVIDAD_DIA" ("ID_AC
 CREATE INDEX "FITMANAGE"."IDX_ACTDIA_DIA" ON "FITMANAGE"."ACTIVIDAD_DIA" ("ID_DIA") TABLESPACE "FITMANAGE";
 CREATE INDEX "FITMANAGE"."IDX_PAGO_CLIENTE" ON "FITMANAGE"."PAGO" ("ID_CLIENTE") TABLESPACE "FITMANAGE";
 CREATE INDEX "FITMANAGE"."IDX_RESERVA_CLIENTE" ON "FITMANAGE"."RESERVA" ("ID_CLIENTE") TABLESPACE "FITMANAGE";
-
+-------------------------------------------------------------------------------
+-- CREAR LA CONEXION  Y EJECUTAR LOS SIGUIENTES APARTADOS EN LA NUEVA CONEXION
+-------------------------------------------------------------------------------
 --------------------------------------------------------
 -- 3. TRIGGERS
 --------------------------------------------------------
@@ -375,3 +421,10 @@ BEGIN
     
 END;
 /
+
+ALTER TABLE PAGO ADD CONSTRAINT chk_concepto_pago CHECK (concepto 
+IN (
+    'Cuota mensual',
+    'Bebida',
+    'Alquiler de toalla'
+));
