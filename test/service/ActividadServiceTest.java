@@ -157,6 +157,8 @@ public class ActividadServiceTest {
     @Test
     public void eliminarActividad_llamaADaosEnOrdenLogico() {
         actividadService.eliminarActividad(7);
+        assertEquals(1, actividadDiaDAO.cancelarReservasPorActividadCallCount);
+        assertEquals(Integer.valueOf(7), actividadDiaDAO.lastCancelledReservasActividadId);
         assertEquals(1, actividadDiaDAO.deleteByActividadCallCount);
         assertEquals(Integer.valueOf(7), actividadDiaDAO.lastDeletedByActividadId);
         assertEquals(1, actividadDAO.deleteCallCount);

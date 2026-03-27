@@ -126,9 +126,9 @@ public class ReservaServiceTest {
         ActividadDia ad = actividadDiaConId(10, aforo);
         actividadDiaDAO.putActividadDia(ad);
 
-        // Nota: ReservaService cuenta reservas por fecha sin filtrar por activa.
+        // El servicio cuenta únicamente reservas activas para controlar el aforo.
         Reserva r1 = reservaValida(clienteConId(1), ad, fecha);
-        r1.setActiva(false);
+        r1.setActiva(true);
         Reserva r2 = reservaValida(clienteConId(2), ad, fecha);
         r2.setActiva(true);
         reservaDAO.addReserva(r1);

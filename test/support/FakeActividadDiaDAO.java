@@ -16,8 +16,12 @@ public class FakeActividadDiaDAO implements ActividadDiaDAO {
     private final Map<Integer, ActividadDia> byId = new HashMap<>();
 
     public int createCallCount = 0;
+    public int deleteCallCount = 0;
     public int deleteByActividadCallCount = 0;
+    public int cancelarReservasPorActividadCallCount = 0;
+    public Integer lastDeletedActividadDiaId = null;
     public Integer lastDeletedByActividadId = null;
+    public Integer lastCancelledReservasActividadId = null;
 
     public void putActividadDia(ActividadDia ad) {
         if (ad.getIdActividadDia() <= 0) {
@@ -40,6 +44,17 @@ public class FakeActividadDiaDAO implements ActividadDiaDAO {
     public void deleteByActividad(int idActividad) {
         deleteByActividadCallCount++;
         lastDeletedByActividadId = idActividad;
+        List<Integer> idsToRemove = new ArrayList<>();
+        for (Map.Entry<Integer, ActividadDia> entry : byId.entrySet()) {
+            ActividadDia ad = entry.getValue();
+            if (ad.getActividad() != null
+                    && ad.getActividad().getIdActividad() == idActividad) {
+                idsToRemove.add(entry.getKey());
+            }
+        }
+        for (Integer id : idsToRemove) {
+            byId.remove(id);
+        }
     }
 
     @Override
@@ -61,5 +76,17 @@ public class FakeActividadDiaDAO implements ActividadDiaDAO {
     public ActividadDia findById(int idActividadDia) {
         return byId.get(idActividadDia);
     }
-}
 
+    @Override
+    public void cancelarReservasPorActividad(int idActividad) {
+        cancelarReservasPorActividadCallCount++;
+        lastCancelledReservasActividadId = idActividad;
+    }
+
+    @Override
+    public void delete(int idActividadDia) {
+        deleteCallCount++;
+        lastDeletedActividadDiaId = idActividadDia;
+        byId.remove(idActividadDia);
+    }
+}
