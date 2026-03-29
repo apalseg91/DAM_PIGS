@@ -3,14 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Githubsource/src/view/ModificarDatosAdminSistemaJDialog.java</file>
-            <file>file:/C:/Githubsource/src/controller/ActividadesController.java</file>
-            <file>file:/C:/Githubsource/src/view/GestionCuentaUsuarioJDialog.java</file>
-            <file>file:/C:/Githubsource/src/view/MisDatosClienteJDialog.java</file>
-            <file>file:/C:/Githubsource/src/view/GenerarInformeJDialog.java</file>
-            <file>file:/C:/Githubsource/src/view/ModificarDatosUsuariosJDialog.java</file>
-            <file>file:/C:/Githubsource/src/view/GestionAdminSistemaJDialog.java</file>
-            <file>file:/C:/Githubsource/src/controller/AdminController.java</file>
+            <file>file:/C:/Githubsource/test/support/FakeReservaDAO.java</file>
+            <file>file:/C:/Githubsource/test/support/FakeUsuarioDAO.java</file>
+            <file>file:/C:/Githubsource/test/support/FakeClienteDAO.java</file>
+            <file>file:/C:/Githubsource/test/support/FakeActividadDiaDAO.java</file>
+            <file>file:/C:/Githubsource/test/service/ClienteServiceTest.java</file>
+            <file>file:/C:/Githubsource/test/service/ActividadServiceTest.java</file>
         </group>
     </open-files>
 </project-private>

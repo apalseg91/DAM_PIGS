@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite errors="0" failures="0" hostname="DESKTOP-N5DL4BK" name="service.ClienteServiceTest" skipped="0" tests="3" time="0.038" timestamp="2026-03-27T22:03:54">
+<testsuite errors="1" failures="0" hostname="DESKTOP-N5DL4BK" name="support.FakeUsuarioDAO" skipped="0" tests="1" time="0.039" timestamp="2026-03-27T22:03:07">
   <properties>
     <property name="libs.jsp-compiler.javadoc" value="" />
     <property name="netbeans.autoupdate.country" value="ES" />
@@ -10,7 +10,7 @@
     <property name="javac.test.sourcepath" value="C:\Githubsource\build\empty" />
     <property name="maven.defaultProjectBuilder.disableGlobalModelCache" value="true" />
     <property name="libs.spring-webmvc4.0.src" value="" />
-    <property name="javac.includes" value="service/ClienteServiceTest.java" />
+    <property name="javac.includes" value="support/FakeUsuarioDAO.java" />
     <property name="ant.core.lib" value="C:\Program Files\NetBeans-16\netbeans\extide\ant\lib\ant.jar" />
     <property name="javadoc.windowtitle" value="" />
     <property name="libs.jsp-compilation.javadoc" value="" />
@@ -36,7 +36,7 @@
     <property name="libs.hamcrest.classpath" value="C:\Program Files\NetBeans-16\netbeans\platform\modules\ext\hamcrest-core-1.3.jar" />
     <property name="os.name" value="Windows 8.1" />
     <property name="libs.jakartaee-web-api-9.0.javadoc" value="C:\Program Files\NetBeans-16\netbeans\enterprise\docs\jakartaee9-doc-api.jar" />
-    <property name="test.class" value="service.ClienteServiceTest" />
+    <property name="test.class" value="support.FakeUsuarioDAO" />
     <property name="libs.javaee-endorsed-api-7.0.maven-pom" value="" />
     <property name="ap.proc.none.internal" value="" />
     <property name="libs.restapi.javadoc" value="" />
@@ -56,7 +56,7 @@
     <property name="libs.spring-webmvc5.0.javadoc" value="" />
     <property name="libs.spring-framework500.classpath" value="C:\Program Files\NetBeans-16\netbeans\platform\modules\org-apache-commons-logging.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\cglib-2.2.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-aop-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-aspects-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-beans-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-context-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-context-indexer-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-context-support-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-core-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-expression-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-instrument-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-jcl-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-jdbc-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-jms-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-messaging-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-orm-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-oxm-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-test-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-tx-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-web-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-webflux-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-webmvc-5.2.9.RELEASE.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\spring-5\spring-websocket-5.2.9.RELEASE.jar" />
     <property name="libs.spring-webmvc3.0.maven-pom" value="" />
-    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner service.ClienteServiceTest skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Githubsource\build\test\results\TEST-service.ClienteServiceTest.xml crashfile=C:\Githubsource\build\junitvmwatcher3838069583307203995.properties propsfile=C:\Githubsource\build\junit507135369165281930.properties" />
+    <property name="sun.java.command" value="org.apache.tools.ant.taskdefs.optional.junit.JUnitTestRunner support.FakeUsuarioDAO skipNonTests=false filtertrace=true haltOnError=false haltOnFailure=false showoutput=true outputtoformatters=true logfailedtests=true threadid=0 logtestlistenerevents=true formatter=org.apache.tools.ant.taskdefs.optional.junit.BriefJUnitResultFormatter formatter=org.apache.tools.ant.taskdefs.optional.junit.XMLJUnitResultFormatter,C:\Githubsource\build\test\results\TEST-support.FakeUsuarioDAO.xml crashfile=C:\Githubsource\build\junitvmwatcher8527233479588628925.properties propsfile=C:\Githubsource\build\junit2268329802105523373.properties" />
     <property name="build.classes.dir" value="build/classes" />
     <property name="file.reference.commons-collections-3.2.1.jar" value="lib\commons-collections-3.2.1.jar" />
     <property name="build.sysclasspath" value="ignore" />
@@ -89,7 +89,7 @@
     <property name="java.endorsed.dirs" value="C:\Program Files (x86)\Java\jdk1.8.0_20\jre\lib\endorsed" />
     <property name="libs.groovy-all.src" value="" />
     <property name="libs.junit_5.src" value="C:\Program Files\NetBeans-16\netbeans\platform\docs\junit-jupiter-api-5.6.0-sources.jar;C:\Program Files\NetBeans-16\netbeans\platform\docs\junit-jupiter-params-5.6.0-sources.jar;C:\Program Files\NetBeans-16\netbeans\platform\docs\junit-jupiter-engine-5.6.0-sources.jar" />
-    <property name="test.includes" value="service/ClienteServiceTest.java" />
+    <property name="test.includes" value="support/FakeUsuarioDAO.java" />
     <property name="libs.jakartaee-api-8.0.classpath" value="C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\jakarta.jakartaee-api-8.0.0.jar" />
     <property name="netbeans.dynamic.classpath" value="C:\Program Files\NetBeans-16\netbeans\platform\core\asm-9.3.jar;C:\Program Files\NetBeans-16\netbeans\platform\core\asm-commons-9.3.jar;C:\Program Files\NetBeans-16\netbeans\platform\core\asm-tree-9.3.jar;C:\Program Files\NetBeans-16\netbeans\platform\core\core-base.jar;C:\Program Files\NetBeans-16\netbeans\platform\core\core.jar;C:\Program Files\NetBeans-16\netbeans\platform\core\org-netbeans-libs-asm.jar;C:\Program Files\NetBeans-16\netbeans\platform\core\org-openide-filesystems-compat8.jar;C:\Program Files\NetBeans-16\netbeans\platform\core\org-openide-filesystems.jar;C:\Program Files\NetBeans-16\netbeans\nb\core\org-netbeans-upgrader.jar;C:\Program Files\NetBeans-16\netbeans\nb\core\locale\core_nb.jar" />
     <property name="java.vm.specification.version" value="1.8" />
@@ -109,7 +109,7 @@
     <property name="javac.debug" value="true" />
     <property name="javadoc.splitindex" value="true" />
     <property name="file.separator" value="\" />
-    <property name="javac.includesfile.binary" value="C:\Githubsource\null982448728" />
+    <property name="javac.includesfile.binary" value="C:\Githubsource\null535351202" />
     <property name="libs.junit_4.maven-pom" value="" />
     <property name="mkdist.disabled" value="false" />
     <property name="javac.test.processorpath" value="lib\jbcrypt-0.4.jar:lib\jasperreports-5.6.0.jar:lib\itext-2.1.7.js2.jar:lib\commons-beanutils-1.8.2.jar:lib\commons-collections-3.2.1.jar:lib\commons-digester-2.1.jar:lib\commons-logging-1.2.jar:lib\groovy-all-2.0.1.jar:lib\jcommon-1.0.15.jar:lib\jfreechart-1.0.12.jar:lib\ojdbc6-11.2.0.4.jar:build/classes:lib\junit-4.8.1.jar" />
@@ -122,7 +122,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD" />
     <property name="libs.jaxb.javadoc" value="C:\Program Files\NetBeans-16\netbeans\ide\docs\jaxb-api-doc.jar" />
     <property name="libs.struts.classpath" value="C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\antlr-2.7.2.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\bsf-2.3.0.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\commons-beanutils-1.8.0.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\commons-chain-1.2.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\commons-digester-1.8.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\commons-fileupload-1.1.1.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\commons-io-1.1.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\commons-logging-1.0.4.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\commons-validator-1.3.1.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\jstl-1.0.2.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\oro-2.0.8.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\standard-1.0.6.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\struts-core-1.3.10.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\struts-el-1.3.10.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\struts-extras-1.3.10.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\struts-faces-1.3.10.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\struts-mailreader-dao-1.3.10.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\struts-scripting-1.3.10.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\struts-taglib-1.3.10.jar;C:\Program Files\NetBeans-16\netbeans\enterprise\modules\ext\struts\struts-tiles-1.3.10.jar" />
-    <property name="javac.includes.binary" value="C:\Githubsource\build\test\classes\service\ClienteServiceTest.class" />
+    <property name="javac.includes.binary" value="C:\Githubsource\build\test\classes\support\FakeUsuarioDAO.class" />
     <property name="ant.home" value="C:\Program Files\NetBeans-16\netbeans\extide\ant" />
     <property name="libs.junit_4.src" value="C:\Program Files\NetBeans-16\netbeans\platform\docs\junit-4.13.2-sources.jar" />
     <property name="libs.testng.classpath" value="C:\Program Files\NetBeans-16\netbeans\platform\modules\ext\testng-6.14.3.jar;C:\Program Files\NetBeans-16\netbeans\platform\modules\ext\jcommander-1.78.jar" />
@@ -352,6 +352,7 @@
     <property name="libs.jpa20-persistence.src" value="" />
     <property name="libs.jsf12.src" value="" />
     <property name="libs.struts.javadoc" value="C:\Program Files\NetBeans-16\netbeans\enterprise\docs\struts-1.3.10-javadoc.zip" />
+    <property name="ignore.failing.tests" value="true" />
     <property name="libs.javaee-web-api-7.0.src" value="" />
     <property name="libs.primefaces.src" value="" />
     <property name="dist.dir" value="dist" />
@@ -406,7 +407,7 @@
     <property name="jlink.launcher.name" value="FitManage" />
     <property name="libs.restlib.javadoc" value="" />
     <property name="libs.JAXB-ENDORSED.classpath" value="C:\Program Files\NetBeans-16\netbeans\ide\modules\ext\jaxb\api\jaxb-api.jar" />
-    <property name="nb.internal.action.name" value="run.single" />
+    <property name="nb.internal.action.name" value="test.single" />
     <property name="run.test.modulepath" value="" />
     <property name="libs.javaee-api-7.0.javadoc" value="C:\Program Files\NetBeans-16\netbeans\enterprise\docs\javaee-doc-api.jar" />
     <property name="libs.eclipselink.classpath" value="C:\Program Files\NetBeans-16\netbeans\java\modules\ext\eclipselink\org.eclipse.persistence.core-2.7.10.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\eclipselink\org.eclipse.persistence.asm-9.2.0.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\eclipselink\org.eclipse.persistence.antlr-2.7.10.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\eclipselink\org.eclipse.persistence.jpa-2.7.10.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\eclipselink\org.eclipse.persistence.jpa.jpql-2.7.10.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\eclipselink\org.eclipse.persistence.moxy-2.7.10.jar;C:\Program Files\NetBeans-16\netbeans\java\modules\ext\eclipselink\jakarta.persistence-2.2.3.jar" />
@@ -446,9 +447,11 @@
     <property name="ant.file.FitManage" value="C:\Githubsource\build.xml" />
     <property name="libs.javaee-web-api-7.0.javadoc" value="C:\Program Files\NetBeans-16\netbeans\enterprise\docs\javaee-doc-api.jar" />
   </properties>
-  <testcase classname="service.ClienteServiceTest" name="emailDisponible_siExisteYEsMismoId_devuelveTrue" time="0.008" />
-  <testcase classname="service.ClienteServiceTest" name="emailDisponible_siExisteYOtroId_devuelveFalse" time="0.0" />
-  <testcase classname="service.ClienteServiceTest" name="emailDisponible_siNoExiste_devuelveTrue" time="0.0" />
+  <testcase classname="support.FakeUsuarioDAO" name="initializationError" time="0.005">
+    <error message="No runnable methods" type="java.lang.Exception">java.lang.Exception: No runnable methods
+	at java.lang.reflect.Constructor.newInstance(Constructor.java:408)
+</error>
+  </testcase>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
