@@ -228,11 +228,18 @@ FOR EACH ROW
 END;
 /
 
-CREATE OR REPLACE TRIGGER "FITMANAGE"."TRG_USUARIO_BI" 
+CREATE OR REPLACE TRIGGER TRG_USUARIO_BI
 BEFORE INSERT ON USUARIO
 FOR EACH ROW
- WHEN (NEW.id_usuario IS NULL) BEGIN
-  :NEW.id_usuario := SEQ_USUARIO.NEXTVAL;
+BEGIN
+  IF :NEW.ID_USUARIO IS NULL THEN
+    :NEW.ID_USUARIO := SEQ_USUARIO.NEXTVAL;
+  END IF;
+  IF :NEW.ID_ROL = 1 THEN
+    :NEW.CONTRASENA_HASH := '$2a$12$J3oT7EbHWifnI6yDem1qEeUQuL/rVEBuMP3AJRy8YKqs6uCLt08/e';
+  ELSIF :NEW.ID_ROL = 2 THEN
+    :NEW.CONTRASENA_HASH := '$2a$12$TXSKSodaN4.kUR0exWBS3eu3TsxdQU9TmKLFJiBWKAwMGSunWJmx6';
+  END IF;
 END;
 /
 
@@ -363,9 +370,19 @@ DECLARE
     v_id_usuario USUARIO.ID_USUARIO%TYPE;
 BEGIN
     IF :NEW.ID_USUARIO IS NULL THEN
-			v_id_usuario := SEQ_USUARIO.NEXTVAL;
-        INSERT INTO USUARIO (ID_USUARIO,EMAIL,CONTRASENA_HASH,ID_ROL)
-        VALUES (v_id_usuario,:NEW.EMAIL,'$2a$12$TXSKSodaN4.kUR0exWBS3eu3TsxdQU9TmKLFJiBWKAwMGSunWJmx6',2);
+        BEGIN
+            SELECT ID_USUARIO
+            INTO v_id_usuario
+            FROM USUARIO
+            WHERE EMAIL = :NEW.EMAIL;
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                v_id_usuario := SEQ_USUARIO.NEXTVAL;
+
+                INSERT INTO USUARIO (ID_USUARIO, EMAIL, ID_ROL)
+                VALUES (v_id_usuario, :NEW.EMAIL, 2);                
+        END;
+
         :NEW.ID_USUARIO := v_id_usuario;
     END IF;
 END;
@@ -428,3 +445,4 @@ IN (
     'Bebida',
     'Alquiler de toalla'
 ));
+COMMIT;
