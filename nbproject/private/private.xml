@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Githubsource/test/support/FakeReservaDAO.java</file>
-            <file>file:/C:/Githubsource/test/support/FakeUsuarioDAO.java</file>
-            <file>file:/C:/Githubsource/test/support/FakeClienteDAO.java</file>
-            <file>file:/C:/Githubsource/test/support/FakeActividadDiaDAO.java</file>
-            <file>file:/C:/Githubsource/test/service/ClienteServiceTest.java</file>
-            <file>file:/C:/Githubsource/test/service/ActividadServiceTest.java</file>
+            <file>file:/C:/Githubsource/src/controller/ActividadesController.java</file>
+            <file>file:/C:/Githubsource/src/service/ActividadService.java</file>
+            <file>file:/C:/Githubsource/src/service/ActividadDiaService.java</file>
+            <file>file:/C:/Githubsource/src/DAO/impl/ActividadDAOImpl.java</file>
+            <file>file:/C:/Githubsource/src/DAO/impl/ActividadDiaDAOImpl.java</file>
         </group>
     </open-files>
 </project-private>

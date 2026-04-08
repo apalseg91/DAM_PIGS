@@ -346,41 +346,65 @@ public class ActividadesController {
     /**
      * Elimina la actividad seleccionada previa confirmación del usuario.
      */
-    private void eliminarActividad() {
+private void eliminarActividad() {
 
-        int fila = view.getJTableActividades().getSelectedRow();
+    int fila = view.getJTableActividades().getSelectedRow();
 
-        if (fila == -1) {
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(
+                null,
+                "Seleccione una actividad",
+                "Aviso",
+                JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    int id = (int) view.getJTableActividades()
+            .getValueAt(fila, 0);
+
+    int confirm = JOptionPane.showConfirmDialog(
+            null,
+            "¿Eliminar la actividad seleccionada?",
+            "Confirmar eliminación",
+            JOptionPane.YES_NO_OPTION
+    );
+
+    if (confirm == JOptionPane.YES_OPTION) {
+
+        try {
+
+            actividadService.eliminarActividad(id);
+
+            cargarActividades();
+
             JOptionPane.showMessageDialog(
                     null,
-                    "Seleccione una actividad",
-                    "Aviso",
+                    "Actividad eliminada correctamente",
+                    "Eliminar actividad",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+        } catch (IllegalStateException ex) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    ex.getMessage(),
+                    "Acción no permitida.",
                     JOptionPane.WARNING_MESSAGE
             );
-            return;
+
+        } catch (Exception ex) {
+
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Error al eliminar la actividad",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
-
-        int id = (int) view.getJTableActividades()
-                .getValueAt(fila, 0);
-
-        int confirm = JOptionPane.showConfirmDialog(
-                null,
-                "¿Eliminar la actividad seleccionada?",
-                "Confirmar eliminación",
-                JOptionPane.YES_NO_OPTION
-        );
-
-        if (confirm == JOptionPane.YES_OPTION) {
-            actividadService.eliminarActividad(id);
-            cargarActividades();
-        }
-                        JOptionPane.showMessageDialog(
-                null,
-                "Actividad eliminada correctamente",
-                "Eliminar actividad",
-                JOptionPane.INFORMATION_MESSAGE
-        );
     }
+}
 
     /**
      * Oculta visualmente una columna de una JTable manteniéndola en el modelo.

@@ -145,17 +145,25 @@ public class ActividadDiaDAOImpl implements ActividadDiaDAO {
      * @param idActividad identificador de la actividad
      */
     @Override
-    public void deleteByActividad(int idActividad) {
+public void deleteByActividad(int idActividad) {
 
-        try (Connection con = DBConnection.getConnection(); PreparedStatement ps = con.prepareStatement(SQL_DELETE_BY_ACTIVIDAD)) {
+    try (Connection con = DBConnection.getConnection();
+         PreparedStatement ps = con.prepareStatement(SQL_DELETE_BY_ACTIVIDAD)) {
 
-            ps.setInt(1, idActividad);
-            ps.executeUpdate();
+        ps.setInt(1, idActividad);
+        ps.executeUpdate();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
+    } catch (SQLException e) {
+
+        if (e.getErrorCode() == 2292) {
+            throw new IllegalStateException(
+                "No se puede eliminar la actividad porque tiene reservas asociadas"
+            );
         }
+
+        throw new RuntimeException("Error al eliminar uan actividad asociada a un día con reservas asignadas.", e);
     }
+}
 
     /**
      * Devuelve todas las asociaciones actividad-día correspondientes a una

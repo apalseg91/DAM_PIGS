@@ -168,7 +168,11 @@ public class ActividadDAOImpl implements ActividadDAO {
             ps.executeUpdate();
 
         } catch (SQLException e) {
-            throw buildPersistenceException(ERROR_DELETE + idActividad, e);
+            if(e.getErrorCode()==2292){
+                throw new IllegalStateException("No se puede eliminar la actividad seleccionada: tiene reservas asociadas.");
+            }
+            //throw buildPersistenceException(ERROR_DELETE + idActividad, e);
+            throw new RuntimeException("Error al eliminar la actividad.",e);
         }
     }
 
