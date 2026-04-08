@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e00fb7c-a23f-4246-8860-e09f906303a1">
 	<property name="ireport.zoom" value="2.357947691000003"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="96"/>
+	<property name="ireport.y" value="192"/>
 	<parameter name="P_DNI" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -37,18 +37,30 @@ AND p.fecha_pago <  $P{P_HASTA} + 1]]>
 			<band height="25">
 				<staticText>
 					<reportElement x="18" y="0" width="81" height="20" uuid="14980ece-6f7e-4ff1-8ebf-9e3cb1562aa2"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
 					<text><![CDATA[Fecha del pago]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="107" y="0" width="100" height="20" uuid="8a26d102-cb9f-4e56-9dc9-09706183b341"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
 					<text><![CDATA[Método de pago]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="196" y="0" width="100" height="20" uuid="fc6ff23c-ac51-4c88-8efa-55e9af32381b"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
 					<text><![CDATA[Importe]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="285" y="0" width="100" height="20" uuid="5f32eb5c-6e1e-43ed-ad78-d8131a304309"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
 					<text><![CDATA[Concepto]]></text>
 				</staticText>
 			</band>
@@ -57,6 +69,9 @@ AND p.fecha_pago <  $P{P_HASTA} + 1]]>
 			<band height="50">
 				<textField>
 					<reportElement x="302" y="0" width="253" height="20" uuid="3562f7e4-c6ff-465a-b5ea-31eb5f47a65f"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
 					<textFieldExpression><![CDATA["Total abonado: " + $F{PAGOS_TOTAL} + " Euros"]]></textFieldExpression>
 				</textField>
 			</band>
@@ -82,7 +97,7 @@ AND p.fecha_pago <  $P{P_HASTA} + 1]]>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="41" splitType="Stretch">
+		<band height="50" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="144" height="20" uuid="9ee89155-a383-4a29-ae76-30138975262c"/>
 				<textFieldExpression><![CDATA["DNI/NIE: " + $F{DNI}]]></textFieldExpression>

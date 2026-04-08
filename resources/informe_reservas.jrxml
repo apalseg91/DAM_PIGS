@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e00fb7c-a23f-4246-8860-e09f906303a1">
 	<property name="ireport.zoom" value="2.357947691000003"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="144"/>
 	<parameter name="P_DNI" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -25,21 +25,33 @@ where c.dni like $P{P_DNI}]]>
 	<group name="Cliente">
 		<groupExpression><![CDATA[$F{DNI}]]></groupExpression>
 		<groupHeader>
-			<band height="21">
+			<band height="26">
 				<staticText>
-					<reportElement x="10" y="0" width="44" height="20" uuid="bb8dd762-940a-4967-af3c-c0b9f0e94f7b"/>
+					<reportElement x="10" y="0" width="59" height="20" uuid="bb8dd762-940a-4967-af3c-c0b9f0e94f7b"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
 					<text><![CDATA[Actividad]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="132" y="0" width="81" height="20" uuid="14980ece-6f7e-4ff1-8ebf-9e3cb1562aa2"/>
+					<reportElement x="132" y="0" width="96" height="20" uuid="14980ece-6f7e-4ff1-8ebf-9e3cb1562aa2"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
 					<text><![CDATA[Fecha de reserva]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="250" y="0" width="100" height="20" uuid="8f47b57e-bcbb-4772-aaaa-2e343686e117"/>
+					<reportElement x="250" y="0" width="115" height="20" uuid="8f47b57e-bcbb-4772-aaaa-2e343686e117"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
 					<text><![CDATA[Fecha de impartición]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="405" y="0" width="100" height="20" uuid="8a26d102-cb9f-4e56-9dc9-09706183b341"/>
+					<reportElement x="405" y="0" width="115" height="20" uuid="8a26d102-cb9f-4e56-9dc9-09706183b341"/>
+					<textElement>
+						<font isBold="true" isUnderline="true"/>
+					</textElement>
 					<text><![CDATA[Estado]]></text>
 				</staticText>
 			</band>
