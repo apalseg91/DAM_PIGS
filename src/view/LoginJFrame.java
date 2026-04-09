@@ -16,15 +16,21 @@ public class LoginJFrame extends javax.swing.JFrame {
     public LoginJFrame() {
         initComponents();
 
-        File img = new File("resources/img/Logo_FitManage.png");
+        /* File img = new File("resources/img/Logo_FitManage.png");
         ImageIcon icon = new ImageIcon(img.getAbsolutePath());
         java.awt.Image scaledImage = icon.getImage().getScaledInstance(120,
                 115,java.awt.Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         setIconImage(icon.getImage());
         jLabelLogo.setIcon(scaledIcon);
+        jLabelLogo.setText("");*/
+        ImageIcon icon = new ImageIcon(getClass().getResource("/img/Logo_FitManage.png"));
+        java.awt.Image scaledImage = icon.getImage().getScaledInstance(120,
+                115,java.awt.Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(scaledImage);
+        setIconImage(icon.getImage());
+        jLabelLogo.setIcon(scaledIcon);
         jLabelLogo.setText("");
-
         setSize(700, 500);
         setResizable(false);
         setLocationRelativeTo(null);

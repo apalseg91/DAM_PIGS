@@ -5,33 +5,33 @@
 package service;
 
 import java.io.File;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.view.JasperViewer;
 import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * Servicio encargado de la generación de informes mediante JasperReports.
  *
  * Esta clase centraliza toda la lógica relacionada con: - Compilación de
- * plantillas .jrxml - Paso de parámetros - Rellenado del informe -
- * Generado de PDF
+ * plantillas .jrxml - Paso de parámetros - Rellenado del informe - Generado de
+ * PDF
  *
  * Se mantiene separada del controlador para respetar el patrón MVC.
  *
- * @author Alejandro  
+ * @author Alejandro
  * @version 1.0
-
+ *
  */
 public class InformeService {
 
     /**
-     * Genera un informe Jasper y lo exporta a PDF en la ubicación
-     * seleccionada por el usuario.
+     * Genera un informe Jasper y lo exporta a PDF en la ubicación seleccionada
+     * por el usuario.
      *
      * @param rutaJasper Ruta del archivo .jasper
      * @param fechaDesde Fecha inicial del período (obligatoria)
@@ -50,19 +50,26 @@ public class InformeService {
         if (fechaDesde == null || fechaHasta == null) {
             throw new IllegalArgumentException("Las fechas no pueden ser nulas.");
         }
+        InputStream reportStream
+                = InformeService.class.getResourceAsStream("/reportes/" + rutaJasper);
 
-        String rutaLogo = new File(
-                "resources"
-                + File.separator
-                + "img"
-                + File.separator
-                + "Logo_FitManage.png"
-        ).getAbsolutePath();
+        InputStream logoStream
+                = InformeService.class.getResourceAsStream("/img/Logo_FitManage.png");
 
-        JasperReport jasperReport =
-                (JasperReport) JRLoader.loadObjectFromFile(rutaJasper);
+        if (reportStream == null) {
+            throw new RuntimeException("No se encontró el reporte: " + rutaJasper);
+        }
+
+        if (logoStream == null) {
+            throw new RuntimeException("No se encontró el logo");
+        }
+
+        JasperReport jasperReport
+                = (JasperReport) JRLoader.loadObject(reportStream);
 
         Map<String, Object> parametros = new HashMap<>();
+
+        parametros.put("P_LOGO", logoStream);
 
         parametros.put("P_DNI",
                 (dni == null || dni.trim().isEmpty()) ? "%" : dni.trim());
@@ -72,8 +79,6 @@ public class InformeService {
 
         parametros.put("P_HASTA",
                 new java.sql.Timestamp(fechaHasta.getTime()));
-
-        parametros.put("P_LOGO", rutaLogo);
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(
                 jasperReport,
@@ -91,8 +96,8 @@ public class InformeService {
 
         fileChooser.setDialogTitle("Guardar informe como PDF");
 
-        String nombreArchivo =
-                (dni == null || dni.trim().isEmpty())
+        String nombreArchivo
+                = (dni == null || dni.trim().isEmpty())
                 ? "Informe_general.pdf"
                 : "Informe_" + dni.trim() + ".pdf";
 
@@ -104,13 +109,8 @@ public class InformeService {
 
             File fileToSave = fileChooser.getSelectedFile();
 
-            if (!fileToSave.getAbsolutePath()
-                    .toLowerCase()
-                    .endsWith(".pdf")) {
-
-                fileToSave = new File(
-                        fileToSave.getAbsolutePath() + ".pdf"
-                );
+            if (!fileToSave.getAbsolutePath().toLowerCase().endsWith(".pdf")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
             }
 
             JasperExportManager.exportReportToPdfFile(

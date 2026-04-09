@@ -26,16 +26,13 @@ public class ClienteJFrame extends javax.swing.JFrame {
      */
     public ClienteJFrame() {
         initComponents();
-        
-                File img = new File("resources/img/Logo_FitManage.png");
-        ImageIcon icon = new ImageIcon(img.getAbsolutePath());
-        java.awt.Image scaledImage = icon.getImage().getScaledInstance(190,
-                180,java.awt.Image.SCALE_SMOOTH);
+        ImageIcon icon = new ImageIcon(getClass().getResource("/img/Logo_FitManage.png"));
+        java.awt.Image scaledImage = icon.getImage().getScaledInstance(120,
+                115,java.awt.Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         setIconImage(icon.getImage());
         jLabelLogo.setIcon(scaledIcon);
-        jLabelLogo.setText("Logo de FitManage");
-        
+        jLabelLogo.setText("Logo de FitManage");      
         setSize(1200, 800);
         setResizable(false);
         setLocationRelativeTo(null);

@@ -119,7 +119,7 @@ public class GenerarInformeJDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(131, 131, 131)
@@ -128,7 +128,7 @@ public class GenerarInformeJDialog extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButtonLimpiarCampos, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                                .addComponent(jButtonLimpiarCampos, javax.swing.GroupLayout.DEFAULT_SIZE, 438, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jButtonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, Short.MAX_VALUE)
@@ -157,12 +157,12 @@ public class GenerarInformeJDialog extends javax.swing.JDialog {
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jCheckBoxAsistenciaClases)
                                                     .addComponent(jCheckBoxPago, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(0, 114, Short.MAX_VALUE))))
+                                                .addGap(0, 125, Short.MAX_VALUE))))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 114, Short.MAX_VALUE)
                                                 .addComponent(jTextFieldEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,7 +175,7 @@ public class GenerarInformeJDialog extends javax.swing.JDialog {
                                                     .addComponent(jButtonElegirListado, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                                                     .addComponent(jTextFieldDNI))))
                                         .addGap(134, 134, 134)))))
-                        .addContainerGap(10, Short.MAX_VALUE))))
+                        .addContainerGap(20, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,7 +186,7 @@ public class GenerarInformeJDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonElegirListado)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
@@ -196,7 +196,7 @@ public class GenerarInformeJDialog extends javax.swing.JDialog {
                     .addComponent(jLabel5))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 23, Short.MAX_VALUE)
+                        .addGap(18, 20, Short.MAX_VALUE)
                         .addComponent(jLabel7)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
@@ -215,12 +215,12 @@ public class GenerarInformeJDialog extends javax.swing.JDialog {
                         .addComponent(jCheckBoxPago)
                         .addGap(10, 10, 10)
                         .addComponent(jCheckBoxAsistenciaClases)))
-                .addGap(38, 38, 38)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonLimpiarCampos, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jButtonCancelar, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
                     .addComponent(jButtonGenerarInforme, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
-                .addGap(16, 16, 16))
+                .addGap(36, 36, 36))
         );
 
         pack();
@@ -292,7 +292,16 @@ public JButton getJButtonCancelar() {
     }
 
     /**
-     * Configura los campos de fecha con formato yyyy-MM-dd.
+     * Configura los campos de fecha con un formato específico (yyyy-MM-dd)
+     * mediante un {@link javax.swing.text.DateFormatter} y añade soporte visual
+     * de placeholder para mejorar la experiencia de usuario.
+     *
+     * El placeholder se muestra en color gris cuando el campo está vacío y
+     * desaparece automáticamente al recibir foco.
+     *
+     * Este método debe invocarse durante la inicialización de la vista.
+     *
+     * @author Alejandro
      */
     private void configurarCamposFecha() {
         try {
@@ -304,8 +313,56 @@ public JButton getJButtonCancelar() {
             jFormattedTextFieldInicio.setFormatterFactory(factory);
             jFormattedTextFieldFin.setFormatterFactory(factory);
 
+            // 🔥 Placeholder
+            aplicarPlaceholder(jFormattedTextFieldInicio, "yyyy-MM-dd");
+            aplicarPlaceholder(jFormattedTextFieldFin, "yyyy-MM-dd");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Aplica un comportamiento de placeholder a un
+     * {@link javax.swing.JFormattedTextField}.
+     *
+     * El placeholder se muestra como texto en color gris cuando el campo está
+     * vacío. Al obtener el foco, si el contenido coincide con el placeholder,
+     * se limpia automáticamente y se cambia el color del texto a negro.
+     *
+     * Al perder el foco, si el campo está vacío, se restablece el placeholder.
+     *
+     * IMPORTANTE: Este método no afecta al valor real del campo
+     * ({@code getValue()}), por lo que se recomienda limpiar manualmente el
+     * placeholder antes de procesar los datos para evitar inconsistencias.
+     *
+     * @param field Campo de texto formateado al que se aplicará el placeholder.
+     * @param placeholder Texto que se mostrará como guía (ej: "yyyy-MM-dd").
+     *
+     * @author Alejandro
+     */
+    private void aplicarPlaceholder(javax.swing.JFormattedTextField field, String placeholder) {
+
+        field.setText(placeholder);
+        field.setForeground(java.awt.Color.GRAY);
+
+        field.addFocusListener(new java.awt.event.FocusAdapter() {
+
+            @Override
+            public void focusGained(java.awt.event.FocusEvent e) {
+                if (field.getText().equals(placeholder)) {
+                    field.setText("");
+                    field.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent e) {
+                if (field.getText().isEmpty()) {
+                    field.setText(placeholder);
+                    field.setForeground(java.awt.Color.GRAY);
+                }
+            }
+        });
     }
 }

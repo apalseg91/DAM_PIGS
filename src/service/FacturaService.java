@@ -5,6 +5,7 @@
 package service;
 
 import java.io.File;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,9 +25,9 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * Aplica el principio de responsabilidad única (SRP), manteniendo separada la
  * lógica de reporting administrativo.
  *
- * @author Alejandro  
+ * @author Alejandro
  * @version 1.0
-
+ *
  */
 public class FacturaService {
 
@@ -42,37 +43,39 @@ public class FacturaService {
             Connection connection
     ) throws Exception {
 
-        String rutaPlantilla = "resources/informe_factura.jasper";
 
-        String rutaLogo = new File(
-                "resources"
-                + File.separator
-                + "img"
-                + File.separator
-                + "Logo_FitManage.png"
-        ).getAbsolutePath();
+        InputStream reportStream =
+                getClass().getResourceAsStream("/reportes/informe_factura.jasper");
 
-        JasperReport jasperReport
-                = (JasperReport) JRLoader.loadObjectFromFile(rutaPlantilla);
+        InputStream logoStream =
+                getClass().getResourceAsStream("/img/Logo_FitManage.png");
+
+        if (reportStream == null) {
+            throw new RuntimeException("No se encontró el reporte de factura");
+        }
+
+        if (logoStream == null) {
+            throw new RuntimeException("No se encontró el logo");
+        }
+
+        JasperReport jasperReport =
+                (JasperReport) JRLoader.loadObject(reportStream);
 
         Map<String, Object> parametros = new HashMap<>();
-    
-        parametros.put("P_LOGO", rutaLogo);
+
         parametros.put("P_DNI", dni);
+        parametros.put("P_LOGO", logoStream);
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(
                 jasperReport,
                 parametros,
                 connection
         );
-        // Selector de ubicación
-        javax.swing.JFileChooser fileChooser
-                = new javax.swing.JFileChooser();
+
+        javax.swing.JFileChooser fileChooser = new javax.swing.JFileChooser();
 
         fileChooser.setDialogTitle("Guardar factura como PDF");
-        fileChooser.setSelectedFile(
-                new File("Factura_" + dni + ".pdf")
-        );
+        fileChooser.setSelectedFile(new File("Factura_" + dni + ".pdf"));
 
         int userSelection = fileChooser.showSaveDialog(null);
 
@@ -80,13 +83,8 @@ public class FacturaService {
 
             File fileToSave = fileChooser.getSelectedFile();
 
-            if (!fileToSave.getAbsolutePath()
-                    .toLowerCase()
-                    .endsWith(".pdf")) {
-
-                fileToSave = new File(
-                        fileToSave.getAbsolutePath() + ".pdf"
-                );
+            if (!fileToSave.getAbsolutePath().toLowerCase().endsWith(".pdf")) {
+                fileToSave = new File(fileToSave.getAbsolutePath() + ".pdf");
             }
 
             JasperExportManager.exportReportToPdfFile(

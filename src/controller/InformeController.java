@@ -21,10 +21,15 @@ import util.DBConnection;
  * InformeService.
  *
  * @author Alejandro
-  * @version 1.0
-
+ * @version 1.0
  */
 public class InformeController {
+
+    /**
+     * Constantes para las rutas de los archivos de plantillas Jasper
+     */
+    private static final String INFORME_PAGOS = "informe_pagos.jasper";
+    private static final String INFORME_RESERVAS = "informe_reservas.jasper";
 
     private GenerarInformeJDialog view;
 
@@ -43,13 +48,14 @@ public class InformeController {
      */
     private void initController() {
 
-        view.getJCheckBoxPago().addActionListener(e
-                -> view.getJCheckBoxAsistenciaClases().setSelected(false)
+        view.getJCheckBoxPago().addActionListener(e ->
+                view.getJCheckBoxAsistenciaClases().setSelected(false)
         );
 
-        view.getJCheckBoxAsistenciaClases().addActionListener(e
-                -> view.getJCheckBoxPago().setSelected(false)
+        view.getJCheckBoxAsistenciaClases().addActionListener(e ->
+                view.getJCheckBoxPago().setSelected(false)
         );
+
         view.getJButtonGenerarInforme().addActionListener(e -> generarInforme());
     }
 
@@ -59,78 +65,100 @@ public class InformeController {
      */
     private void generarInforme() {
 
-    try {
+        try {
 
-        Date fechaDesde =
-                (Date) view.getJFormattedTextFieldInicio().getValue();
-        Date fechaHasta =
-                (Date) view.getJFormattedTextFieldFin().getValue();
+            // Limpiar placeholders
+            if ("yyyy-MM-dd".equals(view.getJFormattedTextFieldInicio().getText())) {
+                view.getJFormattedTextFieldInicio().setValue(null);
+            }
 
-        String dni = view.getJTextFieldDNI().getText();
+            if ("yyyy-MM-dd".equals(view.getJFormattedTextFieldFin().getText())) {
+                view.getJFormattedTextFieldFin().setValue(null);
+            }
 
-        if (fechaDesde == null || fechaHasta == null) {
+            // Obtener fechas
+            Date fechaDesde = (Date) view.getJFormattedTextFieldInicio().getValue();
+            Date fechaHasta = (Date) view.getJFormattedTextFieldFin().getValue();
+
+            String dni = view.getJTextFieldDNI().getText();
+
+            // Validación: fechas obligatorias
+            if (fechaDesde == null || fechaHasta == null) {
+                JOptionPane.showMessageDialog(
+                        view,
+                        "Debe indicar un rango de fechas válido.",
+                        "Aviso",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+
+            // Validación: coherencia de fechas
+            if (fechaDesde.after(fechaHasta)) {
+                JOptionPane.showMessageDialog(
+                        view,
+                        "La fecha de inicio no puede ser posterior a la fecha fin.",
+                        "Aviso",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+
+            // Selección de informe
+            String rutaPlantilla;
+
+            if (view.getJCheckBoxPago().isSelected()) {
+                rutaPlantilla = INFORME_PAGOS;
+            } else if (view.getJCheckBoxAsistenciaClases().isSelected()) {
+                rutaPlantilla = INFORME_RESERVAS;
+            } else {
+                JOptionPane.showMessageDialog(
+                        view,
+                        "Seleccione un tipo de informe.",
+                        "Aviso",
+                        JOptionPane.WARNING_MESSAGE
+                );
+                return;
+            }
+
+            // Generación del informe
+            try (Connection conn = DBConnection.getConnection()) {
+
+                InformeService.generarInforme(
+                        rutaPlantilla,
+                        fechaDesde,
+                        fechaHasta,
+                        dni,
+                        conn
+                );
+            }
+
             JOptionPane.showMessageDialog(
                     view,
-                    "Debe indicar el período.",
-                    "Aviso",
-                    JOptionPane.WARNING_MESSAGE
+                    "Informe generado correctamente.",
+                    "Descarga completada",
+                    JOptionPane.INFORMATION_MESSAGE
             );
-            return;
-        }
 
-        String rutaPlantilla;
+        } catch (IllegalStateException ex) {
 
-        if (view.getJCheckBoxPago().isSelected()) {
-            rutaPlantilla = "resources/informe_pagos.jasper";
-        } else if (view.getJCheckBoxAsistenciaClases().isSelected()) {
-            rutaPlantilla = "resources/informe_reservas.jasper";
-        } else {
             JOptionPane.showMessageDialog(
                     view,
-                    "Seleccione un tipo de informe.",
-                    "Aviso",
+                    ex.getMessage(),
+                    "Sin datos",
                     JOptionPane.WARNING_MESSAGE
             );
-            return;
-        }
 
-        try (Connection conn = DBConnection.getConnection()) {
+        } catch (Exception ex) {
 
-            InformeService.generarInforme(
-                    rutaPlantilla,
-                    fechaDesde,
-                    fechaHasta,
-                    dni,
-                    conn
+            ex.printStackTrace();
+
+            JOptionPane.showMessageDialog(
+                    view,
+                    ex.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
             );
         }
-
-        JOptionPane.showMessageDialog(
-                view,
-                "Informe generado correctamente.",
-                "Descarga completada",
-                JOptionPane.INFORMATION_MESSAGE
-        );
-
-    } catch (IllegalStateException ex) {
-
-        JOptionPane.showMessageDialog(
-                view,
-                ex.getMessage(),
-                "Sin datos",
-                JOptionPane.WARNING_MESSAGE
-        );
-
-    } catch (Exception ex) {
-
-        ex.printStackTrace();
-
-        JOptionPane.showMessageDialog(
-                view,
-                "Error al generar el informe.",
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-        );
     }
-}
 }
