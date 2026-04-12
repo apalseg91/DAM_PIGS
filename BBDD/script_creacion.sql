@@ -518,4 +518,13 @@ BEGIN
     );
 END;
 /
+CREATE OR REPLACE TRIGGER TRG_NO_DELETE_SUPERADMIN
+BEFORE DELETE ON USUARIO
+FOR EACH ROW
+BEGIN
+    IF LOWER(:OLD.EMAIL) = 'admin@fitmanage.com' THEN
+        RAISE_APPLICATION_ERROR(-20010, 'No se puede eliminar el superadministrador');
+    END IF;
+END;
+/
 COMMIT;

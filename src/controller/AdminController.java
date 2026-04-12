@@ -876,6 +876,25 @@ public class AdminController {
         dialog.setVisible(true);
     }
 
+    /**
+     * Carga en la tabla del diálogo todos los usuarios con rol ADMINISTRADOR.
+     *
+     * <p>
+     * Recupera la lista de administradores desde la capa de servicio y
+     * construye dinámicamente el modelo de la tabla con las columnas ID, email
+     * y fecha de creación. La fecha se formatea a "dd-MM-yyyy" para su
+     * visualización.
+     * </p>
+     *
+     * <p>
+     * La columna ID se oculta visualmente, pero se mantiene en el modelo para
+     * poder recuperar el identificador interno en operaciones posteriores
+     * (modificar/eliminar).
+     * </p>
+     *
+     * @param dialog diálogo de gestión de administradores donde se mostrará la
+     * tabla
+     */
     private void cargarTablaAdmins(GestionAdminSistemaJDialog dialog) {
 
         List<Usuario> admins
@@ -902,6 +921,22 @@ public class AdminController {
         ocultarColumna(dialog.getJTableAdminSistema(), 0);
     }
 
+    /**
+     * Elimina el administrador seleccionado en la tabla del diálogo.
+     *
+     * <p>
+     * Valida que exista una fila seleccionada y delega la operación en la capa
+     * de servicio, que aplica las reglas de negocio (no eliminar
+     * superadministrador ni al usuario actual).
+     * </p>
+     *
+     * <p>
+     * En caso de incumplir alguna regla, se captura la excepción lanzada por el
+     * servicio y se muestra un mensaje informativo al usuario.
+     * </p>
+     *
+     * @param dialog diálogo de gestión de administradores
+     */
     private void eliminarAdmin(GestionAdminSistemaJDialog dialog) {
 
         int fila = dialog.getJTableAdminSistema().getSelectedRow();
@@ -914,18 +949,27 @@ public class AdminController {
 
         int idUsuario = (int) dialog.getJTableAdminSistema().getValueAt(fila, 0);
 
-        if (!usuarioService.puedeEliminarAdministrador(idUsuario)) {
+        try {
 
-            JOptionPane.showMessageDialog(dialog,
-                    "No se puede eliminar este administrador.",
+            usuarioService.eliminarUsuario(idUsuario);
+            cargarTablaAdmins(dialog);
+
+            JOptionPane.showMessageDialog(
+                    view,
+                    "Cuenta de administrador eliminada correctamente.",
+                    "Cuenta eliminada",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+
+        } catch (IllegalStateException ex) {
+
+            JOptionPane.showMessageDialog(
+                    dialog,
+                    ex.getMessage(),
                     "Eliminación no permitida",
-                    JOptionPane.WARNING_MESSAGE);
-
-            return;
+                    JOptionPane.WARNING_MESSAGE
+            );
         }
-
-        usuarioService.eliminarUsuario(idUsuario);
-        cargarTablaAdmins(dialog);
         JOptionPane.showMessageDialog(
                 view,
                 "Cuenta de administrador eliminada correctamente.",
@@ -934,6 +978,17 @@ public class AdminController {
         );
     }
 
+    /**
+     * Abre el formulario para crear un nuevo administrador del sistema.
+     *
+     * <p>
+     * Valida que los campos obligatorios (email y contraseña) estén informados
+     * antes de delegar la creación en la capa de servicio. Tras la creación, se
+     * actualiza la tabla de administradores.
+     * </p>
+     *
+     * @param dialog diálogo principal de gestión de administradores
+     */
     private void crearNuevoAdmin(GestionAdminSistemaJDialog dialog) {
 
         ModificarDatosAdminSistemaJDialog form
@@ -971,6 +1026,22 @@ public class AdminController {
         );
     }
 
+    /**
+     * Permite modificar los datos de un administrador seleccionado.
+     *
+     * <p>
+     * Precarga el formulario con los datos actuales del administrador. Si el
+     * usuario es el superadministrador, se bloquea la edición del email por
+     * motivos de seguridad.
+     * </p>
+     *
+     * <p>
+     * La actualización se delega en la capa de servicio, que se encarga de
+     * aplicar las reglas de negocio y el hash de la contraseña si procede.
+     * </p>
+     *
+     * @param dialog diálogo de gestión de administradores
+     */
     private void modificarAdmin(GestionAdminSistemaJDialog dialog) {
 
         int fila = dialog.getJTableAdminSistema().getSelectedRow();
@@ -1025,6 +1096,14 @@ public class AdminController {
         );
     }
 
+    /**
+     * Abre el diálogo de generación de informes.
+     *
+     * <p>
+     * Inicializa el controlador asociado al diálogo y configura los componentes
+     * necesarios antes de mostrar la ventana al usuario.
+     * </p>
+     */
     private void abrirGenerarInforme() {
         GenerarInformeJDialog dialog
                 = new GenerarInformeJDialog(view, true);
@@ -1035,6 +1114,17 @@ public class AdminController {
         dialog.setVisible(true);
     }
 
+    /**
+     * Inicializa los componentes y comportamiento del diálogo de generación de
+     * informes.
+     *
+     * <p>
+     * Configura los campos de entrada, establece los formatos de fecha, agrupa
+     * los checkboxes de tipo de informe y define las acciones de los botones.
+     * </p>
+     *
+     * @param dialog diálogo de generación de informes
+     */
     private void initGenerarInformeDialog(GenerarInformeJDialog dialog) {
 
         dialog.getJTextFieldDNI().setEditable(false);
@@ -1072,6 +1162,16 @@ public class AdminController {
         dialog.getJButtonElegirListado().addActionListener(e -> abrirListadoClientes(dialog));
     }
 
+    /**
+     * Abre el diálogo de selección de clientes para informes.
+     *
+     * <p>
+     * Permite seleccionar un cliente de la lista y transferir su información
+     * (DNI y email) al diálogo padre para la generación del informe.
+     * </p>
+     *
+     * @param parentDialog diálogo principal de generación de informes
+     */
     private void abrirListadoClientes(GenerarInformeJDialog parentDialog) {
 
         ListadoClientesJDialog dialog
@@ -1115,6 +1215,17 @@ public class AdminController {
         dialog.setVisible(true);
     }
 
+    /**
+     * Carga la lista de clientes en el diálogo de selección.
+     *
+     * <p>
+     * Muestra información básica del cliente (ID, nombre, apellidos, email, DNI
+     * y estado). La columna ID se oculta visualmente pero se mantiene en el
+     * modelo para su uso interno.
+     * </p>
+     *
+     * @param dialog diálogo de listado de clientes
+     */
     private void cargarClientesEnDialog(
             ListadoClientesJDialog dialog) {
 

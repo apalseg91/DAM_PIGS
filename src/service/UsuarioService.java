@@ -54,10 +54,38 @@ public class UsuarioService {
 
         usuarioDAO.update(usuario);
     }
-
+/**
+ * Elimina físicamente un usuario del sistema.
+ *
+ * <p>
+ * Este método aplica reglas de negocio para garantizar la integridad y seguridad:
+ * </p>
+ * <ul>
+ *   <li>No permite eliminar el superadministrador del sistema.</li>
+ *   <li>No permite que un usuario elimine su propia cuenta.</li>
+ * </ul>
+ *
+ * <p>
+ * En caso de incumplir alguna de estas condiciones, se lanza una excepción
+ * {@link IllegalStateException} con un mensaje descriptivo.
+ * </p>
+ *
+ * @param idUsuario identificador del usuario a eliminar
+ * @throws IllegalStateException si se intenta eliminar el superadministrador
+ *                               o el usuario autenticado
+ */
     public void eliminarUsuario(int idUsuario) {
-        usuarioDAO.delete(idUsuario);
+
+    if (esSuperAdmin(idUsuario)) {
+        throw new IllegalStateException("No se puede eliminar el superadministrador");
     }
+
+    if (Session.getUsuarioActual().getIdUsuario() == idUsuario) {
+        throw new IllegalStateException("No puedes eliminar tu propia cuenta");
+    }
+
+    usuarioDAO.delete(idUsuario);
+}
 
     /**
      * Indica si un usuario puede eliminarse físicamente.
