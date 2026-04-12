@@ -446,3 +446,71 @@ IN (
     'Alquiler de toalla'
 ));
 COMMIT;
+--si no esta ya nullable
+ALTER TABLE CLIENTE MODIFY ID_USUARIO NULL;
+
+--borramos esta constraint para modificarla
+ALTER TABLE CLIENTE DROP CONSTRAINT FK_CLIENTE_USUARIO; 
+
+--nueva constraint relacionando cliente con usuario para borrado settee null
+ALTER TABLE CLIENTE ADD CONSTRAINT FK_CLIENTE_USUARIO
+FOREIGN KEY (ID_USUARIO)
+REFERENCES USUARIO(ID_USUARIO)
+ON DELETE SET NULL;
+
+--trigger que crea el usuario de nuevo al reactivar el cliente y le asigna contraseña
+CREATE OR REPLACE TRIGGER TRG_CLIENTE_ACTIVAR_USUARIO
+BEFORE UPDATE OF activo ON CLIENTE
+FOR EACH ROW
+WHEN (OLD.activo = 0 AND NEW.activo = 1)
+DECLARE
+    v_id_usuario USUARIO.ID_USUARIO%TYPE;
+BEGIN
+
+    IF :NEW.id_usuario IS NULL THEN
+
+        BEGIN
+            SELECT ID_USUARIO
+            INTO v_id_usuario
+            FROM USUARIO
+            WHERE EMAIL = :NEW.EMAIL;
+
+        EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+                v_id_usuario := SEQ_USUARIO.NEXTVAL;
+
+                INSERT INTO USUARIO (
+                    ID_USUARIO,
+                    EMAIL,
+                    ID_ROL,
+                    CONTRASENA_HASH
+                )
+                VALUES (
+                    v_id_usuario,
+                    :NEW.EMAIL,
+                    2,
+                    '$2a$12$M7TyKyRK0ytz0CVFsMRWl.OHqjQlZVnqaavzROj76irUkd.Vs82gS'
+                );
+        END;
+
+        :NEW.id_usuario := v_id_usuario;
+
+    END IF;
+
+END;
+/
+--elimina usuario con cliente inactivo
+CREATE OR REPLACE TRIGGER TRG_CLIENTE_DESACTIVAR_USUARIO
+AFTER UPDATE OF activo ON CLIENTE
+DECLARE
+BEGIN
+    DELETE FROM USUARIO
+    WHERE id_usuario IN (
+        SELECT id_usuario
+        FROM CLIENTE
+        WHERE activo = 0
+        AND id_usuario IS NOT NULL
+    );
+END;
+/
+COMMIT;

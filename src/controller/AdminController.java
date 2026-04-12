@@ -396,7 +396,7 @@ public class AdminController {
             clienteService.setActivoCliente(idCliente);
             cargarClientes();
         }
-                JOptionPane.showMessageDialog(
+        JOptionPane.showMessageDialog(
                 view,
                 "Estado de cliente cambiado a activo.",
                 "Cambio a activo",
@@ -564,7 +564,7 @@ public class AdminController {
 
         dialog.setLocationRelativeTo(view);
         dialog.setVisible(true);
-                JOptionPane.showMessageDialog(
+        JOptionPane.showMessageDialog(
                 view,
                 "Datos de cliente modificados correctamente.",
                 "Datos modificados",
@@ -741,30 +741,18 @@ public class AdminController {
 
         int idUsuario = (int) dialog.getJTableGestionUsuarios().getValueAt(fila, 0);
 
-        if (JOptionPane.showConfirmDialog(
-                dialog,
-                "¿Desea eliminar el usuario definitivamente?",
+        if (JOptionPane.showConfirmDialog(dialog,
+                "¿Desea eliminar la cuenta de usuario?",
                 "Confirmar eliminación",
-                JOptionPane.YES_NO_OPTION
-        ) == JOptionPane.YES_OPTION) {
-            if (!usuarioService.puedeEliminarUsuario(idUsuario)) {
-                JOptionPane.showMessageDialog(
-                        dialog,
-                        "No se puede eliminar el usuario.\nTiene un cliente asociado.",
-                        "Eliminación no permitida",
-                        JOptionPane.WARNING_MESSAGE
-                );
-                return;
-            }
+                JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
             usuarioService.eliminarUsuario(idUsuario);
             cargarTablaUsuarios(dialog);
-                    JOptionPane.showMessageDialog(
-                view,
-                "El usuario se ha eliminado del sistema correctamente.",
-                "Cuenta eliminada",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+
+            JOptionPane.showMessageDialog(view,
+                    "Cuenta de usuario eliminada correctamente.",
+                    "Cuenta eliminada",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -819,7 +807,7 @@ public class AdminController {
 
         dialogModificar.setLocationRelativeTo(dialog);
         dialogModificar.setVisible(true);
-                JOptionPane.showMessageDialog(
+        JOptionPane.showMessageDialog(
                 view,
                 "Modificación de datos de usuario exitosa.",
                 "Cambio de datos",
@@ -938,7 +926,7 @@ public class AdminController {
 
         usuarioService.eliminarUsuario(idUsuario);
         cargarTablaAdmins(dialog);
-                JOptionPane.showMessageDialog(
+        JOptionPane.showMessageDialog(
                 view,
                 "Cuenta de administrador eliminada correctamente.",
                 "Cuenta eliminada",
@@ -975,7 +963,7 @@ public class AdminController {
 
         form.setLocationRelativeTo(dialog);
         form.setVisible(true);
-                JOptionPane.showMessageDialog(
+        JOptionPane.showMessageDialog(
                 view,
                 "Cuenta de administrador creada correctamente",
                 "Nuevo administrador",
@@ -1029,7 +1017,7 @@ public class AdminController {
 
         form.setLocationRelativeTo(dialog);
         form.setVisible(true);
-                JOptionPane.showMessageDialog(
+        JOptionPane.showMessageDialog(
                 view,
                 "La cuenta de administrador se ha modificado correctamente.",
                 "Datos de administrador modificados",

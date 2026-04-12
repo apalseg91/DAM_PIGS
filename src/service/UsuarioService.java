@@ -67,9 +67,9 @@ public class UsuarioService {
      * @param idUsuario identificador del usuario
      * @return true si puede eliminarse
      */
-    public boolean puedeEliminarUsuario(int idUsuario) {
+    /*public boolean puedeEliminarUsuario(int idUsuario) {
         return usuarioDAO.noTieneClienteAsociado(idUsuario);
-    }
+    }*/
 
     /**
      * Indica si el usuario es el superadministrador.
