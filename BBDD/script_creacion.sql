@@ -333,7 +333,6 @@ BEGIN
       SYSDATE, :NEW.importe, :NEW.id_metodo_pago, :NEW.concepto
   )
   RETURNING id_factura INTO v_id_factura;
-
   :NEW.id_factura := v_id_factura;
 END;
 /
@@ -341,17 +340,32 @@ END;
 CREATE OR REPLACE TRIGGER "FITMANAGE"."TRG_PAGO_ACTUALIZA_PROXIMO" 
 AFTER INSERT ON PAGO
 FOR EACH ROW
+DECLARE
+    v_activo CLIENTE.ACTIVO%TYPE;
 BEGIN
-    UPDATE CLIENTE
-    SET FECHA_PROXIMO_PAGO =
-        ADD_MONTHS(
-            GREATEST(
-                NVL(FECHA_PROXIMO_PAGO, :NEW.FECHA_PAGO),
-                :NEW.FECHA_PAGO
-            ),
-            1
-        )
-    WHERE ID_CLIENTE = :NEW.ID_CLIENTE;
+    -- SOLO si es cuota mensual
+    IF UPPER(:NEW.CONCEPTO) = 'CUOTA MENSUAL' THEN
+
+        -- Obtener estado del cliente
+        SELECT ACTIVO
+        INTO v_activo
+        FROM CLIENTE
+        WHERE ID_CLIENTE = :NEW.ID_CLIENTE;
+        IF v_activo = 0 THEN
+            UPDATE CLIENTE
+            SET ACTIVO = 1,
+                FECHA_ALTA = SYSDATE,
+                FECHA_PROXIMO_PAGO = ADD_MONTHS(SYSDATE, 1)
+            WHERE ID_CLIENTE = :NEW.ID_CLIENTE;
+        ELSE
+            UPDATE CLIENTE
+            SET FECHA_PROXIMO_PAGO =
+                ADD_MONTHS(
+                    GREATEST(NVL(FECHA_PROXIMO_PAGO, :NEW.FECHA_PAGO),
+                        :NEW.FECHA_PAGO),1)
+            WHERE ID_CLIENTE = :NEW.ID_CLIENTE;
+        END IF;
+    END IF;
 END;
 /
 
@@ -382,7 +396,6 @@ BEGIN
                 INSERT INTO USUARIO (ID_USUARIO, EMAIL, ID_ROL)
                 VALUES (v_id_usuario, :NEW.EMAIL, 2);                
         END;
-
         :NEW.ID_USUARIO := v_id_usuario;
     END IF;
 END;
