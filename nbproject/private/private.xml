@@ -5,6 +5,8 @@
         <group>
             <file>file:/C:/Githubsource/src/service/UsuarioService.java</file>
             <file>file:/C:/Githubsource/src/controller/AdminController.java</file>
+            <file>file:/C:/Githubsource/src/util/DBConnection.java</file>
+            <file>file:/C:/Githubsource/src/util/TestHash.java</file>
         </group>
     </open-files>
 </project-private>

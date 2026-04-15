@@ -69,5 +69,7 @@ public class TestHash {
      */
     public static void main(String[] args) {
         System.out.println(PasswordUtils.hashPassword("12345678a"));
+                System.out.println(PasswordUtils.hashPassword("admin123"));
+
     }
 }
