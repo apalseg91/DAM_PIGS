@@ -222,9 +222,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabelLogo">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="jLabel4"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

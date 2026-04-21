@@ -51,6 +51,11 @@ public class FormAltaJDialog extends javax.swing.JDialog {
 
         jButtonCancelar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         jButtonGuardar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButtonGuardar.setText("Guardar");
@@ -161,6 +166,10 @@ public class FormAltaJDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

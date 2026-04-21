@@ -115,7 +115,7 @@ public class FormActividadJDialog extends javax.swing.JDialog {
         jLabel5.setText("Descripción: ");
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        jLabel6.setText("NUEVA ACTIVDAD DIRIGIDA");
+        jLabel6.setText("DATOS ACTIVDAD DIRIGIDA");
 
         jCheckBoxL.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jCheckBoxL.setText("L");

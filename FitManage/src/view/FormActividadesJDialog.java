@@ -61,7 +61,7 @@ public class FormActividadesJDialog extends javax.swing.JDialog {
         jButtonEliminarActividad.setText("Eliminar Actividad");
 
         jButtonModificarActividad.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jButtonModificarActividad.setText("Modificar Acrtividad");
+        jButtonModificarActividad.setText("Modificar Actividad");
 
         jButtonActividadesSalir.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButtonActividadesSalir.setText("Salir ");

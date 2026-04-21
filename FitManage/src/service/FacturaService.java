@@ -38,10 +38,7 @@ public class FacturaService {
      * @param connection Conexión activa a base de datos
      * @throws Exception Si ocurre un error durante la generación
      */
-    public void generarUltimaFacturaPDF(
-            String dni,
-            Connection connection
-    ) throws Exception {
+    public boolean generarUltimaFacturaPDF(String dni,Connection connection) throws Exception {
 
         java.net.URL reportUrl
                 = getClass().getResource("/reportes/informe_factura.jasper");
@@ -96,6 +93,8 @@ public class FacturaService {
                     jasperPrint,
                     fileToSave.getAbsolutePath()
             );
+            return true;
         }
+        return false;
     }
 }

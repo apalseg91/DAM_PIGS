@@ -126,7 +126,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Times New Roman" size="36" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="MODIFICAR DATOS "/>
+        <Property name="text" type="java.lang.String" value="GESTIONAR  DATOS "/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>

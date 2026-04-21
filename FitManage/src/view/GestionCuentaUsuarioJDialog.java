@@ -61,6 +61,11 @@ public class GestionCuentaUsuarioJDialog extends javax.swing.JDialog {
 
         jButtonCancelar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButtonCancelar.setText("Cancelar");
+        jButtonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCancelarActionPerformed(evt);
+            }
+        });
 
         jButtonAceptar.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButtonAceptar.setText("Aceptar");
@@ -129,6 +134,9 @@ public class GestionCuentaUsuarioJDialog extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
+        this.dispose();    }//GEN-LAST:event_jButtonCancelarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

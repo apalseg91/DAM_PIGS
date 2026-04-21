@@ -321,16 +321,15 @@ public class AdminController {
 
             dialog.dispose();
             cargarClientes();
+            JOptionPane.showMessageDialog(
+                    view,
+                    "Cliente registrado correctamente.",
+                    "Alta nuevo cliente",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         });
-
-        dialog.getButtonCancelar().addActionListener(e -> dialog.dispose());
         dialog.setVisible(true);
-        JOptionPane.showMessageDialog(
-                view,
-                "Cliente registrado correctamente.",
-                "Alta nuevo cliente",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+
     }
 
     /**
@@ -404,41 +403,6 @@ public class AdminController {
         );
     }
 
-    /**
-     * Elimina definitivamente un cliente si cumple las condiciones.
-     */
-    /* private void eliminarCliente() {
-
-        int fila = view.getTableClientes().getSelectedRow();
-
-        if (fila == -1) {
-            JOptionPane.showMessageDialog(view, "Debe seleccionar un cliente");
-            return;
-        }
-
-        int idCliente = (int) view.getTableClientes().getValueAt(fila, 0);
-
-        if (!clienteService.puedeEliminarFisicamente(idCliente)) {
-            JOptionPane.showMessageDialog(
-                    view,
-                    "No se puede eliminar el cliente.\nDebe estar inactivo y sin datos asociados",
-                    "Eliminación no permitida",
-                    JOptionPane.WARNING_MESSAGE
-            );
-            return;
-        }
-
-        if (JOptionPane.showConfirmDialog(
-                view,
-                "¿Desea eliminar el cliente definitivamente?",
-                "Confirmar eliminación",
-                JOptionPane.YES_NO_OPTION
-        ) == JOptionPane.YES_OPTION) {
-
-            clienteService.eliminarCliente(idCliente);
-            cargarClientes();
-        }
-    }*/
     /**
      * Modifica los datos básicos de un cliente seleccionado en la tabla.
      *
@@ -560,16 +524,15 @@ public class AdminController {
 
             dialog.dispose();
             cargarClientes();
-        });
-
-        dialog.setLocationRelativeTo(view);
-        dialog.setVisible(true);
         JOptionPane.showMessageDialog(
                 view,
-                "Datos de cliente modificados correctamente.",
+                "Datos de cliente actualizados correctamente.",
                 "Datos modificados",
                 JOptionPane.INFORMATION_MESSAGE
         );
+        });
+        dialog.setLocationRelativeTo(view);
+        dialog.setVisible(true);
     }
 
     /**
@@ -803,16 +766,16 @@ public class AdminController {
 
                     dialogModificar.dispose();
                     cargarTablaUsuarios(dialog);
+            JOptionPane.showMessageDialog(
+                    view,
+                    "Modificación de datos de usuario exitosa.",
+                    "Cambio de datos",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
                 });
 
         dialogModificar.setLocationRelativeTo(dialog);
         dialogModificar.setVisible(true);
-        JOptionPane.showMessageDialog(
-                view,
-                "Modificación de datos de usuario exitosa.",
-                "Cambio de datos",
-                JOptionPane.INFORMATION_MESSAGE
-        );
     }
 
     /**
@@ -1014,16 +977,16 @@ public class AdminController {
 
                     form.dispose();
                     cargarTablaAdmins(dialog);
+            JOptionPane.showMessageDialog(
+                    view,
+                    "Cuenta de administrador creada correctamente",
+                    "Nuevo administrador",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
                 });
 
         form.setLocationRelativeTo(dialog);
         form.setVisible(true);
-        JOptionPane.showMessageDialog(
-                view,
-                "Cuenta de administrador creada correctamente",
-                "Nuevo administrador",
-                JOptionPane.INFORMATION_MESSAGE
-        );
     }
 
     /**
@@ -1084,16 +1047,16 @@ public class AdminController {
 
                     form.dispose();
                     cargarTablaAdmins(dialog);
+            JOptionPane.showMessageDialog(
+                    view,
+                    "La cuenta de administrador se ha actualizado correctamente.",
+                    "Datos de administrador modificados",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
                 });
 
         form.setLocationRelativeTo(dialog);
         form.setVisible(true);
-        JOptionPane.showMessageDialog(
-                view,
-                "La cuenta de administrador se ha modificado correctamente.",
-                "Datos de administrador modificados",
-                JOptionPane.INFORMATION_MESSAGE
-        );
     }
 
     /**

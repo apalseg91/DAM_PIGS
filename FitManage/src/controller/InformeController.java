@@ -64,7 +64,7 @@ public class InformeController {
      * correspondiente según el tipo seleccionado.
      */
     private void generarInforme() {
-
+        
         try {
 
             // Limpiar placeholders

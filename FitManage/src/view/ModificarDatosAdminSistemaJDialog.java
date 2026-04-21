@@ -17,6 +17,7 @@ public class ModificarDatosAdminSistemaJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        setTitle("Gestión de datos de cuenta de administrador");
     }
 
     /**
@@ -50,7 +51,7 @@ public class ModificarDatosAdminSistemaJDialog extends javax.swing.JDialog {
         jLabel2.setText("Contraseña:");
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
-        jLabel3.setText("MODIFICAR DATOS ");
+        jLabel3.setText("GESTIONAR  DATOS ");
         jLabel3.setToolTipText("");
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N

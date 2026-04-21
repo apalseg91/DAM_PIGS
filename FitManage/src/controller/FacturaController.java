@@ -15,20 +15,20 @@ import util.Session;
 import view.ClienteJFrame;
 
 /**
- * Controlador encargado de gestionar las operaciones
- * relacionadas con la facturación del cliente.
+ * Controlador encargado de gestionar las operaciones relacionadas con la
+ * facturación del cliente.
  *
- * Actúa como intermediario entre la vista ClienteJFrame
- * y el servicio FacturaService.
+ * Actúa como intermediario entre la vista ClienteJFrame y el servicio
+ * FacturaService.
  *
- * Sigue el patrón MVC delegando la lógica de negocio
- * en la capa de servicio.
+ * Sigue el patrón MVC delegando la lógica de negocio en la capa de servicio.
  *
  * @author Alejandro
-  * @version 1.0
-
+ * @version 1.0
+ *
  */
 public class FacturaController {
+
     private final ClienteJFrame view;
     private final FacturaService facturaService;
     private final ClienteService clienteService;
@@ -53,8 +53,7 @@ public class FacturaController {
     }
 
     /**
-     * Inicializa el listener del botón de descarga
-     * de la última factura.
+     * Inicializa el listener del botón de descarga de la última factura.
      */
     private void initController() {
 
@@ -63,16 +62,15 @@ public class FacturaController {
     }
 
     /**
-     * Genera y descarga la última factura
-     * del cliente autenticado.
+     * Genera y descarga la última factura del cliente autenticado.
      */
     private void descargarUltimaFactura() {
 
         try {
 
             Usuario usuario = Session.getUsuarioActual();
-            Cliente cliente =
-                    clienteService.findByEmail(usuario.getEmail());
+            Cliente cliente
+                    = clienteService.findByEmail(usuario.getEmail());
 
             if (cliente == null) {
                 JOptionPane.showMessageDialog(
@@ -84,18 +82,22 @@ public class FacturaController {
                 return;
             }
 
-            Connection conn = DBConnection.getConnection();
-            facturaService.generarUltimaFacturaPDF(
-                    cliente.getDni(),
-                    conn
-            );
-            JOptionPane.showMessageDialog(
-                    view,
-                    "Factura generada correctamente.",
-                    "Descarga completada",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+            try (Connection conn = DBConnection.getConnection()) {
 
+                boolean generado = facturaService.generarUltimaFacturaPDF(
+                        cliente.getDni(),
+                        conn
+                );
+
+                if (generado) {
+                    JOptionPane.showMessageDialog(
+                            view,
+                            "Factura generada correctamente.",
+                            "Descarga completada",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
+            }
         } catch (Exception ex) {
 
             ex.printStackTrace();
