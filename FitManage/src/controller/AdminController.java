@@ -106,6 +106,9 @@ public class AdminController {
         cargarClientes();
         initActividades();
         cargarClienteSesion();
+        actualizarBotonesEstado();
+        view.getJButtonInactivo().setEnabled(false);
+        view.getJButtonSetActivo().setEnabled(false);
     }
 
     /**
@@ -125,6 +128,11 @@ public class AdminController {
         view.getJButtonCuentasUsuario().addActionListener(e -> abrirGestionUsuarios());
         view.getJButtonAdminSistema().addActionListener(e -> abrirGestionAdmins());
         view.getJButtonInformes().addActionListener(e -> abrirGenerarInforme());
+        view.getTableClientes().getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                actualizarBotonesEstado();
+            }
+        });
 
     }
 
@@ -207,6 +215,7 @@ public class AdminController {
 
         view.getTableClientes().setModel(model);
         ocultarColumna(view.getTableClientes(), 0);
+        actualizarBotonesEstado();
     }
 
     /**
@@ -524,12 +533,12 @@ public class AdminController {
 
             dialog.dispose();
             cargarClientes();
-        JOptionPane.showMessageDialog(
-                view,
-                "Datos de cliente actualizados correctamente.",
-                "Datos modificados",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+            JOptionPane.showMessageDialog(
+                    view,
+                    "Datos de cliente actualizados correctamente.",
+                    "Datos modificados",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
         });
         dialog.setLocationRelativeTo(view);
         dialog.setVisible(true);
@@ -766,12 +775,12 @@ public class AdminController {
 
                     dialogModificar.dispose();
                     cargarTablaUsuarios(dialog);
-            JOptionPane.showMessageDialog(
-                    view,
-                    "Modificación de datos de usuario exitosa.",
-                    "Cambio de datos",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+                    JOptionPane.showMessageDialog(
+                            view,
+                            "Modificación de datos de usuario exitosa.",
+                            "Cambio de datos",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
                 });
 
         dialogModificar.setLocationRelativeTo(dialog);
@@ -977,12 +986,12 @@ public class AdminController {
 
                     form.dispose();
                     cargarTablaAdmins(dialog);
-            JOptionPane.showMessageDialog(
-                    view,
-                    "Cuenta de administrador creada correctamente",
-                    "Nuevo administrador",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+                    JOptionPane.showMessageDialog(
+                            view,
+                            "Cuenta de administrador creada correctamente",
+                            "Nuevo administrador",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
                 });
 
         form.setLocationRelativeTo(dialog);
@@ -1047,12 +1056,12 @@ public class AdminController {
 
                     form.dispose();
                     cargarTablaAdmins(dialog);
-            JOptionPane.showMessageDialog(
-                    view,
-                    "La cuenta de administrador se ha actualizado correctamente.",
-                    "Datos de administrador modificados",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
+                    JOptionPane.showMessageDialog(
+                            view,
+                            "La cuenta de administrador se ha actualizado correctamente.",
+                            "Datos de administrador modificados",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
                 });
 
         form.setLocationRelativeTo(dialog);
@@ -1245,5 +1254,60 @@ public class AdminController {
         table.getColumnModel().getColumn(columnIndex).setMinWidth(0);
         table.getColumnModel().getColumn(columnIndex).setMaxWidth(0);
         table.getColumnModel().getColumn(columnIndex).setWidth(0);
+    }
+
+    /**
+     * Actualiza dinámicamente el estado (habilitado/deshabilitado) de los
+     * botones "Marcar como Activo" y "Marcar como Inactivo" en función del
+     * cliente seleccionado en la tabla.
+     *
+     * <p>
+     * Este método se ejecuta cada vez que cambia la selección de la tabla de
+     * clientes. Su objetivo es evitar operaciones inválidas y mejorar la
+     * experiencia de usuario.
+     * </p>
+     *
+     * <ul>
+     * <li>Si no hay ninguna fila seleccionada, ambos botones se
+     * deshabilitan.</li>
+     * <li>Si el cliente seleccionado está activo ("Sí"):
+     * <ul>
+     * <li>Se habilita el botón "Marcar como Inactivo".</li>
+     * <li>Se deshabilita el botón "Marcar como Activo".</li>
+     * </ul>
+     * </li>
+     * <li>Si el cliente seleccionado está inactivo ("No"):
+     * <ul>
+     * <li>Se habilita el botón "Marcar como Activo".</li>
+     * <li>Se deshabilita el botón "Marcar como Inactivo".</li>
+     * </ul>
+     * </li>
+     * </ul>
+     *
+     * <p>
+     * El estado del cliente se obtiene directamente del modelo de la tabla,
+     * evitando llamadas innecesarias a la base de datos y respetando el patrón
+     * MVC.
+     * </p>
+     */
+    private void actualizarBotonesEstado() {
+
+        int fila = view.getTableClientes().getSelectedRow();
+
+        if (fila == -1) {
+            view.getJButtonInactivo().setEnabled(false);
+            view.getJButtonSetActivo().setEnabled(false);
+            return;
+        }
+
+        String activo = (String) view.getTableClientes().getValueAt(fila, 9);
+
+        if ("Sí".equalsIgnoreCase(activo)) {
+            view.getJButtonInactivo().setEnabled(true);
+            view.getJButtonSetActivo().setEnabled(false);
+        } else {
+            view.getJButtonInactivo().setEnabled(false);
+            view.getJButtonSetActivo().setEnabled(true);
+        }
     }
 }

@@ -32,12 +32,10 @@ public class ClienteJFrame extends javax.swing.JFrame {
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         setIconImage(icon.getImage());
         jLabelLogo.setIcon(scaledIcon);
-        jLabelLogo.setText("Logo de FitManage");      
         setSize(1200, 800);
         setResizable(false);
         setLocationRelativeTo(null);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -160,9 +158,9 @@ public class ClienteJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                        .addGap(111, 111, 111)
                         .addComponent(jLabelSaludo)
-                        .addGap(98, 98, 98)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
@@ -239,60 +237,39 @@ public class ClienteJFrame extends javax.swing.JFrame {
         return jTableReservas;
     }
 
-    /*public void setReservas(List<Reserva> reservas) {
-
-        DefaultTableModel model = new DefaultTableModel(
-                new String[]{"ID", "Actividad", "Día", "Hora", "Fecha", "Estado"},
-                0
-        ) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-
-        for (Reserva r : reservas) {
-            model.addRow(new Object[]{
-                r.getIdReserva(),
-                r.getActividadDia().getActividad().getNombre(),
-                r.getActividadDia().getDia().getNombre(),
-                r.getActividadDia().getActividad().getHoraInicio()
-                + " - " + r.getActividadDia().getActividad().getHoraFin(),
-                r.getFechaClase(),
-                r.isActiva() ? "ACTIVA" : "CANCELADA"
-            });
-        }
-        jTableReservas.setModel(model);
-        jTableReservas.getColumnModel().getColumn(5) // columna "Estado"
-                .setCellRenderer(new javax.swing.table.DefaultTableCellRenderer() {
-                    @Override
-                    public java.awt.Component getTableCellRendererComponent(
-                            javax.swing.JTable table,
-                            Object value,
-                            boolean isSelected,
-                            boolean hasFocus,
-                            int row,
-                            int column
-                    ) {
-                        java.awt.Component c = super.getTableCellRendererComponent(
-                                table, value, isSelected, hasFocus, row, column
-                        );
-
-                        if ("CANCELADA".equals(value)) {
-                            c.setForeground(java.awt.Color.RED);
-                        } else {
-                            c.setForeground(new java.awt.Color(0, 128, 0));
-                        }
-
-                        return c;
-                    }
-                });
-
-        // Ocultar ID (clave interna)
-        jTableReservas.removeColumn(
-                jTableReservas.getColumnModel().getColumn(0)
-        );
-    }*/
+    /**
+ * Carga y muestra en la tabla de reservas los datos proporcionados,
+ * formateando la información y aplicando estilos visuales según el estado.
+ *
+ * <p>
+ * Este método construye dinámicamente el modelo de la tabla a partir
+ * de una lista de objetos {@link Reserva}, mostrando los siguientes campos:
+ * </p>
+ * <ul>
+ *   <li>ID de la reserva (oculto en la vista)</li>
+ *   <li>Nombre de la actividad</li>
+ *   <li>Día de la actividad</li>
+ *   <li>Horario (hora inicio - hora fin)</li>
+ *   <li>Fecha de la clase formateada (dd-MM-yyyy)</li>
+ *   <li>Estado de la reserva (ACTIVA o CANCELADA)</li>
+ * </ul>
+ *
+ * <p>
+ * Además, aplica un renderizado personalizado para la columna de estado:
+ * </p>
+ * <ul>
+ *   <li>Color verde para reservas activas</li>
+ *   <li>Color rojo para reservas canceladas</li>
+ * </ul>
+ *
+ * <p>
+ * La tabla resultante es de solo lectura (no editable) y la columna ID
+ * se mantiene en el modelo pero se oculta visualmente para el usuario,
+ * permitiendo su uso interno (por ejemplo, para operaciones CRUD).
+ * </p>
+ *
+ * @param reservas Lista de objetos {@link Reserva} a mostrar en la tabla.
+ */
     public void setReservas(List<Reserva> reservas) {
 
     DefaultTableModel model = new DefaultTableModel(

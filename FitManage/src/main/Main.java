@@ -27,5 +27,6 @@ public class Main {
      */
     public static void main(String[] args) {
         AppLauncher.showLogin();
+        System.setProperty("sun.java2d.uiScale", "1.0");
     }
 }

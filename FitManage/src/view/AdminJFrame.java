@@ -74,7 +74,6 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Panel del administrador");
-        setPreferredSize(new java.awt.Dimension(1500, 1100));
         setSize(new java.awt.Dimension(1500, 1100));
 
         jLabelSaludo.setFont(new java.awt.Font("Times New Roman", 1, 36)); // NOI18N
@@ -168,7 +167,7 @@ public class AdminJFrame extends javax.swing.JFrame implements ActividadesView {
         jLabel8.setText("Informes: ");
 
         jButtonInformes.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jButtonInformes.setText("Genenrar informe");
+        jButtonInformes.setText("Generar informe");
 
         jLabel1.setText("jLabel1");
 

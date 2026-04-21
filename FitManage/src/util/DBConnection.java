@@ -17,11 +17,8 @@ import java.sql.SQLException;
 public class DBConnection {
 
     private static final String URL = "jdbc:oracle:thin:@//localhost:1522/XEPDB1";
-        // "jdbc:oracle:thin:@//localhost:1521/xe"; //"FITMANAGE@//localhost:1521/xe";
-    //TODO:
-     	//CAMBIAR CONEXION a comentado
-    private static final String USER = "FITMANAGE"; // "system"; FITMANAGE
-    private static final String PASSWORD = "admin123"; // "system";
+    private static final String USER = "FITMANAGE"; 
+    private static final String PASSWORD = "admin123"; 
 
     private DBConnection() {
     }
@@ -29,24 +26,10 @@ public class DBConnection {
     /**
      * Obtiene una conexión JDBC a la base de datos.
      */
-    /*public static Connection getConnection() throws SQLException {
-        System.out.println("USER: " + USER);
-System.out.println("PASSWORD: " + PASSWORD);
-DriverManager.getConnection(URL, USER, PASSWORD).setAutoCommit(true);
-        return DriverManager.getConnection(URL, USER, PASSWORD);
-    }*/
+
     public static Connection getConnection() throws SQLException {
-    System.out.println("USER: " + USER);
-    System.out.println("PASSWORD: " + PASSWORD);
-
-
+  
     Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-
-
-    System.out.println("URL REAL: " + conn.getMetaData().getURL());
-    System.out.println("USER REAL: " + conn.getMetaData().getUserName());
-
-
     conn.setAutoCommit(true);
 
     return conn;
