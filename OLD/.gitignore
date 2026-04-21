@@ -1,0 +1,4 @@
+/dist/
+*.class
+build/sources.txt
+build/test-sources.txt
