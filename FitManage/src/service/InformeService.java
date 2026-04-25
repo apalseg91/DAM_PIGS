@@ -40,7 +40,7 @@ public class InformeService {
      * @param connection Conexión activa a base de datos
      * @throws Exception Si ocurre un error durante la generación
      */
-    public static void generarInforme(
+    public static boolean generarInforme(
             String rutaJasper,
             Date fechaDesde,
             Date fechaHasta,
@@ -123,7 +123,9 @@ public class InformeService {
                     jasperPrint,
                     fileToSave.getAbsolutePath()
             );
+            return true;
         }
+        return false;
     }
 
 }

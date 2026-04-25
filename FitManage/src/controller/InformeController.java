@@ -48,12 +48,12 @@ public class InformeController {
      */
     private void initController() {
 
-        view.getJCheckBoxPago().addActionListener(e ->
-                view.getJCheckBoxAsistenciaClases().setSelected(false)
+        view.getJCheckBoxPago().addActionListener(e
+                -> view.getJCheckBoxAsistenciaClases().setSelected(false)
         );
 
-        view.getJCheckBoxAsistenciaClases().addActionListener(e ->
-                view.getJCheckBoxPago().setSelected(false)
+        view.getJCheckBoxAsistenciaClases().addActionListener(e
+                -> view.getJCheckBoxPago().setSelected(false)
         );
 
         view.getJButtonGenerarInforme().addActionListener(e -> generarInforme());
@@ -64,7 +64,7 @@ public class InformeController {
      * correspondiente según el tipo seleccionado.
      */
     private void generarInforme() {
-        
+
         try {
 
             // Limpiar placeholders
@@ -124,21 +124,22 @@ public class InformeController {
             // Generación del informe
             try (Connection conn = DBConnection.getConnection()) {
 
-                InformeService.generarInforme(
+                boolean generado = InformeService.generarInforme(
                         rutaPlantilla,
                         fechaDesde,
                         fechaHasta,
                         dni,
                         conn
                 );
+                if (generado) {
+                    JOptionPane.showMessageDialog(
+                            view,
+                            "Informe generado correctamente.",
+                            "Descarga completada",
+                            JOptionPane.INFORMATION_MESSAGE
+                    );
+                }
             }
-
-            JOptionPane.showMessageDialog(
-                    view,
-                    "Informe generado correctamente.",
-                    "Descarga completada",
-                    JOptionPane.INFORMATION_MESSAGE
-            );
 
         } catch (IllegalStateException ex) {
 

@@ -32,7 +32,7 @@ public class ActividadServiceITTest {
             // OK
         } catch (Exception e) {
             AssertionError ae = new AssertionError(
-                    "Oracle no está disponible en jdbc:oracle:thin:@//localhost:1521/xe (usuario FITMANAGE)."
+                    "Oracle no está disponible en jdbc:oracle:thin:@//localhost:1522/XEPDB1 (usuario FITMANAGE)."
             );
             ae.initCause(e);
             throw ae;
