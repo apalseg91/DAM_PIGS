@@ -19,8 +19,8 @@ public class ModificarDatosUsuariosJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setSize(800, 500);
-        setResizable(false);
-        setLocationRelativeTo(null);
+        setResizable(true);
+        setLocationRelativeTo(parent);
         setTitle("Modificar datos de cuenta de usuario.");
 
     }

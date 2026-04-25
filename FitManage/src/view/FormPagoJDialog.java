@@ -5,6 +5,7 @@
 package view;
 
 import Model.MetodoPago;
+import java.awt.Dimension;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -27,9 +28,10 @@ public class FormPagoJDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.idCliente = idCliente;
         initComponents();
-        setSize(700, 500);
-        setResizable(false);
-        setLocationRelativeTo(null);
+        setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(700, 500));
+        setLocationRelativeTo(parent);
+        pack();
         cargarMetodosPago(metodosPago);
         jTextFieldImporte.setEnabled(false);
         SwingUtilities.invokeLater(() -> {

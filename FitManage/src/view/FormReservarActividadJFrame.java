@@ -4,6 +4,7 @@
  */
 package view;
 
+import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
@@ -20,9 +21,10 @@ public class FormReservarActividadJFrame extends javax.swing.JFrame {
      */
     public FormReservarActividadJFrame() {
         initComponents();
-        setSize(700, 500);
-        setResizable(false);
-        setLocationRelativeTo(null);    }
+        setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(700, 500));
+        setLocationRelativeTo(null);
+        pack();   }
 
     /**
      * This method is called from within the constructor to initialize the form.

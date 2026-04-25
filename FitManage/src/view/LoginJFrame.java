@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,9 +32,10 @@ public class LoginJFrame extends javax.swing.JFrame {
         setIconImage(icon.getImage());
         jLabelLogo.setIcon(scaledIcon);
         jLabelLogo.setText("");
-        setSize(700, 500);
-        setResizable(false);
+        setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(700, 500));
         setLocationRelativeTo(null);
+        pack();
         getRootPane().setDefaultButton(jButtonAceptar);
     }
 

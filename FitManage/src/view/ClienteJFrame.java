@@ -5,12 +5,16 @@
 package view;
 
 import Model.Reserva;
+import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import main.AppLauncher;
 import util.Session;
@@ -26,16 +30,27 @@ public class ClienteJFrame extends javax.swing.JFrame {
      */
     public ClienteJFrame() {
         initComponents();
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                SwingUtilities.invokeLater(() -> {
+                    revalidate();
+                    repaint();
+                });
+            }
+        });
         ImageIcon icon = new ImageIcon(getClass().getResource("/img/Logo_FitManage.png"));
         java.awt.Image scaledImage = icon.getImage().getScaledInstance(120,
-                115,java.awt.Image.SCALE_SMOOTH);
+                115, java.awt.Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         setIconImage(icon.getImage());
         jLabelLogo.setIcon(scaledIcon);
-        setSize(1200, 800);
-        setResizable(false);
+        setPreferredSize(new Dimension(1200, 900));
+        setMinimumSize(new Dimension(1100, 900));
         setLocationRelativeTo(null);
+        pack();
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -213,10 +228,10 @@ public class ClienteJFrame extends javax.swing.JFrame {
         AppLauncher.showLogin();
     }
 
-        public JLabel getJLabelSaludo() {
+    public JLabel getJLabelSaludo() {
         return jLabelSaludo;
     }
-    
+
     public JButton getJButtonNuevaReserva() {
         return jButtonNuevaReserva;
     }
@@ -238,95 +253,95 @@ public class ClienteJFrame extends javax.swing.JFrame {
     }
 
     /**
- * Carga y muestra en la tabla de reservas los datos proporcionados,
- * formateando la información y aplicando estilos visuales según el estado.
- *
- * <p>
- * Este método construye dinámicamente el modelo de la tabla a partir
- * de una lista de objetos {@link Reserva}, mostrando los siguientes campos:
- * </p>
- * <ul>
- *   <li>ID de la reserva (oculto en la vista)</li>
- *   <li>Nombre de la actividad</li>
- *   <li>Día de la actividad</li>
- *   <li>Horario (hora inicio - hora fin)</li>
- *   <li>Fecha de la clase formateada (dd-MM-yyyy)</li>
- *   <li>Estado de la reserva (ACTIVA o CANCELADA)</li>
- * </ul>
- *
- * <p>
- * Además, aplica un renderizado personalizado para la columna de estado:
- * </p>
- * <ul>
- *   <li>Color verde para reservas activas</li>
- *   <li>Color rojo para reservas canceladas</li>
- * </ul>
- *
- * <p>
- * La tabla resultante es de solo lectura (no editable) y la columna ID
- * se mantiene en el modelo pero se oculta visualmente para el usuario,
- * permitiendo su uso interno (por ejemplo, para operaciones CRUD).
- * </p>
- *
- * @param reservas Lista de objetos {@link Reserva} a mostrar en la tabla.
- */
+     * Carga y muestra en la tabla de reservas los datos proporcionados,
+     * formateando la información y aplicando estilos visuales según el estado.
+     *
+     * <p>
+     * Este método construye dinámicamente el modelo de la tabla a partir de una
+     * lista de objetos {@link Reserva}, mostrando los siguientes campos:
+     * </p>
+     * <ul>
+     * <li>ID de la reserva (oculto en la vista)</li>
+     * <li>Nombre de la actividad</li>
+     * <li>Día de la actividad</li>
+     * <li>Horario (hora inicio - hora fin)</li>
+     * <li>Fecha de la clase formateada (dd-MM-yyyy)</li>
+     * <li>Estado de la reserva (ACTIVA o CANCELADA)</li>
+     * </ul>
+     *
+     * <p>
+     * Además, aplica un renderizado personalizado para la columna de estado:
+     * </p>
+     * <ul>
+     * <li>Color verde para reservas activas</li>
+     * <li>Color rojo para reservas canceladas</li>
+     * </ul>
+     *
+     * <p>
+     * La tabla resultante es de solo lectura (no editable) y la columna ID se
+     * mantiene en el modelo pero se oculta visualmente para el usuario,
+     * permitiendo su uso interno (por ejemplo, para operaciones CRUD).
+     * </p>
+     *
+     * @param reservas Lista de objetos {@link Reserva} a mostrar en la tabla.
+     */
     public void setReservas(List<Reserva> reservas) {
 
-    DefaultTableModel model = new DefaultTableModel(
-            new String[]{"ID", "Actividad", "Día", "Hora", "Fecha", "Estado"},
-            0
-    ) {
-        @Override
-        public boolean isCellEditable(int row, int column) {
-            return false;
-        }
-    };
-    java.time.format.DateTimeFormatter formatter =
-            java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    for (Reserva r : reservas) {
-        String fechaFormateada = r.getFechaClase() != null
-                ? r.getFechaClase().format(formatter)
-                : "";
-        model.addRow(new Object[]{
-            r.getIdReserva(),
-            r.getActividadDia().getActividad().getNombre(),
-            r.getActividadDia().getDia().getNombre(),
-            r.getActividadDia().getActividad().getHoraInicio()
-            + " - " + r.getActividadDia().getActividad().getHoraFin(),
-            fechaFormateada,
-            r.isActiva() ? "ACTIVA" : "CANCELADA"
-        });
-    }
-
-    jTableReservas.setModel(model);
-    jTableReservas.getColumnModel().getColumn(5)
-            .setCellRenderer(new javax.swing.table.DefaultTableCellRenderer() {
-                @Override
-                public java.awt.Component getTableCellRendererComponent(
-                        javax.swing.JTable table,
-                        Object value,
-                        boolean isSelected,
-                        boolean hasFocus,
-                        int row,
-                        int column
-                ) {
-                    java.awt.Component c = super.getTableCellRendererComponent(
-                            table, value, isSelected, hasFocus, row, column
-                    );
-
-                    if ("CANCELADA".equals(value)) {
-                        c.setForeground(java.awt.Color.RED);
-                    } else {
-                        c.setForeground(new java.awt.Color(0, 128, 0));
-                    }
-
-                    return c;
-                }
+        DefaultTableModel model = new DefaultTableModel(
+                new String[]{"ID", "Actividad", "Día", "Hora", "Fecha", "Estado"},
+                0
+        ) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        java.time.format.DateTimeFormatter formatter
+                = java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        for (Reserva r : reservas) {
+            String fechaFormateada = r.getFechaClase() != null
+                    ? r.getFechaClase().format(formatter)
+                    : "";
+            model.addRow(new Object[]{
+                r.getIdReserva(),
+                r.getActividadDia().getActividad().getNombre(),
+                r.getActividadDia().getDia().getNombre(),
+                r.getActividadDia().getActividad().getHoraInicio()
+                + " - " + r.getActividadDia().getActividad().getHoraFin(),
+                fechaFormateada,
+                r.isActiva() ? "ACTIVA" : "CANCELADA"
             });
+        }
 
-    // Ocultar ID
-    jTableReservas.removeColumn(
-            jTableReservas.getColumnModel().getColumn(0)
-    );
-}
+        jTableReservas.setModel(model);
+        jTableReservas.getColumnModel().getColumn(5)
+                .setCellRenderer(new javax.swing.table.DefaultTableCellRenderer() {
+                    @Override
+                    public java.awt.Component getTableCellRendererComponent(
+                            javax.swing.JTable table,
+                            Object value,
+                            boolean isSelected,
+                            boolean hasFocus,
+                            int row,
+                            int column
+                    ) {
+                        java.awt.Component c = super.getTableCellRendererComponent(
+                                table, value, isSelected, hasFocus, row, column
+                        );
+
+                        if ("CANCELADA".equals(value)) {
+                            c.setForeground(java.awt.Color.RED);
+                        } else {
+                            c.setForeground(new java.awt.Color(0, 128, 0));
+                        }
+
+                        return c;
+                    }
+                });
+
+        // Ocultar ID
+        jTableReservas.removeColumn(
+                jTableReservas.getColumnModel().getColumn(0)
+        );
+    }
 }

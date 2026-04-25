@@ -4,6 +4,8 @@
  */
 package view;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author Alejandro
@@ -16,7 +18,10 @@ public class ModificarDatosAdminSistemaJDialog extends javax.swing.JDialog {
     public ModificarDatosAdminSistemaJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
+          setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(700, 500));
+        setLocationRelativeTo(parent);
+        pack();
         setTitle("Gestión de datos de cuenta de administrador");
     }
 

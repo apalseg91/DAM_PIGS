@@ -17,8 +17,8 @@ public class FormAltaJDialog extends javax.swing.JDialog {
     public FormAltaJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
-        setResizable(false);
+        setLocationRelativeTo(parent);
+        setResizable(true);
     }
 
     /**

@@ -7,6 +7,7 @@ package view;
 import Model.Actividad;
 import Model.Dia;
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -37,9 +38,10 @@ public class FormActividadJDialog extends javax.swing.JDialog {
         initComponents();
         configurarSpinnersHora();
         configurarSaltosMinutos();
-        setSize(700, 500);
-        setResizable(false);
-        setLocationRelativeTo(null);
+        setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(700, 500));
+        setLocationRelativeTo(parent);
+        pack();
 
     }
 

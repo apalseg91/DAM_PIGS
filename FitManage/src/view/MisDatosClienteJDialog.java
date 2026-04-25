@@ -5,6 +5,7 @@
 package view;
 
 import Model.Cliente;
+import java.awt.Dimension;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -20,7 +21,10 @@ public class MisDatosClienteJDialog extends javax.swing.JDialog {
     public MisDatosClienteJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setLocationRelativeTo(null);
+        setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(700, 500));
+        setLocationRelativeTo(parent);
+        pack();
     }
 
     /**

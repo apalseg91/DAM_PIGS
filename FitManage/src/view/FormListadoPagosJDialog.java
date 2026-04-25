@@ -5,6 +5,7 @@
 package view;
 
 import Model.Pago;
+import java.awt.Dimension;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import java.time.format.DateTimeFormatter;
@@ -23,9 +24,11 @@ public class FormListadoPagosJDialog extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
 
-        setSize(700, 500);
-        setResizable(false);
-        setLocationRelativeTo(null);        cargarPagos(pagos);
+        setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(700, 500));
+        setLocationRelativeTo(parent);
+        pack();
+        cargarPagos(pagos);
     }
 
 /**

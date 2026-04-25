@@ -4,6 +4,7 @@
  */
 package view;
 
+import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JTable;
 
@@ -19,9 +20,10 @@ public class ListadoClientesJDialog extends javax.swing.JDialog {
     public ListadoClientesJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setSize(700, 500);
-        setResizable(false);
-        setLocationRelativeTo(null);
+        setPreferredSize(new Dimension(800, 900));
+        setMinimumSize(new Dimension(700, 800));
+        setLocationRelativeTo(parent);
+        pack();
     }
 
     /**

@@ -4,6 +4,8 @@
  */
 package view;
 
+import java.awt.Dimension;
+
 /**
  *
  * @author Alejandro
@@ -16,9 +18,10 @@ public class GestionAdminSistemaJDialog extends javax.swing.JDialog {
     public GestionAdminSistemaJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        setSize(700, 500);
-        setResizable(false);
-        setLocationRelativeTo(null);
+        setPreferredSize(new Dimension(800, 600));
+        setMinimumSize(new Dimension(700, 500));
+        setLocationRelativeTo(parent);
+        pack();
     }
 
     /**
